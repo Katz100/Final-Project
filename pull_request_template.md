@@ -1,5 +1,5 @@
 ## Description
-![Issue](url)
+[Issue](url)
 - a short description of your changes
 
 ## Steps for reviewer
