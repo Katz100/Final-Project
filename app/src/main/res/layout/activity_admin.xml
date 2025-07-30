@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    tools:context=".AdminActivity"
+    >
+
+    <Button
+        android:id="@+id/manageUsersButton"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="150dp"
+        android:backgroundTint="@color/red"
+        android:gravity="center"
+        android:text="MANAGE USERS"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/manageGenresButton"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/blue"
+        android:gravity="center"
+        android:text="MANAGE GENRES"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/manageUsersButton" />
+
+    <Button
+        android:id="@+id/adminThingsButton"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/yellow"
+        android:gravity="center"
+        android:text="ADMIN THINGS"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/manageGenresButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
