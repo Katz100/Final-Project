@@ -6,11 +6,11 @@
     android:layout_marginEnd="40dp"
     android:padding="16dp"
     android:orientation="vertical"
-    android:background="#FFFF00"
+    android:background="#808080"
     >
 
     <TextView
-        android:id="@+id/titleWatchListRecyclerItemTextView"
+        android:id="@+id/titleCompletedListRecyclerItemTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -18,10 +18,19 @@
         />
 
     <TextView
-        android:id="@+id/genreWatchListRecyclerItemTextView"
+        android:id="@+id/genreCompletedListRecyclerItemTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="Genre"
         />
+
+    <TextView
+        android:id="@+id/ratingCompletedListRecyclerItemTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Rating"
+        />
+
 </LinearLayout>
