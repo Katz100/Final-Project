@@ -1,24 +1,40 @@
 package com.example.final_project;
-
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.final_project.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
+    ActivityMainBinding binding;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
+        if (username != null && !username.isEmpty()) {
+            //binding.welcomeTextView.setText("Welcome, " + username + "!");
+
+            if (username.equalsIgnoreCase("admin")) {
+                Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+                startActivity(intent);
+            }
+        }
     }
+
+    public static Intent mainIntentFactory(Context context, String username) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MAIN_ACTIVITY_USERNAME_KEY, username);
+        return intent;
+    }
+
 }
