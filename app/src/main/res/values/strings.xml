@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Final-Project</string>
+    <string name="username">Username</string>
+    <string name="enter_a_new_username">Enter a New Username</string>
+    <string name="new_username">New Username</string>
+    <string name="enter_new_password">Enter Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up_now">Sign Up Now</string>
+    <string name="enter_new_username">Enter New Username</string>
+    <string name="sign_up">Sign Up!</string>
 </resources>
