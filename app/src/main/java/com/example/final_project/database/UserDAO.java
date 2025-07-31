@@ -6,10 +6,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import java.util.List;
 
 import com.example.final_project.database.entities.User;
-
-import java.util.List;
 
 @Dao
 public interface UserDAO {
