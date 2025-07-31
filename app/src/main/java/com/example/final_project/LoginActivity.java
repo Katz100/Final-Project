@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.final_project.databinding.ActivityLoginBinding;
-import com.google.firebase.firestore.auth.User;
 
 /**
  * This is a simple login activity that allows users to log in with their username and password.
@@ -37,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    static Intent mainIntentFactory(Context context, String username) {
+    static Intent loginIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
@@ -52,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         // Here you would typically check the username and password against a database
         // For now, we will just simulate a successful login
 
-        Intent intent = mainIntentFactory(this, username);
+        Intent intent = MainActivity.mainIntentFactory(this, username);
         startActivity(intent);
     }
 
