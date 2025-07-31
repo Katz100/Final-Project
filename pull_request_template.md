@@ -1,5 +1,5 @@
 ## Description
-[Issue](url)
+[Issue](https://github.com/Katz100/Final-Project/issues/NUMBER)
 - a short description of your changes
 
 ## Steps for reviewer
