@@ -34,9 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    static Intent loginIntentFactory(Context context, String username) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
+    static Intent loginIntentFactory(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
         return intent;
     }
     private void verifyUser() {
