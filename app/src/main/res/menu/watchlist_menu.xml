@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- TODO: Add left arrow with click listener in Main Activity -->
+    <!-- TODO: Add left arrow img with click listener in Main Activity -->
 </menu>
