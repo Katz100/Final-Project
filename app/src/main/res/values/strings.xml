@@ -6,4 +6,10 @@
     <string name="manage_genres">MANAGE GENRES</string>
     <string name="admin_things">ADMIN THINGS</string>
     <string name="admin_things_test">Admin Things Test</string>
+    <string name="welcome_to_movie_watchlist">Welcome to Movie Watchlist</string>
+    <string name="please_sign_in">Please sign in.</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN!</string>
+    <string name="sign_up">SIGN UP!</string>
 </resources>
