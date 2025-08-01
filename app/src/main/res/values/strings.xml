@@ -6,4 +6,17 @@
     <string name="manage_genres">MANAGE GENRES</string>
     <string name="admin_things">ADMIN THINGS</string>
     <string name="admin_things_test">Admin Things Test</string>
+    <string name="welcome_to_movie_watchlist">Welcome to Movie Watchlist</string>
+    <string name="please_sign_in">Please sign in.</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN!</string>
+    <string name="sign_up">SIGN UP!</string>
+    <string name="welcome">Welcome!</string>
+    <string name="movies_to_watch">Movies to Watch</string>
+    <string name="watched_movies">Watched Movies</string>
+    <string name="add_movies">Add Movies</string>
+    <string name="enter_title">Enter title</string>
+    <string name="enter_genre">Enter genre</string>
+    <string name="add_movie">ADD MOVIE</string>
 </resources>
