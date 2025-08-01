@@ -31,6 +31,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 verifyUser();
             }
+
+        });
+
+        binding.signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = SignUpActivity.signupIntentFactory(LoginActivity.this);
+                startActivity(intent);
+            }
         });
     }
 
@@ -38,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(context, LoginActivity.class);
         return intent;
     }
+
     private void verifyUser() {
         String username = binding.usernameLoginEditText.getText().toString();
         if (username.isEmpty()) {

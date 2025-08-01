@@ -19,4 +19,8 @@
     <string name="enter_title">Enter title</string>
     <string name="enter_genre">Enter genre</string>
     <string name="add_movie">ADD MOVIE</string>
+    <string name="enter_new_username">Enter New Username</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="sign_up_now">Sign Up Now</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>
