@@ -8,12 +8,101 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/watchMoviesTextView"
+        android:text="@string/movies_to_watch"
+        android:textStyle="bold"
+        android:padding="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <!-- TODO: Change height of recycler views -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/watchListRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/watchMoviesTextView"
+        />
+
+    <TextView
+        android:id="@+id/completedMoviesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/watched_movies"
+        android:textStyle="bold"
+        android:layout_marginStart="40dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/watchListRecyclerView"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/completedWatchListRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="225dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/completedMoviesTextView"
+        />
+
+    <TextView
+        android:id="@+id/addMoviesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_movies"
+        android:textStyle="bold"
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/completedWatchListRecyclerView"
+        />
+
+    <EditText
+        android:id="@+id/movieTitleInputEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/enter_title"
+        android:autofillHints="Enter a title"
+        android:inputType="text"
+        android:background="#D9D9D9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/addMoviesTextView" />
+
+    <EditText
+        android:id="@+id/movieGenreInputEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp"
+        android:inputType="text"
+        android:hint="@string/enter_genre"
+        android:autofillHints="Enter a gene"
+        android:background="#D9D9D9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieTitleInputEditText" />
+
+    <Button
+        android:id="@+id/addMovieButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_movie"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#0000FF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieGenreInputEditText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
