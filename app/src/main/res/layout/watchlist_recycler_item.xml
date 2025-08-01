@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp"
+    android:layout_marginBottom="10dp"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="#FFFF00"
+    >
+
+    <TextView
+        android:id="@+id/titleWatchListRecyclerItemTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Title"
+        />
+
+    <TextView
+        android:id="@+id/genreWatchListRecyclerItemTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Genre"
+        />
+</LinearLayout>
