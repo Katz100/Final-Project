@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_to_movie_watchlist">Welcome to Movie Watchlist</string>
+    <string name="please_sign_in">Please sign in.</string>
+    <string name="login">LOGIN!</string>
+    <string name="sign_up">SIGN UP!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+</resources>

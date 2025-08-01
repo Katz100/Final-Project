@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movies_to_watch">Movies to Watch</string>
+    <string name="watched_movies">Watched Movies</string>
+    <string name="add_movies">Add Movies</string>
+    <string name="enter_title">Enter title</string>
+    <string name="enter_genre">Enter genre</string>
+    <string name="add_movie">ADD MOVIE</string>
+</resources>
