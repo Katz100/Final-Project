@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleSignUpTextView"
+        android:layout_width="match_parent"
+        android:layout_height="75dip"
+        android:layout_marginBottom="24dip"
+        android:gravity="center"
+        android:text="@string/sign_up_now"
+        android:textSize="42sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#1DA1F2"
+        android:textColor="#ffffff"/>
+
+    <EditText
+        android:id="@+id/newUsernameEditText"
+        android:layout_width="250dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="115dp"
+        android:autofillHints="Please enter Username"
+        android:gravity="center"
+        android:hint="@string/enter_new_username"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleSignUpTextView"
+        android:background="#D3D3D3"/>
+    <EditText
+        android:id="@+id/newPasswordEditText"
+        android:layout_width="250dp"
+        android:layout_height="85dp"
+        android:layout_margin="16dp"
+        android:autofillHints="Please enter password"
+        android:gravity="center"
+        android:hint="@string/enter_new_password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newUsernameEditText"
+        android:background="#D3D3D3"/>
+    <EditText
+        android:id="@+id/confirmPasswordEditText"
+        android:layout_width="250dp"
+        android:layout_height="85dp"
+        android:layout_margin="16dp"
+        android:autofillHints="Please enter password"
+        android:gravity="center"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordEditText"
+        android:background="#D3D3D3"/>
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/sign_up"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText"
+        android:backgroundTint="#008000"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

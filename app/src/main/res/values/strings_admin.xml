@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="manage_users">MANAGE USERS</string>
+    <string name="manage_genres">MANAGE GENRES</string>
+    <string name="admin_things">ADMIN THINGS</string>
+    <string name="manage_users_test">Manage Users Test</string>
+    <string name="manage_genres_test">Manage Genres Test</string>
+    <string name="admin_things_test">Admin Things Test</string>
+</resources>
