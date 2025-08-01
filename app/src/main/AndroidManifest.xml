@@ -12,17 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject"
         tools:targetApi="31">
-        <activity android:name=".SignUpActivity"
-            android:exported="true"/>
-        <activity
-            android:name=".MainActivity"
+        <activity android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".AdminThingsActivity" android:exported="false" />
+        <activity android:name=".ManageGenresActivity" android:exported="false" />
+        <activity android:name=".ManageUsersActivity" android:exported="false" />
+        <activity android:name=".AdminActivity" android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="false" />
 
     </application>
 
