@@ -2,7 +2,8 @@ package com.example.final_project.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "insert_your_table_name_here")
+// Commented out  to avoid breaking the code, but should be uncommented when integrating with the database
+//@Entity(tableName = MovieWatchListDatabase.USER_TABLE)
 public class User {
 
     @PrimaryKey(autoGenerate = true)
