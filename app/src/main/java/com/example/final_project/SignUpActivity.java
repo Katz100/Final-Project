@@ -1,5 +1,6 @@
 package com.example.final_project;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_activity);
+        setContentView(R.layout.activity_signup);
         usernameEditText = findViewById(R.id.newUsernameEditText);
         passwordEditText = findViewById(R.id.newPasswordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
@@ -58,6 +59,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    static Intent signupIntentFactory(Context context) {
+        Intent intent = new Intent(context, SignUpActivity.class);
+        return intent;
     }
 }
 
