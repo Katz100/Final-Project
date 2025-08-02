@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
         item.setVisible(true);
         //TODO: Set the title to a user's username
-        item.setTitle(":)");
+        item.setTitle("user1");
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout(){
-        //TODO: finish logout method
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
 
