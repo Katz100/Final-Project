@@ -1,14 +1,25 @@
 package com.example.final_project;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
 import com.example.final_project.database.entities.Movie;
+import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
@@ -21,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
     ActivityMainBinding binding;
-
+    private User user;
     WatchListAdapter watchListAdapter;
     CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
@@ -79,9 +90,64 @@ public class MainActivity extends AppCompatActivity {
             MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
             db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
         }).start();
+
+        //Changes the title in the Menu Bar to MovieWatchlist
+        invalidateOptionsMenu();
+        ActionBar actionBar = super.getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("MovieWatchlist");
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.watchlist_menu,menu);
+        return true;
+    }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.logoutMenuItem);
+        item.setVisible(true);
+        //TODO: Set the title to a user's username
+        item.setTitle(":)");
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                showLogoutDialog();
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void showLogoutDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
+        final AlertDialog alertDialog = alertBuilder.create();
+
+        alertDialog.setMessage("Logout?");
+        alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+
+            }
+        });
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+        alertBuilder.create().show();
+    }
+
+    private void logout(){
+        //TODO: finish logout method
+        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+    }
 
     public static Intent mainIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, MainActivity.class);
