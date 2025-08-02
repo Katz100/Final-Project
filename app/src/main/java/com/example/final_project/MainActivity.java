@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.final_project.database.MovieWatchlistDatabase;
+import com.example.final_project.database.entities.Movie;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     WatchListAdapter watchListAdapter;
     CompletedListAdapter completedListAdapter;
+    public static final String TAG = "MovieWatchlistApp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+
+        //Temporary code to add a movie to the watchlist database
+        new Thread(() -> {
+            MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
+            db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
+        }).start();
     }
+
+
 
     public static Intent mainIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, MainActivity.class);
