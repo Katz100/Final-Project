@@ -10,11 +10,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.final_project.MainActivity;
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.MovieDAO;
+import com.example.final_project.database.entities.User;
+import com.example.final_project.database.entities.UserWatchList;
 
 
-@Database(entities = {Movie.class}, version = 2, exportSchema = false)
+@Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 2, exportSchema = false)
 public abstract class MovieWatchlistDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "MovieWatchlistDatabase";
+
+    public static final String USER_WATCH_LIST_TABLE = "userWatchListTable";
+
+    public static final String USER_TABLE = "userTable";
+
     private static volatile MovieWatchlistDatabase INSTANCE;
     public static MovieWatchlistDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -51,6 +58,8 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
         }
     };
     public abstract MovieDAO movieDAO();
+
+    public abstract UserDAO userDAO();
 
     //TODO: userDAO
 }

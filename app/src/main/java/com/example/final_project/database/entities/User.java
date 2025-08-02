@@ -2,8 +2,7 @@ package com.example.final_project.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-// Commented out  to avoid breaking the code, but should be uncommented when integrating with the database
-//@Entity(tableName = MovieWatchListDatabase.USER_TABLE)
+@Entity(tableName = "user_table")
 public class User {
 
     @PrimaryKey(autoGenerate = true)
