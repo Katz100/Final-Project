@@ -3,6 +3,7 @@ package com.example.final_project.database;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Dao
 public interface UserWatchListDAO {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(UserWatchList userWatchList);
 
     @Update
@@ -21,10 +22,14 @@ public interface UserWatchListDAO {
     @Delete
     void delete(UserWatchList userWatchList);
 
-    @Query("SELECT * FROM user_watch_list WHERE id = :id AND completed = false")
-    List<UserWatchList> getUncompletedWatchlistItems(int id);
 
-    @Query("SELECT * FROM user_watch_list WHERE id = :id")
-    List<UserWatchList> getAllWatchlistItems();
+    @Query("SELECT * FROM user_watch_list WHERE userId = :userId AND completed = true")
+    List<UserWatchList> getCompletedMoviesWithRatings(int userId);
+
+    @Query("SELECT * FROM user_watch_list WHERE userId = :userId AND completed = false")
+    List<UserWatchList> getUncompletedWatchlistItems(int userId);
+
+    @Query("SELECT * FROM user_watch_list WHERE userId = :userId")
+    List<UserWatchList> getAllWatchlistItems(int userId);
 
     }

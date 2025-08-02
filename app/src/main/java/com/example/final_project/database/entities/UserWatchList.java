@@ -1,17 +1,43 @@
 package com.example.final_project.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "user_watch_list")
+@Entity(
+        tableName = "user_watch_list",
+        primaryKeys = {"userId", "movieId"},
+        foreignKeys = {
+                @ForeignKey(
+                        entity = User.class,
+                        parentColumns = "id",
+                        childColumns = "userId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Movie.class,
+                        parentColumns = "id",
+                        childColumns = "movieId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        },
+        indices = {
+                @Index("userId"),
+                @Index("movieId")
+        }
+)
 public class UserWatchList {
 
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
+    public int userId;
+    public int movieId;
     private boolean completed = false;
     private double rating = 0.0;
 
-    public UserWatchList(boolean completed, double rating) {
+    public UserWatchList(int userId, int movieId, boolean completed, double rating) {
+        this.userId = userId;
+        this.movieId = movieId;
         this.completed = completed;
         this.rating = rating;
     }
@@ -22,6 +48,22 @@ public class UserWatchList {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public boolean isCompleted() {

@@ -6,17 +6,16 @@ import androidx.room.PrimaryKey;
 public class User {
 
     @PrimaryKey(autoGenerate = true)
-    // Unique identifier for the user
     private int id;
 
     private String username;
     private String password;
     private boolean isAdmin;
 
-    public User(String username, String password) {
+    public User(String username, String password, boolean isAdmin) {
         this.username = username;
         this.password = password;
-        this.isAdmin = false; // Default value for isAdmin
+        this.isAdmin = isAdmin;
     }
 
     public int getId() {

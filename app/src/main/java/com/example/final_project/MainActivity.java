@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
 import com.example.final_project.database.entities.Movie;
+import com.example.final_project.database.entities.User;
+import com.example.final_project.database.entities.UserWatchList;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
@@ -78,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
         new Thread(() -> {
             MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
             db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
+            db.userDAO().insert(new User("testuser1", "password1", false));
+            // inserting a user watchlist item breaks the app. sometimes it works, usually it doesn't
+            //db.userWatchListDAO().insert(new UserWatchList(12, 12, true, 5.0));
+
         }).start();
     }
 

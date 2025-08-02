@@ -14,7 +14,7 @@ import com.example.final_project.database.entities.User;
 import com.example.final_project.database.entities.UserWatchList;
 
 
-@Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 2, exportSchema = false)
+@Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 4, exportSchema = false)
 public abstract class MovieWatchlistDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "MovieWatchlistDatabase";
 
@@ -44,6 +44,7 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
+            db.execSQL("PRAGMA foreign_keys=ON"); // Enable foreign key constraints
             Log.i(MainActivity.TAG, "DATABASE CREATED!");
             //TODO: Uncomment and implement this if you add default MovieWatchlist data later
 //            databaseWriteExecutor.execute(() -> {
