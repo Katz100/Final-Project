@@ -61,5 +61,6 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
 
     public abstract UserDAO userDAO();
 
-    //TODO: userDAO
+    public abstract UserWatchListDAO userWatchListDAO();
+
 }

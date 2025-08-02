@@ -7,13 +7,21 @@ import androidx.room.PrimaryKey;
 public class UserWatchList {
 
     @PrimaryKey(autoGenerate = true)
-    public int id; // Error with no PrimaryKey annotation
-    private boolean completed = false; // Default value for completed status
-    private double rating = 0.0; // Default value for rating
+    public int id;
+    private boolean completed = false;
+    private double rating = 0.0;
 
     public UserWatchList(boolean completed, double rating) {
         this.completed = completed;
         this.rating = rating;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isCompleted() {
