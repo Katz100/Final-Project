@@ -45,7 +45,7 @@ public class LoginActivityTest {
 
             activity.findViewById(R.id.loginButton).performClick();
 
-            Intent expectedIntent = new Intent(activity, MainActivity.class);
+            Intent expectedIntent = new Intent(activity, AdminActivity.class);
             Intent actual = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
             assertEquals(expectedIntent.getComponent(), actual.getComponent());
         }
