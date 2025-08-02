@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
-import com.example.final_project.database.entities.MovieWatchlist;
+import com.example.final_project.database.entities.Movie;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         //Temporary code to add a movie to the watchlist database
         new Thread(() -> {
             MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
-            db.movieWatchlistDAO().insert(new MovieWatchlist("Blade Runner", "Sci-Fi", false));
+            db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
         }).start();
     }
 

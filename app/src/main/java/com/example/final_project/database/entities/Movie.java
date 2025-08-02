@@ -1,21 +1,26 @@
 package com.example.final_project.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.example.final_project.database.MovieWatchlistDatabase;
-
-@Entity(tableName = MovieWatchlistDatabase.MOVIE_WATCHLIST_TABLE)
-public class MovieWatchlist {
+@Entity(tableName = "movie")
+public class Movie {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
     private String genre;
-    private boolean watched;
-    public MovieWatchlist(String title, String genre, boolean watched) {
+
+    public Movie(String title, String genre) {
         this.title = title;
         this.genre = genre;
-        this.watched = watched;
+    }
+
+    @Ignore
+    public Movie(int id, String title, String genre) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
     }
 
     public int getId() {
@@ -40,13 +45,5 @@ public class MovieWatchlist {
 
     public void setGenre(String genre) {
         this.genre = genre;
-    }
-
-    public boolean isWatched() {
-        return watched;
-    }
-
-    public void setWatched(boolean watched) {
-        this.watched = watched;
     }
 }

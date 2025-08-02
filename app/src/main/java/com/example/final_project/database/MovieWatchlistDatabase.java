@@ -7,14 +7,13 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
 import com.example.final_project.MainActivity;
-import com.example.final_project.database.entities.MovieWatchlist;
-import com.example.final_project.database.entities.MovieWatchlistDAO;
+import com.example.final_project.database.entities.Movie;
+import com.example.final_project.database.entities.MovieDAO;
 
-@Database(entities = {MovieWatchlist.class}, version = 1, exportSchema = false)
+
+@Database(entities = {Movie.class}, version = 2, exportSchema = false)
 public abstract class MovieWatchlistDatabase extends RoomDatabase {
-    public static final String MOVIE_WATCHLIST_TABLE = "moviewatchlist";
     private static final String DATABASE_NAME = "MovieWatchlistDatabase";
     private static volatile MovieWatchlistDatabase INSTANCE;
     public static MovieWatchlistDatabase getDatabase(final Context context) {
@@ -51,7 +50,7 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
 //            });
         }
     };
-    public abstract MovieWatchlistDAO movieWatchlistDAO();
+    public abstract MovieDAO movieDAO();
 
     //TODO: userDAO
 }
