@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
             MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
             db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
             db.userDAO().insert(new User("testuser1", "password1", false));
-            // inserting a user watchlist item breaks the app. sometimes it works, usually it doesn't
-            //db.userWatchListDAO().insert(new UserWatchList(12, 12, true, 5.0));
+            db.userWatchListDAO().insert(new UserWatchList(1, 1, true, 5.0));
 
         }).start();
     }
