@@ -1,5 +1,6 @@
 package com.example.final_project;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.robolectric.Shadows.shadowOf;
 
 import android.content.Intent;
@@ -48,6 +49,25 @@ public class LoginActivityTest {
             Intent expectedIntent = new Intent(activity, MainActivity.class);
             Intent actual = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
             assertEquals(expectedIntent.getComponent(), actual.getComponent());
+        }
+    }
+
+    @Test
+    public void signingInWithBlankFields_DoesNotLaunchMainActivity() {
+        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
+            controller.setup();
+            LoginActivity activity = controller.get();
+
+            EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
+            EditText passwordField = activity.findViewById(R.id.passwordLoginEditText);
+
+            usernameField.setText("");
+            passwordField.setText("");
+
+            activity.findViewById(R.id.loginButton).performClick();
+
+            Intent actual = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
+            assertNull(actual);
         }
     }
 }
