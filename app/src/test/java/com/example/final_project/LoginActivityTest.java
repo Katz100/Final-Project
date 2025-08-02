@@ -24,7 +24,7 @@ public class LoginActivityTest {
             LoginActivity activity = controller.get();
             activity.findViewById(R.id.signUpButton).performClick();
 
-            Intent expectedIntent = new Intent(activity, SignUpActivity.class);
+            Intent expectedIntent = SignUpActivity.signupIntentFactory(activity);
             Intent actual = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
             assertEquals(expectedIntent.getComponent(), actual.getComponent());
         }
@@ -46,7 +46,7 @@ public class LoginActivityTest {
 
             activity.findViewById(R.id.loginButton).performClick();
 
-            Intent expectedIntent = new Intent(activity, MainActivity.class);
+            Intent expectedIntent = MainActivity.mainIntentFactory(activity, "");
             Intent actual = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
             assertEquals(expectedIntent.getComponent(), actual.getComponent());
         }
