@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
             db.userDAO().insert(new User("testuser1", "password1", false));
             db.userWatchListDAO().insert(new UserWatchList(1, 1, true, 5.0));
-
         }).start();
     }
 
