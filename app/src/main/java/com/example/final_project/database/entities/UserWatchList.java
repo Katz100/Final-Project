@@ -29,7 +29,6 @@ import androidx.room.PrimaryKey;
 )
 public class UserWatchList {
 
-    private int id;
     public int userId;
     public int movieId;
     private boolean completed = false;
@@ -42,13 +41,6 @@ public class UserWatchList {
         this.rating = rating;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getUserId() {
         return userId;
