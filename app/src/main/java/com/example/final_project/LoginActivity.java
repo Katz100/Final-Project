@@ -3,6 +3,8 @@ package com.example.final_project;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.loginToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,6 +48,23 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //LOGOUT MENU
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    // Handle logout action
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show();
+            finishAffinity(); // or redirect to LoginActivity if needed
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     static Intent loginIntentFactory(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         return intent;
