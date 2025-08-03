@@ -54,8 +54,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/adminToolbar"
-        android:background="@color/black"
-        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-        app:title="Admin" />
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:background="#424242"
+        app:title="Back to Login"
+        app:titleTextColor="@color/white"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
