@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -92,26 +94,55 @@ public class MainActivity extends AppCompatActivity {
         }).start();
 
         //Changes the title in the Menu Bar to MovieWatchlist
-        invalidateOptionsMenu();
-        ActionBar actionBar = super.getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setTitle("MovieWatchlist");
-
+        try {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle("MovieWatchlist");
+            } else {
+                Log.e("ActionBar", "ActionBar is null");
+            }
+            invalidateOptionsMenu();
+        } catch (Exception e) {
+            Log.e("ActionBar", "An error occurred", e);
+        }
     }
 
+    //Shows a menu with the inputted user's name up top.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.watchlist_menu,menu);
+        inflater.inflate(R.menu.watchlist_menu, menu);
+
+        // Get the logout menu item
+        MenuItem item = menu.findItem(R.id.logoutMenuItem);
+
+        // Check if the menu item exists
+        if (item != null) {
+            // Get the username from the intent
+            String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
+
+            // Check if the EditText exists
+            if (username != null) {
+                //Set the menu item title to username
+                item.setTitle(username);
+
+            } else {
+                //Set a default title
+                item.setTitle("User");
+            }
+            //Make the menu item visible
+            item.setVisible(true);
+        }
         return true;
     }
 
+    //When a user clicks on their username, it prompts them to logout
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
         item.setVisible(true);
-        //TODO: Set the title to a user's username
-        item.setTitle("user1");
+
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
@@ -122,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //Afer a user confirms they want to logout, it takes them back to the sign in screen
     private void showLogoutDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
         final AlertDialog alertDialog = alertBuilder.create();

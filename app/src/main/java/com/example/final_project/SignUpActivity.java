@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.final_project.database.MovieWatchlistDatabase;
+
+
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText usernameEditText;
