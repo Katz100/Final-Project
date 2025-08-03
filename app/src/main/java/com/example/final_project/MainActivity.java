@@ -6,11 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.final_project.database.MovieWatchlistDatabase;
-import com.example.final_project.database.entities.Movie;
-import com.example.final_project.database.entities.User;
-import com.example.final_project.database.entities.UserWatchList;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
@@ -78,14 +73,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
             startActivity(intent);
         }
-
-        //Temporary code to add a movie to the watchlist database
-        new Thread(() -> {
-            MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
-            db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
-            db.userDAO().insert(new User("testuser1", "password1", false));
-            db.userWatchListDAO().insert(new UserWatchList(1, 1, true, 5.0));
-        }).start();
     }
 
     // opens LoginActivity when back button is pressed
