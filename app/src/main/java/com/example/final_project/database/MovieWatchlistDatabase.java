@@ -56,12 +56,23 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
             //TODO: Uncomment and implement this if you add default MovieWatchlist data later
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
+                MovieDAO movieDAO = INSTANCE.movieDAO();
+                UserWatchListDAO userWatchListDAO = INSTANCE.userWatchListDAO();
+
                 dao.deleteAll();
                 User admin = new User("admin1", "admin1", true);
                 admin.setAdmin(true);
                 dao.insert(admin);
                 User testUser1 = new User("testuser1", "testuser1", false);
                 dao.insert(testUser1);
+
+                for (int i = 0; i < 10; i++) {
+                    movieDAO.insert(new Movie("Movie" + i, "Comedy"));
+                }
+
+                userWatchListDAO.insert(new UserWatchList(1, 1, false, 0.0));
+                userWatchListDAO.insert(new UserWatchList(1, 2, true, 0.0));
+                userWatchListDAO.insert(new UserWatchList(2, 3, false, 0.0));
             });
         }
     };
