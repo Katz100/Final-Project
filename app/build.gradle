@@ -3,6 +3,13 @@ plugins {
 }
 
 android {
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     namespace 'com.example.final_project'
     compileSdk 35
 
@@ -50,4 +57,7 @@ dependencies {
     def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    testImplementation libs.junit
+    testImplementation libs.robolectric
+
 }
