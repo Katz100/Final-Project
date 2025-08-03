@@ -17,6 +17,9 @@ public interface UserDAO {
 
     @Delete
     void delete(User user);
+
+    @Query("DELETE from user_table")
+    void deleteAll();
 /*
     @Query("SELECT * FROM " + MovieWatchListDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUsers();
