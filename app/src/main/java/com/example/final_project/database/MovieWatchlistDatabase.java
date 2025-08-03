@@ -13,8 +13,11 @@ import com.example.final_project.database.entities.MovieDAO;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.database.entities.UserWatchList;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-@Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 4, exportSchema = false)
+
+@Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 8, exportSchema = false)
 public abstract class MovieWatchlistDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "MovieWatchlistDatabase";
 
@@ -23,6 +26,10 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
     public static final String USER_TABLE = "userTable";
 
     private static volatile MovieWatchlistDatabase INSTANCE;
+
+    private static final int NUMBER_OF_THREADS = 4;
+
+    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     public static MovieWatchlistDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (MovieWatchlistDatabase.class) {
@@ -47,15 +54,15 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
             db.execSQL("PRAGMA foreign_keys=ON"); // Enable foreign key constraints
             Log.i(MainActivity.TAG, "DATABASE CREATED!");
             //TODO: Uncomment and implement this if you add default MovieWatchlist data later
-//            databaseWriteExecutor.execute(() -> {
-//                UserDAO dao = INSTANCE.userDAO();
-//                dao.deleteAll();
-//                User admin = new User("admin1", "admin1");
-//                admin.setAdmin(true);
-//                dao.insert(admin);
-//                User testUser1 = new User("testuser1", "testuser1");
-//                dao.insert(testUser1);
-//            });
+            databaseWriteExecutor.execute(() -> {
+                UserDAO dao = INSTANCE.userDAO();
+                dao.deleteAll();
+                User admin = new User("admin1", "admin1", true);
+                admin.setAdmin(true);
+                dao.insert(admin);
+                User testUser1 = new User("testuser1", "testuser1", false);
+                dao.insert(testUser1);
+            });
         }
     };
     public abstract MovieDAO movieDAO();

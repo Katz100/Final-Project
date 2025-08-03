@@ -3,9 +3,15 @@ package com.example.final_project;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.final_project.database.MovieWatchlistDatabase;
+import com.example.final_project.database.WatchListRepository;
+import com.example.final_project.database.entities.Movie;
+import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityLoginBinding;
 
 /**
@@ -25,6 +31,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        new Thread(() -> {
+            MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
+            db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
+            User user = WatchListRepository.getRepository(getApplication()).getUserByUsername("admin1");
+            if (user != null) {
+                Log.i(MainActivity.TAG, user.getUsername());
+            }
+        }).start();
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
