@@ -11,7 +11,7 @@
         android:id="@+id/signUpToolbar"
         app:navigationIcon="?attr/homeAsUpIndicator"
         android:background="#424242"
-        app:title="Back to Admin Dashboard"
+        app:title="Back to Login"
         app:titleTextColor="@color/white"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
