@@ -67,13 +67,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(watchListAdapter);
 
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-        if (username != null && !username.isEmpty()) {
-            //binding.welcomeTextView.setText("Welcome, " + username + "!");
-
-            if (username.equalsIgnoreCase("admin")) {
-                Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
-                startActivity(intent);
-            }
+        if (username != null && username.toLowerCase().contains("admin")) {
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+            startActivity(intent);
         }
 
         //Temporary code to add a movie to the watchlist database
