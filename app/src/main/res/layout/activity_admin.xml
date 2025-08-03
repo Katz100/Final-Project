@@ -50,4 +50,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/manageGenresButton" />
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/adminToolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:background="#424242"
+        app:title="Back to Login"
+        app:titleTextColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

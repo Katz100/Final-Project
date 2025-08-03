@@ -18,6 +18,12 @@ public class AdminActivity extends AppCompatActivity {
         binding = ActivityAdminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //adds back button to action bar
+        setSupportActionBar(binding.adminToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         binding.manageUsersButton.setOnClickListener(v -> {
             Intent intent = ManageUsersActivity.manageUsersIntentFactory(getApplicationContext());
             startActivity(intent);
@@ -33,6 +39,15 @@ public class AdminActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+    }
+
+    // opens LoginActivity when back button is pressed
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
     }
 
     static Intent adminIntentFactory(Context context) {

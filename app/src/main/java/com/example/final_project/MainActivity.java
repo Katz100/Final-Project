@@ -29,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //adds back button to action bar
+        setSupportActionBar(binding.mainActivityToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+
         // TODO: get movies from db
         // dummy values for now
         CompletedWatchListItem item2 = new CompletedWatchListItem("title", "genre", "5/5");
@@ -62,17 +69,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(watchListAdapter);
 
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-        if (username != null && !username.isEmpty()) {
-            //binding.welcomeTextView.setText("Welcome, " + username + "!");
-
-            if (username.equalsIgnoreCase("admin")) {
-                Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
-                startActivity(intent);
-            }
+        if (username != null && username.toLowerCase().contains("admin")) {
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+            startActivity(intent);
         }
     }
 
-
+    // opens LoginActivity when back button is pressed
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
+    }
 
     public static Intent mainIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, MainActivity.class);
