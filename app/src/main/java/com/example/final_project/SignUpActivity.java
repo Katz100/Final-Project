@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.final_project.databinding.ActivitySignupBinding;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
 
@@ -18,6 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
+    private ActivitySignupBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,13 @@ public class SignUpActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.newPasswordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         Button signUpButton = findViewById(R.id.signUpButton);
+
+        //adds back button to action bar
+        setSupportActionBar(binding.signUpToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +71,15 @@ public class SignUpActivity extends AppCompatActivity {
 
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    // opens LoginActivity when back button is pressed
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
     }
 
     static Intent signupIntentFactory(Context context) {

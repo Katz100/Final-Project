@@ -19,8 +19,24 @@ public class ManageGenresActivity extends AppCompatActivity {
         binding = ActivityManageGenresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //adds back button to action bar
+        setSupportActionBar(binding.genresToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+
         // Set up the UI components and listeners for managing users
         // RecyclerView, buttons, etc. can be initialized here
+    }
+
+    // opens LoginActivity when back button is pressed
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(this, AdminActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
     }
 
     static Intent manageGenresIntentFactory(Context context) {

@@ -1,26 +1,16 @@
 package com.example.final_project;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
 import com.example.final_project.database.entities.Movie;
+import com.example.final_project.database.entities.User;
+import com.example.final_project.database.entities.UserWatchList;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
@@ -34,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
     ActivityMainBinding binding;
-    private User user;
+
     WatchListAdapter watchListAdapter;
     CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
@@ -44,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //adds back button to action bar
+        setSupportActionBar(binding.mainActivityToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
 
         // TODO: get movies from db
         // dummy values for now
@@ -91,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         new Thread(() -> {
             MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
             db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
+            db.userDAO().insert(new User("testuser1", "password1", false));
+            db.userWatchListDAO().insert(new UserWatchList(1, 1, true, 5.0));
         }).start();
 
         //Changes the title in the Menu Bar to MovieWatchlist
@@ -153,6 +152,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // opens LoginActivity when back button is pressed
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
+    }
     //Afer a user confirms they want to logout, it takes them back to the sign in screen
     private void showLogoutDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);

@@ -2,22 +2,20 @@ package com.example.final_project.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-// Commented out  to avoid breaking the code, but should be uncommented when integrating with the database
-//@Entity(tableName = MovieWatchListDatabase.USER_TABLE)
+@Entity(tableName = "user_table")
 public class User {
 
     @PrimaryKey(autoGenerate = true)
-    // Unique identifier for the user
     private int id;
 
     private String username;
     private String password;
     private boolean isAdmin;
 
-    public User(String username, String password) {
+    public User(String username, String password, boolean isAdmin) {
         this.username = username;
         this.password = password;
-        this.isAdmin = false; // Default value for isAdmin
+        this.isAdmin = isAdmin;
     }
 
     public int getId() {
