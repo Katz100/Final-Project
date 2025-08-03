@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityLoginBinding;
+import com.example.final_project.viewHolder.WatchListViewModel;
 
 /**
  * This is a simple login activity that allows users to log in with their username and password.
@@ -26,11 +28,24 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     //private User user = null;
 
+    WatchListViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
+
+        viewModel.user.observe(this, user -> {
+            if (user != null) {
+                Toast.makeText(getApplication(), user.getUsername(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewModel.getUserByUsername("admin1");
 
         new Thread(() -> {
             MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
