@@ -19,10 +19,24 @@ public class AdminThingsActivity extends AppCompatActivity {
         binding = ActivityAdminThingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //adds back button to action bar
+        setSupportActionBar(binding.adminThingsToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+
         // Set up the UI components and listeners for managing users
         // RecyclerView, buttons, etc. can be initialized here
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(this, AdminActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
+    }
     static Intent adminThingsIntentFactory(Context context) {
         return new Intent(context, AdminThingsActivity.class);
     }
