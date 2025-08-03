@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 8, exportSchema = false)
+@Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 1, exportSchema = false)
 public abstract class MovieWatchlistDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "MovieWatchlistDatabase";
 
