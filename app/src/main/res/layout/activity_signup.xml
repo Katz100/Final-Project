@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/signUpToolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:background="#424242"
+        app:title="Back to Admin Dashboard"
+        app:titleTextColor="@color/white"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+
     <TextView
         android:id="@+id/titleSignUpTextView"
         android:layout_width="match_parent"
@@ -15,7 +25,7 @@
         android:textSize="42sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signUpToolbar"
         android:background="#1DA1F2"
         android:textColor="#ffffff"/>
 
@@ -71,7 +81,5 @@
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText"
         android:backgroundTint="#008000"
         />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
