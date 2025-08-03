@@ -13,6 +13,7 @@
         android:background="#424242"
         app:title="Back to Login"
         app:titleTextColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
     <TextView
