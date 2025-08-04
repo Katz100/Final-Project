@@ -79,12 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         repository = WatchListRepository.getRepository(getApplication());
 
-        String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-        if (username != null && username.toLowerCase().contains("admin")) {
-            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
-            startActivity(intent);
-        }
-
         binding.addMovieButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
                 insertMovieRecord();
             }
         });
+
+        String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
+        if (username != null && username.toLowerCase().contains("admin")) {
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+            startActivity(intent);
+        }
 
     }
 
