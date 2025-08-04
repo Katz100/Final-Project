@@ -42,6 +42,7 @@ public class WatchListViewModel extends AndroidViewModel {
                 int movieId = watchListRepository.insertMovie(movie);
                 int userId = currentUser.getId();
                 watchListRepository.insertToWatchList(new UserWatchList(userId, movieId, false, 0.0));
+                Log.e("WatchListViewModel", "Movie successfully added to watchlist!");
             } else {
                 Log.e("WatchListViewModel", "User not set. Cannot insert movie.");
             }

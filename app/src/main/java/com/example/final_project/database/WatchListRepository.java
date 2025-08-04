@@ -38,7 +38,7 @@ public class WatchListRepository {
     public int insertMovie(Movie movie) {
         try {
             Future<Long> future = executor.submit(() -> movieDAO.insert(movie));
-            long id = future.get(); // blocks, so consider error handling
+            long id = future.get();
             movie.setId((int) id);
             return (int) id;
         } catch (Exception e) {
@@ -49,6 +49,10 @@ public class WatchListRepository {
 
     public void insertToWatchList(UserWatchList userWatchList) {
         executor.execute(() -> userWatchListDAO.insert(userWatchList));
+    }
+
+    public long insertUser(User user){
+        return userDAO.insert(user);
     }
 
     public User getUserByUsername(String username) {

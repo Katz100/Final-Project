@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
 
+    private WatchListViewModel viewModel;
+
     String movieTitle = "";
     String movieGenre = "";
 
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
 
         //adds back button to action bar
         setSupportActionBar(binding.mainActivityToolbar);
@@ -99,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
+        if (username != null) {
+            viewModel.getUserByUsername(username);
+        } else {
+            Log.e("MainActivity", "Username extra was null!");
+        }
         if (username != null && username.toLowerCase().contains("admin")) {
             Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
             startActivity(intent);
@@ -211,11 +219,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Movie movie = new Movie(movieTitle, movieGenre);
-        String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-        WatchListViewModel viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
 
         viewModel.insertMovie(movie);
-        //repository.insertMovie(movie, username);
     }
 
     private void getInformationFromDisplay() {
