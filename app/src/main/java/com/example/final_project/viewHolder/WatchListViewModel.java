@@ -9,7 +9,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.final_project.database.WatchListRepository;
+import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.User;
+import com.example.final_project.database.entities.UserWatchList;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,6 +32,19 @@ public class WatchListViewModel extends AndroidViewModel {
         executorService.execute(() -> {
             User user = watchListRepository.getUserByUsername(username);
             _user.postValue(user);
+        });
+    }
+
+    public void insertMovie(Movie movie) {
+        executorService.execute(() -> {
+            User currentUser = _user.getValue();
+            if (currentUser != null) {
+                int movieId = watchListRepository.insertMovie(movie);
+                int userId = currentUser.getId();
+                watchListRepository.insertToWatchList(new UserWatchList(userId, movieId, false, 0.0));
+            } else {
+                Log.e("WatchListViewModel", "User not set. Cannot insert movie.");
+            }
         });
     }
 }

@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +26,7 @@ import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
 import com.example.final_project.viewHolder.WatchListAdapter;
 import com.example.final_project.viewHolder.WatchListItem;
+import com.example.final_project.viewHolder.WatchListViewModel;
 
 import java.util.ArrayList;
 
@@ -209,7 +212,10 @@ public class MainActivity extends AppCompatActivity {
         }
         Movie movie = new Movie(movieTitle, movieGenre);
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-        repository.insertMovie(movie, username);
+        WatchListViewModel viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
+
+        viewModel.insertMovie(movie);
+        //repository.insertMovie(movie, username);
     }
 
     private void getInformationFromDisplay() {
