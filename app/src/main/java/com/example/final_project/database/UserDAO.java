@@ -20,6 +20,9 @@ public interface UserDAO {
 
     @Query("DELETE from user_table")
     void deleteAll();
+
+    @Query("SELECT * FROM " + "user_table" + " WHERE username == :username")
+    User getUserByUserName(String username);
 /*
     @Query("SELECT * FROM " + MovieWatchListDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUsers();
