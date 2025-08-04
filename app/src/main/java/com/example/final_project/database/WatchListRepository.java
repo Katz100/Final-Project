@@ -34,12 +34,17 @@ public class WatchListRepository {
         return repository;
     }
 
-    public void insertMovie(Movie movie) {
+    public void insertMovie(Movie movie, String username) {
+        // user Object is fetched based on username
+        // because, if the code is already able to reach this point, the user should already exist
+        // in our testing, though, we do not have user creation implented to database yet.
+        User user = userDAO.getUserByUserName(username);
         Future<?> future = executor.submit(() -> movieDAO.insert(movie));
         executor.submit(() -> {
             try {
                 future.get();
-                userWatchListDAO.insert(new UserWatchList(1, 14, true, 0.75));
+                // hardcoded for now.
+                userWatchListDAO.insert(new UserWatchList(1, 3, true, 0.75));
             } catch (Exception e) {
                 e.printStackTrace();
             }
