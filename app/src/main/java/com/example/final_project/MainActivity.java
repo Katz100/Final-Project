@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Movie movie = new Movie(movieTitle, movieGenre);
-        repository.insertMovie(movie);
+        String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
+        repository.insertMovie(movie, username);
     }
 
     private void getInformationFromDisplay() {
