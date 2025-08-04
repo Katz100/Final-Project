@@ -1,25 +1,11 @@
 package com.example.final_project;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import androidx.annotation.NonNull;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.final_project.database.MovieWatchlistDatabase;
-import com.example.final_project.database.entities.Movie;
-import com.example.final_project.database.entities.User;
-import com.example.final_project.database.entities.UserWatchList;
-import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
@@ -83,81 +69,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(watchListAdapter);
 
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-        if (username != null && !username.isEmpty()) {
-            //binding.welcomeTextView.setText("Welcome, " + username + "!");
-
-            if (username.equalsIgnoreCase("admin")) {
-                Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
-                startActivity(intent);
-            }
+        if (username != null && username.toLowerCase().contains("admin")) {
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+            startActivity(intent);
         }
-
-        //Temporary code to add a movie to the watchlist database
-        new Thread(() -> {
-            MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(this);
-            db.movieDAO().insert(new Movie("Blade Runner", "Sci-Fi"));
-            db.userDAO().insert(new User("testuser1", "password1", false));
-            db.userWatchListDAO().insert(new UserWatchList(1, 1, true, 5.0));
-        }).start();
-
-        //Changes the title in the Menu Bar to MovieWatchlist
-        try {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle("MovieWatchlist");
-            } else {
-                Log.e("ActionBar", "ActionBar is null");
-            }
-            invalidateOptionsMenu();
-        } catch (Exception e) {
-            Log.e("ActionBar", "An error occurred", e);
-        }
-    }
-
-    //Shows a menu with the inputted user's name up top.
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.watchlist_menu, menu);
-
-        // Get the logout menu item
-        MenuItem item = menu.findItem(R.id.logoutMenuItem);
-
-        // Check if the menu item exists
-        if (item != null) {
-            // Get the username from the intent
-            String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-
-            // Check if the EditText exists
-            if (username != null) {
-                //Set the menu item title to username
-                item.setTitle(username);
-
-            } else {
-                //Set a default title
-                item.setTitle("User");
-            }
-            //Make the menu item visible
-            item.setVisible(true);
-        }
-        return true;
-    }
-
-    //When a user clicks on their username, it prompts them to logout
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.logoutMenuItem);
-        item.setVisible(true);
-
-        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem item) {
-                showLogoutDialog();
-                return false;
-            }
-        });
-        return true;
     }
 
     // opens LoginActivity when back button is pressed
@@ -167,32 +82,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         return true;
-    }
-    //Afer a user confirms they want to logout, it takes them back to the sign in screen
-    private void showLogoutDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-        final AlertDialog alertDialog = alertBuilder.create();
-
-        alertDialog.setMessage("Logout?");
-        alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                logout();
-
-            }
-        });
-        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-            }
-        });
-        alertBuilder.create().show();
-    }
-
-    private void logout(){
-        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
 
     public static Intent mainIntentFactory(Context context, String username) {
