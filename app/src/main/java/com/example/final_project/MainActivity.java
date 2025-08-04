@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
             startActivity(intent);
         }
-
     }
 
     // opens LoginActivity when back button is pressed
