@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
         if (username != null && username.toLowerCase().contains("admin")) {
-            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
             startActivity(intent);
         }
 
