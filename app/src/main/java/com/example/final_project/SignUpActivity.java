@@ -24,11 +24,12 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-        usernameEditText = findViewById(R.id.newUsernameEditText);
-        passwordEditText = findViewById(R.id.newPasswordEditText);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-        Button signUpButton = findViewById(R.id.signUpButton);
+        binding = ActivitySignupBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        usernameEditText = binding.newUsernameEditText;
+        passwordEditText = binding.newPasswordEditText;
+        confirmPasswordEditText = binding.confirmPasswordEditText;
+        Button signUpButton = binding.signUpButton;
 
         //adds back button to action bar
         setSupportActionBar(binding.signUpToolbar);
