@@ -2,10 +2,14 @@ package com.example.final_project;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.final_project.database.WatchListRepository;
+import com.example.final_project.database.entities.Movie;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
@@ -19,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
     ActivityMainBinding binding;
 
+    private WatchListRepository repository;
     WatchListAdapter watchListAdapter;
     CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
+
+    String movieTitle = "";
+    String movieGenre = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +76,22 @@ public class MainActivity extends AppCompatActivity {
         watchListAdapter = new WatchListAdapter(this, watchListItems);
         recyclerView.setAdapter(watchListAdapter);
 
+        repository = WatchListRepository.getRepository(getApplication());
+
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
         if (username != null && username.toLowerCase().contains("admin")) {
             Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
             startActivity(intent);
         }
+
+        binding.addMovieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getInformationFromDisplay();
+                insertMovieRecord();
+            }
+        });
+
     }
 
     // opens LoginActivity when back button is pressed
@@ -88,6 +107,19 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(MAIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
+    }
+
+    private void insertMovieRecord(){
+        if(movieTitle.isEmpty()){
+            return;
+        }
+        Movie movie = new Movie(movieTitle, movieGenre);
+        repository.insertMovie(movie);
+    }
+
+    private void getInformationFromDisplay() {
+        movieTitle = binding.movieTitleInputEditText.getText().toString();
+        movieGenre = binding.movieGenreInputEditText.getText().toString();
     }
 
 }
