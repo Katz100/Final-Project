@@ -77,6 +77,11 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        if (username.toLowerCase().contains("admin")) {
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+            startActivity(intent);
+            return;
+        }
         // Here you would typically check the username and password against a database
         // For now, we will just simulate a successful login
 

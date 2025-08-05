@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNull;
 import static org.robolectric.Shadows.shadowOf;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.EditText;
 
 import org.junit.Test;
@@ -70,4 +71,23 @@ public class LoginActivityTest {
             assertNull(actual);
         }
     }
+
+    @Test
+    public void signingInWithValidCreds_LaunchesAdminActivity(){
+
+        try(ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)){
+            controller.setup();
+             LoginActivity activity = controller.get();
+
+             EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
+
+             usernameField.setText("admin");
+
+             activity.findViewById(R.id.loginButton).performClick();
+             Intent expectedIntent = AdminActivity.adminIntentFactory(activity);
+             Intent actualIntent = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
+             assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
+        }
+    }
+
 }

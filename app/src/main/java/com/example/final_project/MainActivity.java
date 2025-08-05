@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
         watchListAdapter = new WatchListAdapter(this, watchListItems);
         recyclerView.setAdapter(watchListAdapter);
 
-        String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
+        /*String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
         if (username != null && username.toLowerCase().contains("admin")) {
             Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
             startActivity(intent);
-        }
+        }*/
 
         //Changes the title in the Menu Bar to MovieWatchlist
         try {
