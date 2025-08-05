@@ -64,6 +64,24 @@ public class UserDAOTest {
     }
 
     @Test
+    public void testUpdateUser(){
+        User user = new User("updateuser", "oldpass", false);
+        userDao.insert(user);
+
+        User existing = userDao.getUserByUserName("updateuser");
+        assertNotNull(existing);
+
+        existing.setPassword("newpass");
+        int updatedRows = userDao.update(existing);
+
+        assertEquals(1, updatedRows);
+
+        User updated = userDao.getUserByUserName("updateuser");
+        assertNotNull(updated);
+        assertEquals("newpass", updated.getPassword());
+    }
+
+    @Test
     public void testDeleteAllUsers() {
         userDao.insert(new User("user1", "pass1", false));
         userDao.insert(new User("user2", "pass2", false));
