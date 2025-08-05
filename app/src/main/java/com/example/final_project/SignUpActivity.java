@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
@@ -41,37 +43,59 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verifyNewUser();
+                if(isValidInput()){
+                    verifyNewUser();
+                }
             }
         });
     }
-    private void verifyNewUser(){
+
+    private boolean isValidInput(){
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String confirmPassword = confirmPasswordEditText.getText().toString();
 
         if(username.isEmpty()){
             Toast.makeText(this, "Username cannot be empty", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if(password.isEmpty()){
             Toast.makeText(this, "Password cannot be empty", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if(confirmPassword.isEmpty()){
             Toast.makeText(this, "Please confirm password", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if (!password.equals(confirmPassword)) {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
-        else{
-            Toast.makeText(this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
-        }
+        return true;
+    }
+    private void verifyNewUser(){
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
 
-        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-        startActivity(intent);
+        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
+        db.getDatabaseWriteExecutor().execute(() -> {
+            User existingUser = db.userDAO().getUserByUserName(username);
+            if(existingUser != null) {
+                runOnUiThread(() -> {
+                    Toast.makeText(SignUpActivity.this, "This username already exists", Toast.LENGTH_SHORT).show();
+                });
+            }else{
+                //Inserts new user
+                User user = new User(username, password, false);
+                db.userDAO().insert(user);
+                runOnUiThread(()->{
+                    Toast.makeText(SignUpActivity.this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
+                    startActivity(intent);
+                });
+            }
+        });
     }
 
     // opens LoginActivity when back button is pressed
@@ -87,5 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = new Intent(context, SignUpActivity.class);
         return intent;
     }
+
+
 }
 
