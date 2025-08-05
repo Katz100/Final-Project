@@ -6,6 +6,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
+
 import java.util.List;
 
 import com.example.final_project.database.entities.User;
@@ -15,7 +17,7 @@ public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(User user);
 
-    @Delete
+    @Delete()
     void delete(User user);
 
     @Query("DELETE from user_table")
@@ -23,6 +25,9 @@ public interface UserDAO {
 
     @Query("SELECT * FROM " + "user_table" + " WHERE username == :username")
     User getUserByUserName(String username);
+
+    @Update
+    int update(User user);
 /*
     @Query("SELECT * FROM " + MovieWatchListDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUsers();
