@@ -84,7 +84,7 @@ public class LoginActivityTest {
              usernameField.setText("admin");
 
              activity.findViewById(R.id.loginButton).performClick();
-             Intent expectedIntent = AdminActivity.adminIntentFactory(activity, "");
+             Intent expectedIntent = AdminActivity.adminIntentFactory(activity, "admin1");
              Intent actualIntent = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
              assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
         }
