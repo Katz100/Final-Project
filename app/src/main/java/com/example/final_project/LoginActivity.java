@@ -49,7 +49,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = SignUpActivity.signupIntentFactory(LoginActivity.this);
-                startActivity(intent);
+                if (intent != null) {
+                    startActivity(intent);
+                } else {
+                    Log.e("LoginActivity", "Intent is null");
+                }
             }
         });
     }
@@ -81,10 +85,15 @@ public class LoginActivity extends AppCompatActivity {
         String password = binding.passwordLoginEditText.getText().toString();
 
         MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
+        if (db == null) {
+            Log.e("LoginActivity", "Database is null");
+            return;
+        }
 
 
         if (username.isEmpty()) {
             toastMaker("Username should not be blank.");
+            Log.e("LoginActivity", "Toast is null");
             return;
         }
 
