@@ -76,6 +76,10 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
             });
         }
     };
+
+    public ExecutorService getDatabaseWriteExecutor() {
+        return databaseWriteExecutor;
+    }
     public abstract MovieDAO movieDAO();
 
     public abstract UserDAO userDAO();
