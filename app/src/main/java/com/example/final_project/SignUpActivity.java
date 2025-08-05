@@ -10,11 +10,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.final_project.database.WatchListRepository;
+import com.example.final_project.database.entities.User;
+
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -22,12 +27,18 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
     private ActivitySignupBinding binding;
+    private WatchListRepository watchListRepository;
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        watchListRepository = WatchListRepository.getRepository(getApplication());
+
         usernameEditText = binding.newUsernameEditText;
         passwordEditText = binding.newPasswordEditText;
         confirmPasswordEditText = binding.confirmPasswordEditText;
@@ -111,7 +122,5 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = new Intent(context, SignUpActivity.class);
         return intent;
     }
-
-
 }
 

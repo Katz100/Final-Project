@@ -2,13 +2,21 @@ package com.example.final_project.database;
 
 import android.app.Application;
 
+import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.MovieDAO;
 import com.example.final_project.database.entities.User;
+import com.example.final_project.database.entities.UserWatchList;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class WatchListRepository {
     private MovieDAO movieDAO;
     private UserWatchListDAO userWatchListDAO;
     private UserDAO userDAO;
+
+    ExecutorService executor = MovieWatchlistDatabase.databaseWriteExecutor;
+
 
     private static WatchListRepository repository;
 
@@ -24,6 +32,19 @@ public class WatchListRepository {
             repository = new WatchListRepository(application);
         }
         return repository;
+    }
+
+
+    public int insertMovie(Movie movie) {
+        return (int) movieDAO.insert(movie);
+    }
+
+    public void insertToWatchList(UserWatchList userWatchList) {
+        userWatchListDAO.insert(userWatchList);
+    }
+
+    public long insertUser(User user){
+        return userDAO.insert(user);
     }
 
     public User getUserByUsername(String username) {
