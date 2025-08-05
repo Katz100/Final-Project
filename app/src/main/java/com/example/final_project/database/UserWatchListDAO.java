@@ -13,7 +13,7 @@ import java.util.List;
 
 @Dao
 public interface UserWatchListDAO {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(UserWatchList userWatchList);
 
     @Update
