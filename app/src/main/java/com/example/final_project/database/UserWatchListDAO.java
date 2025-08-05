@@ -1,5 +1,6 @@
 package com.example.final_project.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -28,10 +29,13 @@ public interface UserWatchListDAO {
     @Query("SELECT * FROM user_watch_list WHERE userId = :userId AND completed = true")
     List<UserWatchList> getCompletedMoviesWithRatings(int userId);
 
-    @Query("SELECT * FROM user_watch_list WHERE userId = :userId AND completed = false")
-    List<UserWatchList> getUncompletedWatchlistItems(int userId);
+    @Query("select user_watch_list.userId, user_watch_list.movieId, movie.title, movie.genre " +
+            "from user_watch_list " +
+            "join movie on user_watch_list.movieId = movie.id " +
+            "where user_watch_list.userId = :userId AND completed = false")
+    LiveData<List<UsersMovies>> getUncompletedWatchlistItems(int userId);
 
     @Query("SELECT * FROM user_watch_list WHERE userId = :userId")
     List<UserWatchList> getAllWatchlistItems(int userId);
 
-    }
+}
