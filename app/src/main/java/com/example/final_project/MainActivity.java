@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.e("MainActivity", "Username extra was null!");
         }
-
-        /*if (username != null && username.toLowerCase().contains("admin")) {
-            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+      
+        if (username != null && username.toLowerCase().contains("admin")) {
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
             startActivity(intent);
-        }*/
+        }
 
         //Changes the title in the Menu Bar to MovieWatchlist
         try {

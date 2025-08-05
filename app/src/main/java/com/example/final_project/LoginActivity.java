@@ -88,11 +88,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-//        if (username.toLowerCase().contains("admin")) {
-//            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
-//            startActivity(intent);
-//            return;
-//        }
         // Checks if username exists in DB
         db.getDatabaseWriteExecutor().execute(() -> {
             User userFromDB = db.userDAO().getUserByUserName(username);
