@@ -36,19 +36,11 @@ public class WatchListRepository {
 
 
     public int insertMovie(Movie movie) {
-        try {
-            Future<Long> future = executor.submit(() -> movieDAO.insert(movie));
-            long id = future.get();
-            movie.setId((int) id);
-            return (int) id;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
+        return (int) movieDAO.insert(movie);
     }
 
     public void insertToWatchList(UserWatchList userWatchList) {
-        executor.execute(() -> userWatchListDAO.insert(userWatchList));
+        userWatchListDAO.insert(userWatchList);
     }
 
     public long insertUser(User user){
