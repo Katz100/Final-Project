@@ -108,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Username extra was null!");
         }
 
+        viewModel.uncompletedMovies.observe(this, movies -> {
+            if (movies != null) {
+                Log.i(TAG, "Movies: " + movies.toString());
+                // TODO: Update adapter here;
+            }
+        });
+
         /*if (username != null && username.toLowerCase().contains("admin")) {
             Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
             startActivity(intent);

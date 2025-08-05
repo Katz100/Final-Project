@@ -7,7 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
+import com.example.final_project.MainActivity;
 import com.example.final_project.database.UsersMovies;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
@@ -30,15 +32,15 @@ public class WatchListViewModel extends AndroidViewModel {
         watchListRepository = WatchListRepository.getRepository(application);
     }
 
-    public LiveData<List<UsersMovies>> getUncompletedMovies() {
-        User currentUser = _user.getValue();
-        if (currentUser != null) {
-            int userId = currentUser.getId();
-            return watchListRepository.getUncompletedWatchlistItems(userId);
-        } else {
-            return new MutableLiveData<>(List.of());
-        }
-    }
+    public final LiveData<List<UsersMovies>> uncompletedMovies =
+            Transformations.switchMap(_user, user -> {
+                if (user != null) {
+                    return watchListRepository.getUncompletedWatchlistItems(user.getId());
+                } else {
+                    return new MutableLiveData<>(List.of());
+                }
+            });
+
 
     public void getUserByUsername(String username) {
         executorService.execute(() -> {
