@@ -11,7 +11,6 @@ import com.example.final_project.database.entities.UserWatchList;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public class WatchListRepository {
     private MovieDAO movieDAO;

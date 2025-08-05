@@ -33,6 +33,7 @@ public class WatchListViewModel extends AndroidViewModel {
     }
 
     public final LiveData<List<UsersMovies>> uncompletedMovies =
+            // observers new changes to _user property. (W/o -- only observers changes from null _user)
             Transformations.switchMap(_user, user -> {
                 if (user != null) {
                     return watchListRepository.getUncompletedWatchlistItems(user.getId());
