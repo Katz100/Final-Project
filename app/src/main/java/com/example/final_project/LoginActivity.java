@@ -3,6 +3,7 @@ package com.example.final_project;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,30 +80,38 @@ public class LoginActivity extends AppCompatActivity {
         String username = binding.usernameLoginEditText.getText().toString();
         String password = binding.passwordLoginEditText.getText().toString();
 
+        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
+
+
         if (username.isEmpty()) {
             toastMaker("Username should not be blank.");
             return;
         }
 
-        if (username.toLowerCase().contains("admin")) {
-            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
-            startActivity(intent);
-            return;
-        }
+//        if (username.toLowerCase().contains("admin")) {
+//            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+//            startActivity(intent);
+//            return;
+//        }
         // Checks if username exists in DB
-        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
         db.getDatabaseWriteExecutor().execute(() -> {
             User userFromDB = db.userDAO().getUserByUserName(username);
-
             if(userFromDB == null){
                 runOnUiThread(()-> {
                     Toast.makeText(LoginActivity.this, "This username does not exist", Toast.LENGTH_SHORT).show();
                 });
             }
             else{
+                Log.d("LoginActivity", "Stored Password: " + userFromDB.getPassword());
+                Log.d("LoginActivity", "Entered Password: " + password);
                 if(verifyPassword(userFromDB.getPassword(), password)){
-                    Intent intent = MainActivity.mainIntentFactory(this, username);
-                    startActivity(intent);
+                    if(userFromDB.isAdmin()){
+                        Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+                        startActivity(intent);
+                    }else{
+                        Intent intent = MainActivity.mainIntentFactory(this, username);
+                        startActivity(intent);
+                    }
                 }
                 else{
                     runOnUiThread(()-> {
