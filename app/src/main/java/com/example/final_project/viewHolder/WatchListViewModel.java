@@ -8,11 +8,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.final_project.database.UsersMovies;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.database.entities.UserWatchList;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,6 +30,16 @@ public class WatchListViewModel extends AndroidViewModel {
         watchListRepository = WatchListRepository.getRepository(application);
     }
 
+    public LiveData<List<UsersMovies>> getUncompletedMovies() {
+        User currentUser = _user.getValue();
+        if (currentUser != null) {
+            int userId = currentUser.getId();
+            return watchListRepository.getUncompletedWatchlistItems(userId);
+        } else {
+            return new MutableLiveData<>(List.of());
+        }
+    }
+
     public void getUserByUsername(String username) {
         executorService.execute(() -> {
             User user = watchListRepository.getUserByUsername(username);
@@ -36,8 +48,8 @@ public class WatchListViewModel extends AndroidViewModel {
     }
 
     public void insertMovie(Movie movie) {
+        User currentUser = _user.getValue();
         executorService.execute(() -> {
-            User currentUser = _user.getValue();
             if (currentUser != null) {
                 int movieId = watchListRepository.insertMovie(movie);
                 int userId = currentUser.getId();
