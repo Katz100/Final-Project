@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (username.toLowerCase().contains("admin")) {
-            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
             startActivity(intent);
             return;
         }
