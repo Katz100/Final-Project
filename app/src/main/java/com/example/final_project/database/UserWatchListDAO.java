@@ -29,7 +29,7 @@ public interface UserWatchListDAO {
     @Query("SELECT * FROM user_watch_list WHERE userId = :userId AND completed = true")
     List<UserWatchList> getCompletedMoviesWithRatings(int userId);
 
-    @Query("select movie.title, movie.genre " +
+    @Query("select user_watch_list.userId, user_watch_list.movieId, movie.title, movie.genre " +
             "from user_watch_list " +
             "join movie on user_watch_list.movieId = movie.id " +
             "where user_watch_list.userId = :userId AND completed = false")
