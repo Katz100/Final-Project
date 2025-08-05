@@ -9,10 +9,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.final_project.database.WatchListRepository;
+import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -20,12 +25,18 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
     private ActivitySignupBinding binding;
+    private WatchListRepository watchListRepository;
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        watchListRepository = WatchListRepository.getRepository(getApplication());
+
         usernameEditText = binding.newUsernameEditText;
         passwordEditText = binding.newPasswordEditText;
         confirmPasswordEditText = binding.confirmPasswordEditText;
@@ -70,8 +81,20 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
         }
 
-        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-        startActivity(intent);
+        executorService.execute(() -> {
+            User currentUser = watchListRepository.getUserByUsername(username);
+            if(currentUser != null){
+                Toast.makeText(this, "Username already taken.", Toast.LENGTH_SHORT).show();
+            } else {
+                User newUser = new User(username, password, false);
+                watchListRepository.insertUser(newUser);
+                Toast.makeText(this, "Successful Sign Up!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     // opens LoginActivity when back button is pressed

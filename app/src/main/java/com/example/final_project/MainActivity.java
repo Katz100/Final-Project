@@ -12,13 +12,20 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.View;
+
+import com.example.final_project.database.WatchListRepository;
+import com.example.final_project.database.entities.Movie;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.CompletedWatchListItem;
 import com.example.final_project.viewHolder.WatchListAdapter;
 import com.example.final_project.viewHolder.WatchListItem;
+import com.example.final_project.viewHolder.WatchListViewModel;
 
 import java.util.ArrayList;
 
@@ -27,15 +34,23 @@ public class MainActivity extends AppCompatActivity {
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
     ActivityMainBinding binding;
 
+    private WatchListRepository repository;
     WatchListAdapter watchListAdapter;
     CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
+
+    private WatchListViewModel viewModel;
+
+    String movieTitle = "";
+    String movieGenre = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
 
         //adds back button to action bar
         setSupportActionBar(binding.mainActivityToolbar);
@@ -76,7 +91,22 @@ public class MainActivity extends AppCompatActivity {
         watchListAdapter = new WatchListAdapter(this, watchListItems);
         recyclerView.setAdapter(watchListAdapter);
 
+        repository = WatchListRepository.getRepository(getApplication());
+
+        binding.addMovieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getInformationFromDisplay();
+                insertMovieRecord();
+            }
+        });
+
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
+        if (username != null) {
+            viewModel.getUserByUsername(username);
+        } else {
+            Log.e("MainActivity", "Username extra was null!");
+        }
         if (username != null && username.toLowerCase().contains("admin")) {
             Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
             startActivity(intent);
@@ -182,6 +212,20 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(MAIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
+    }
+
+    private void insertMovieRecord(){
+        if(movieTitle.isEmpty()){
+            return;
+        }
+        Movie movie = new Movie(movieTitle, movieGenre);
+
+        viewModel.insertMovie(movie);
+    }
+
+    private void getInformationFromDisplay() {
+        movieTitle = binding.movieTitleInputEditText.getText().toString();
+        movieGenre = binding.movieGenreInputEditText.getText().toString();
     }
 
 }
