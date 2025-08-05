@@ -8,7 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.final_project.database.MovieWatchlistDatabase;
+import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityLoginBinding;
+
+import java.util.Objects;
 
 /**
  * This is a simple login activity that allows users to log in with their username and password.
@@ -72,6 +77,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void verifyUser() {
         String username = binding.usernameLoginEditText.getText().toString();
+        String password = binding.passwordLoginEditText.getText().toString();
+
         if (username.isEmpty()) {
             toastMaker("Username should not be blank.");
             return;
@@ -82,11 +89,34 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             return;
         }
-        // Here you would typically check the username and password against a database
-        // For now, we will just simulate a successful login
+        // Checks if username exists in DB
+        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
+        db.getDatabaseWriteExecutor().execute(() -> {
+            User userFromDB = db.userDAO().getUserByUserName(username);
 
-        Intent intent = MainActivity.mainIntentFactory(this, username);
-        startActivity(intent);
+            if(userFromDB == null){
+                runOnUiThread(()-> {
+                    Toast.makeText(LoginActivity.this, "This username does not exist", Toast.LENGTH_SHORT).show();
+                });
+            }
+            else{
+                if(verifyPassword(userFromDB.getPassword(), password)){
+                    Intent intent = MainActivity.mainIntentFactory(this, username);
+                    startActivity(intent);
+                }
+                else{
+                    runOnUiThread(()-> {
+                        Toast.makeText(LoginActivity.this, "Password is incorrect", Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+            }
+                });
+
+    }
+
+    private boolean verifyPassword(String password, String enteredPassword){
+        return Objects.equals(password, enteredPassword);
     }
 
     private void toastMaker(String message) {
