@@ -3,6 +3,7 @@ package com.example.final_project.database;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -46,6 +47,48 @@ public class UserWatchListDAOTest {
         db.close();
     }
 
+    public void testUpdateWatchlistItem() {
+        // Insert user and movie first
+        User user = new User("updateUser", "password", false);
+        int userId = (int) userDAO.insert(user);
+
+        Movie movie = new Movie(2, "titanic", "i dont know");
+        int movieId = (int) movieDAO.insert(movie);
+
+        UserWatchList item = new UserWatchList(userId, movieId, false, 0.0);
+        userWatchListDao.insert(item);
+
+        UserWatchList existing = userWatchListDao.getAllWatchlistItems(userId).get(0);
+        existing.setCompleted(true);
+        existing.setRating(4.5);
+
+        userWatchListDao.update(existing);
+
+        List<UserWatchList> updatedList = userWatchListDao.getCompletedMoviesWithRatings(userId);
+        assertEquals(1, updatedList.size());
+        assertEquals(4.5, updatedList.get(0).getRating());
+        assertTrue(updatedList.get(0).isCompleted());
+    }
+
+    @Test
+    public void testDeleteWatchlistItem(){
+        User user = new User("testuser", "pass", false);
+        int userId = (int) userDAO.insert(user);
+
+        Movie movie = new Movie(1, "back to the future", "Science fiction");
+        int movieId = (int) movieDAO.insert(movie);
+
+        UserWatchList item = new UserWatchList(userId, movieId, false, 0);
+        userWatchListDao.insert(item);
+
+        List<UserWatchList> itemsBefore = userWatchListDao.getAllWatchlistItems(userId);
+        assertEquals(1, itemsBefore.size());
+
+        userWatchListDao.delete(item);
+
+        List<UserWatchList> itemsAfter = userWatchListDao.getAllWatchlistItems(userId);
+        assertTrue(itemsAfter.isEmpty());
+    }
 
     @Test
     public void testInsertAndGetAllWatchlistItems() {
