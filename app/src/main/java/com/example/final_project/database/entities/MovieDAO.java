@@ -9,7 +9,7 @@ import java.util.List;
 @Dao
 public interface MovieDAO {
     @Insert(onConflict = androidx.room.OnConflictStrategy.REPLACE)
-    void insert(Movie... movies);
+    long insert(Movie movie);
 
     @Delete
     void delete(Movie movie);
