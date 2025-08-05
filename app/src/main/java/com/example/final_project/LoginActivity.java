@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("LoginActivity", "Entered Password: " + password);
                 if(verifyPassword(userFromDB.getPassword(), password)){
                     if(userFromDB.isAdmin()){
-                        Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
+                        Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
                         startActivity(intent);
                     }else{
                         Intent intent = MainActivity.mainIntentFactory(this, username);
@@ -113,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Password is incorrect", Toast.LENGTH_SHORT).show();
                     });
                 }
-
             }
                 });
 
