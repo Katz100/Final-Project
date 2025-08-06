@@ -10,10 +10,29 @@ import org.robolectric.shadows.ShadowToast;
 import static org.junit.Assert.*;
 import static org.robolectric.Shadows.shadowOf;
 import android.content.Intent;
+import android.widget.Button;
 import android.widget.EditText;
 
 @RunWith(RobolectricTestRunner.class)
 public class SignUpActivityTest {
+
+    @Test
+    public void clickingLoginButton_LaunchesLoginActivity() {
+        try (ActivityController<SignUpActivity> controller = Robolectric.buildActivity(SignUpActivity.class)) {
+            controller.setup();
+
+            SignUpActivity activity = controller.get();
+
+            Button loginButton = activity.findViewById(R.id.loginButtonSignUp);
+            loginButton.performClick();
+
+            Intent expectedIntent = new Intent(activity, LoginActivity.class);
+            Intent actualIntent = shadowOf(RuntimeEnvironment.getApplication()).getNextStartedActivity();
+
+            assertNotNull("Login Intent should not be null", actualIntent);
+            assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
+        }
+    }
 
     @Test
     public void passwordsDoNotMatch() {
