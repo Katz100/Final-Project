@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -64,10 +65,9 @@ public class UserWatchListDAOTest {
 
         userWatchListDao.update(existing);
 
-        List<UserWatchList> updatedList = userWatchListDao.getCompletedMoviesWithRatings(userId);
-        assertEquals(1, updatedList.size());
-        assertEquals(4.5, updatedList.get(0).getRating());
-        assertTrue(updatedList.get(0).isCompleted());
+        LiveData<List<UserCompletedMovies>> updatedList = userWatchListDao.getCompletedMoviesWithRatings(userId);
+        assertEquals(1, updatedList.getValue().get(0));
+        assertEquals(4.5, updatedList.getValue().get(0).getRating());
     }
 
     @Test
