@@ -59,6 +59,14 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.loginButtonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = LoginActivity.loginIntentFactory(SignUpActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private boolean isValidInput(){
