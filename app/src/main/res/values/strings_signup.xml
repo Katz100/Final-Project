@@ -4,4 +4,7 @@
     <string name="enter_new_username">Enter New Username</string>
     <string name="enter_new_password">Enter New Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="create_an_account_to_access_all_features">Create an account to access all features.</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="loginSignUpPage">LOGIN!</string>
 </resources>
