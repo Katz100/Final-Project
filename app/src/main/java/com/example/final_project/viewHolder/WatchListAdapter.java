@@ -11,15 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.R;
+import com.example.final_project.database.UsersMovies;
 
 import java.util.List;
 public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.ViewHolder> {
-    private List<WatchListItem> mData;
+    private List<UsersMovies> mData;
     private LayoutInflater mInflater;
 
-    public WatchListAdapter(Context context, List<WatchListItem> data) {
+    public WatchListAdapter(Context context, List<UsersMovies> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+    }
+
+    public void updateUsersMovies(List<UsersMovies> newList) {
+        this.mData = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -31,7 +37,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        WatchListItem item = mData.get(position);
+        UsersMovies item = mData.get(position);
         holder.titleTextView.setText(item.getTitle());
         holder.genreTextView.setText(item.getGenre());
     }
@@ -41,7 +47,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
         return mData.size();
     }
 
-    public WatchListItem getItem(int id) {
+    public UsersMovies getItem(int id) {
         return mData.get(id);
     }
 
