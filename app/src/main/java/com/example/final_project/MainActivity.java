@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
+import com.example.final_project.database.UsersMovies;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.databinding.ActivityMainBinding;
@@ -61,34 +62,15 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: get movies from db
         // dummy values for now
-        CompletedWatchListItem item2 = new CompletedWatchListItem("title", "genre", "5/5");
-        ArrayList<CompletedWatchListItem> completedWatchListItems = new ArrayList<>();
-        completedWatchListItems.add(item2);
-        completedWatchListItems.add(item2);
-        completedWatchListItems.add(item2);
-        completedWatchListItems.add(item2);
-        completedWatchListItems.add(item2);
-        completedWatchListItems.add(item2);
-        completedWatchListItems.add(item2);
-
-        RecyclerView recyclerView2 = findViewById(R.id.completedWatchListRecyclerView);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this));
-        completedListAdapter = new CompletedListAdapter(this, completedWatchListItems);
-        recyclerView2.setAdapter(completedListAdapter);
 
 
-        WatchListItem item = new WatchListItem("title", "genre");
-        ArrayList<WatchListItem> watchListItems = new ArrayList<>();
-        watchListItems.add(item);
-        watchListItems.add(item);
-        watchListItems.add(item);
-        watchListItems.add(item);
-        watchListItems.add(item);
-        watchListItems.add(item);
+
+
+        ArrayList<UsersMovies> initialList = new ArrayList<>();
 
         RecyclerView recyclerView = findViewById(R.id.watchListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        watchListAdapter = new WatchListAdapter(this, watchListItems);
+        watchListAdapter = new WatchListAdapter(this, initialList);
         recyclerView.setAdapter(watchListAdapter);
 
         repository = WatchListRepository.getRepository(getApplication());
@@ -107,11 +89,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.e("MainActivity", "Username extra was null!");
         }
-      
-        if (username != null && username.toLowerCase().contains("admin")) {
-            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
+
+        viewModel.uncompletedMovies.observe(this, movies -> {
+            if (movies != null) {
+                Log.i(TAG, "Movies: " + movies.toString());
+                watchListAdapter.updateUsersMovies(movies);
+            }
+        });
+
+        /*if (username != null && username.toLowerCase().contains("admin")) {
+            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
             startActivity(intent);
-        }
+        }*/
 
         //Changes the title in the Menu Bar to MovieWatchlist
         try {
