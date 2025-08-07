@@ -44,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
     String movieTitle = "";
     String movieGenre = "";
 
+    private String Test = "";
+    //sad
+
+    public void TestTest(){
+        //
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
