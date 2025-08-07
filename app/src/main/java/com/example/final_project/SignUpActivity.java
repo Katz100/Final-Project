@@ -114,26 +114,6 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
-//        db.getDatabaseWriteExecutor().execute(() -> {
-//            User existingUser = db.userDAO().getUserByUserName(username);
-//            if(existingUser != null) {
-//                runOnUiThread(() -> {
-//                    Toast.makeText(SignUpActivity.this, "This username already exists", Toast.LENGTH_SHORT).show();
-//                });
-//            }else{
-//                //Inserts new user
-//                User user = new User(username, password, false);
-//                db.userDAO().insert(user);
-//                runOnUiThread(()->{
-//                    Toast.makeText(SignUpActivity.this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-//                    intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
-//                    startActivity(intent);
-//                });
-//            }
-//        });
     }
 
     // opens LoginActivity when back button is pressed
