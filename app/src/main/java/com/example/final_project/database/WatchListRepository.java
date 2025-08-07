@@ -1,14 +1,11 @@
 package com.example.final_project.database;
 
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.MovieDAO;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.database.entities.UserWatchList;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -38,6 +35,10 @@ public class WatchListRepository {
 
     public LiveData<List<UsersMovies>> getUncompletedWatchlistItems(int userId) {
         return userWatchListDAO.getUncompletedWatchlistItems(userId);
+    }
+
+    public LiveData<List<UserCompletedMovies>> getCompletedMovies(int userId) {
+        return userWatchListDAO.getCompletedMoviesWithRatings(userId);
     }
 
     public int insertMovie(Movie movie) {

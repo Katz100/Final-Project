@@ -11,16 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.R;
+import com.example.final_project.database.UserCompletedMovies;
+import com.example.final_project.database.UsersMovies;
+import com.example.final_project.database.entities.User;
 
 import java.util.List;
 
 public class CompletedListAdapter extends RecyclerView.Adapter<CompletedListAdapter.ViewHolder>{
-    private List<CompletedWatchListItem> mData;
+    private List<UserCompletedMovies> mData;
     private LayoutInflater mInflater;
 
-    public CompletedListAdapter(Context context, List<CompletedWatchListItem> data) {
+    public CompletedListAdapter(Context context, List<UserCompletedMovies> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+    }
+
+    public void updateUsersCompletedMovies(List<UserCompletedMovies> newList) {
+        this.mData = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -32,10 +40,10 @@ public class CompletedListAdapter extends RecyclerView.Adapter<CompletedListAdap
 
     @Override
     public void onBindViewHolder(CompletedListAdapter.ViewHolder holder, int position) {
-        CompletedWatchListItem item = mData.get(position);
+        UserCompletedMovies item = mData.get(position);
         holder.titleTextView.setText(item.getTitle());
         holder.genreTextView.setText(item.getGenre());
-        holder.ratingTextView.setText(item.getRating());
+        holder.ratingTextView.setText(String.valueOf(item.getRating()));
     }
 
     @Override
@@ -43,7 +51,7 @@ public class CompletedListAdapter extends RecyclerView.Adapter<CompletedListAdap
         return mData.size();
     }
 
-    public CompletedWatchListItem getItem(int id) {
+    public UserCompletedMovies getItem(int id) {
         return mData.get(id);
     }
 

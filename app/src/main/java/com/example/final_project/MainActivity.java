@@ -18,14 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
+import com.example.final_project.database.UserCompletedMovies;
 import com.example.final_project.database.UsersMovies;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
-import com.example.final_project.viewHolder.CompletedWatchListItem;
 import com.example.final_project.viewHolder.WatchListAdapter;
-import com.example.final_project.viewHolder.WatchListItem;
 import com.example.final_project.viewHolder.WatchListViewModel;
 
 import java.util.ArrayList;
@@ -59,19 +58,18 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
-        // TODO: get movies from db
-        // dummy values for now
-
-
-
-
-        ArrayList<UsersMovies> initialList = new ArrayList<>();
+        ArrayList<UsersMovies> initialWatchList = new ArrayList<>();
+        ArrayList<UserCompletedMovies> initialCompletedList = new ArrayList<>();
 
         RecyclerView recyclerView = findViewById(R.id.watchListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        watchListAdapter = new WatchListAdapter(this, initialList);
+        watchListAdapter = new WatchListAdapter(this, initialWatchList);
         recyclerView.setAdapter(watchListAdapter);
+
+        RecyclerView recyclerViewCompleted = findViewById(R.id.completedWatchListRecyclerView);
+        recyclerViewCompleted.setLayoutManager(new LinearLayoutManager(this));
+        completedListAdapter = new CompletedListAdapter(this, initialCompletedList);
+        recyclerViewCompleted.setAdapter(completedListAdapter);
 
         repository = WatchListRepository.getRepository(getApplication());
 
@@ -97,10 +95,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*if (username != null && username.toLowerCase().contains("admin")) {
-            Intent intent = AdminActivity.adminIntentFactory(getApplicationContext());
-            startActivity(intent);
-        }*/
+        viewModel.completedMovies.observe(this, movies -> {
+            if (movies != null) {
+                completedListAdapter.updateUsersCompletedMovies(movies);
+            }
+        });
 
         //Changes the title in the Menu Bar to MovieWatchlist
         try {
