@@ -59,13 +59,12 @@ public class SignUpActivity extends AppCompatActivity {
             if (user != null) {
                 Log.i(TAG, "User is not null: " + user.getUsername());
                 Toast.makeText(this, "This username already exists", Toast.LENGTH_SHORT).show();
-            } else if (!username.isEmpty()) { // Ensure fetch actually ran
+            } else if (!username.isEmpty()) {
                 Log.i(TAG, "User is null, creating new user");
                 User newUser = new User(username, password, false);
                 viewModel.insertUser(newUser);
                 Toast.makeText(this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
+                Intent intent = MainActivity.mainIntentFactory(this, username);
                 startActivity(intent);
             }
         });
