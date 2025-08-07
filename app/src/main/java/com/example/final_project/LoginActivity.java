@@ -10,7 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.final_project.SignIn.SignInViewModel;
+import com.example.final_project.SignUp.SignUpViewModel;
 import com.example.final_project.database.MovieWatchlistDatabase;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.User;
@@ -29,17 +32,20 @@ import java.util.concurrent.Executors;
  */
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String TAG = "LoginActivityTAG";
     private ActivityLoginBinding binding;
-    //private User user = null;
+
+    private SignInViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.loginToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,34 +100,25 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        WatchListRepository repository = WatchListRepository.getRepository((Application) getApplicationContext());
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            User userFromDB = repository.getUserByUsername(username);
-
-            // Checks if username exists in DB
-        if (userFromDB == null) {
-            runOnUiThread(() -> {
+        viewModel.getUserByUserName(username).observe(this, user -> {
+            if (user == null) {
+                Log.i(TAG, "User is null");
                 Toast.makeText(LoginActivity.this, "This username does not exist", Toast.LENGTH_SHORT).show();
-            });
-        } else {
-            //Verifies password entered matches the stored password for the user
-            if (verifyPassword(userFromDB.getPassword(), password)) {
-                if (userFromDB.isAdmin()) {
-                    Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
-                    startActivity(intent);
-                } else {
-                    Intent intent = MainActivity.mainIntentFactory(LoginActivity.this, username);
-                    startActivity(intent);
-                }
             } else {
-                runOnUiThread(() -> {
+                Log.i(TAG, "Observing: " + user);
+                if (verifyPassword(user.getPassword(), password)) {
+                    if (user.isAdmin()) {
+                        Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = MainActivity.mainIntentFactory(LoginActivity.this, username);
+                        startActivity(intent);
+                    }
+                } else {
                     Toast.makeText(LoginActivity.this, "Password is incorrect", Toast.LENGTH_SHORT).show();
-                });
+                }
             }
-
-        }
-    });
+        });
     }
 
     private boolean verifyPassword(String password, String enteredPassword){

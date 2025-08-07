@@ -29,8 +29,6 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
     private ActivitySignupBinding binding;
-    private WatchListRepository watchListRepository;
-
     private SignUpViewModel viewModel;
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -42,7 +40,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
-        watchListRepository = WatchListRepository.getRepository(getApplication());
 
         usernameEditText = binding.newUsernameEditText;
         passwordEditText = binding.newPasswordEditText;
