@@ -54,6 +54,7 @@ public class WatchListRepository {
     }
 
     public User getUserByUsername(String username) {
-        return userDAO.getUserByUserName(username);
+        return new User("a", "b", false);
+        //return userDAO.getUserByUserName(username);
     }
 }

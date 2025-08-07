@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.final_project.SignUp.SignUpViewModel;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.User;
 
@@ -29,6 +31,8 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignupBinding binding;
     private WatchListRepository watchListRepository;
 
+    private SignUpViewModel viewModel;
+
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
@@ -37,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
         watchListRepository = WatchListRepository.getRepository(getApplication());
 
         usernameEditText = binding.newUsernameEditText;
@@ -96,25 +101,39 @@ public class SignUpActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
-        db.getDatabaseWriteExecutor().execute(() -> {
-            User existingUser = db.userDAO().getUserByUserName(username);
-            if(existingUser != null) {
-                runOnUiThread(() -> {
-                    Toast.makeText(SignUpActivity.this, "This username already exists", Toast.LENGTH_SHORT).show();
-                });
-            }else{
-                //Inserts new user
-                User user = new User(username, password, false);
-                db.userDAO().insert(user);
-                runOnUiThread(()->{
-                    Toast.makeText(SignUpActivity.this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                    intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
-                    startActivity(intent);
-                });
+        viewModel.getUserByUserName(username).observe(this, user -> {
+            if (user != null) {
+                Toast.makeText(this, "This username already exists", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                User newUser = new User(username, password, false);
+                viewModel.insertUser(newUser);
+                Toast.makeText(this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
+                startActivity(intent);
             }
         });
+
+//        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
+//        db.getDatabaseWriteExecutor().execute(() -> {
+//            User existingUser = db.userDAO().getUserByUserName(username);
+//            if(existingUser != null) {
+//                runOnUiThread(() -> {
+//                    Toast.makeText(SignUpActivity.this, "This username already exists", Toast.LENGTH_SHORT).show();
+//                });
+//            }else{
+//                //Inserts new user
+//                User user = new User(username, password, false);
+//                db.userDAO().insert(user);
+//                runOnUiThread(()->{
+//                    Toast.makeText(SignUpActivity.this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+//                    intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
+//                    startActivity(intent);
+//                });
+//            }
+//        });
     }
 
     // opens LoginActivity when back button is pressed
