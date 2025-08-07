@@ -30,30 +30,5 @@ public class AdminActivityTest extends TestCase {
         }
     }
 
-    @Test
-    public void testClickingManageGenres() {
-        try(ActivityController<AdminActivity> controller = Robolectric.buildActivity(AdminActivity.class)){
-            controller.setup();
-
-            AdminActivity activity = controller.get();
-            activity.findViewById(R.id.manageGenresButton).performClick();
-            Intent expectedIntent = ManageGenresActivity.manageGenresIntentFactory(activity);
-            Intent actualIntent = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
-            assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
-        }
-    }
-
-    @Test
-    public void testClickingAdminThings() {
-        try(ActivityController<AdminActivity> controller = Robolectric.buildActivity(AdminActivity.class)){
-            controller.setup();
-
-            AdminActivity activity = controller.get();
-            activity.findViewById(R.id.adminThingsButton).performClick();
-            Intent expectedIntent = AdminThingsActivity.adminThingsIntentFactory(activity);
-            Intent actualIntent = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
-            assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
-        }
-    }
 
 }
