@@ -1,5 +1,6 @@
 package com.example.final_project;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +12,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.final_project.database.MovieWatchlistDatabase;
+import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityLoginBinding;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This is a simple login activity that allows users to log in with their username and password.
@@ -84,47 +88,40 @@ public class LoginActivity extends AppCompatActivity {
         String username = binding.usernameLoginEditText.getText().toString();
         String password = binding.passwordLoginEditText.getText().toString();
 
-        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
-        if (db == null) {
-            Log.e("LoginActivity", "Database is null");
-            return;
-        }
-
-
         if (username.isEmpty()) {
             toastMaker("Username should not be blank.");
             Log.e("LoginActivity", "Toast is null");
             return;
         }
 
-        // Checks if username exists in DB
-        db.getDatabaseWriteExecutor().execute(() -> {
-            User userFromDB = db.userDAO().getUserByUserName(username);
-            if(userFromDB == null){
-                runOnUiThread(()-> {
-                    Toast.makeText(LoginActivity.this, "This username does not exist", Toast.LENGTH_SHORT).show();
-                });
-            }
-            else{
-                Log.d("LoginActivity", "Stored Password: " + userFromDB.getPassword());
-                Log.d("LoginActivity", "Entered Password: " + password);
-                if(verifyPassword(userFromDB.getPassword(), password)){
-                    if(userFromDB.isAdmin()){
-                        Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
-                        startActivity(intent);
-                    }else{
-                        Intent intent = MainActivity.mainIntentFactory(this, username);
-                        startActivity(intent);
-                    }
-                }
-                else{
-                    runOnUiThread(()-> {
-                        Toast.makeText(LoginActivity.this, "Password is incorrect", Toast.LENGTH_SHORT).show();
-                    });
-                }
-            }
-                });
+        WatchListRepository repository = WatchListRepository.getRepository((Application) getApplicationContext());
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            User userFromDB = repository.getUserByUsername(username);
 
+            // Checks if username exists in DB
+        if (userFromDB == null) {
+            runOnUiThread(() -> {
+                Toast.makeText(LoginActivity.this, "This username does not exist", Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            //Verifies password entered matches the stored password for the user
+            if (verifyPassword(userFromDB.getPassword(), password)) {
+                if (userFromDB.isAdmin()) {
+                    Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
+                    startActivity(intent);
+                } else {
+                    Intent intent = MainActivity.mainIntentFactory(LoginActivity.this, username);
+                    startActivity(intent);
+                }
+            } else {
+                runOnUiThread(() -> {
+                    Toast.makeText(LoginActivity.this, "Password is incorrect", Toast.LENGTH_SHORT).show();
+                });
+            }
+
+        }
+    });
     }
 
     private boolean verifyPassword(String password, String enteredPassword){
