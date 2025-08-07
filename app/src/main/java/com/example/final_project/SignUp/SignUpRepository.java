@@ -35,8 +35,8 @@ public class SignUpRepository {
         return repository;
     }
 
-    public LiveData<User> getUserByUsername(String username) {
-        return userDAO.getUserByUsername(username);
+    public User getUserByUsername(String username) {
+        return userDAO.getUserByUserName(username);
     }
 
     public void insertUser(User user) {

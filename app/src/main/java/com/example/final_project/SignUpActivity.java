@@ -3,6 +3,7 @@ package com.example.final_project;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import java.util.concurrent.Executors;
 
 
 public class SignUpActivity extends AppCompatActivity {
+    public static final String TAG = "SignUpPage";
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
@@ -52,6 +54,23 @@ public class SignUpActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        viewModel.user.observe(this, user -> {
+            String username = usernameEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+
+            if (user != null) {
+                Log.i(TAG, "User is not null: " + user.getUsername());
+                Toast.makeText(this, "This username already exists", Toast.LENGTH_SHORT).show();
+            } else if (!username.isEmpty()) { // Ensure fetch actually ran
+                Log.i(TAG, "User is null, creating new user");
+                User newUser = new User(username, password, false);
+                viewModel.insertUser(newUser);
+                Toast.makeText(this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
+                startActivity(intent);
+            }
+        });
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,22 +114,8 @@ public class SignUpActivity extends AppCompatActivity {
         return true;
     }
     private void verifyNewUser(){
-        String username = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-
-        viewModel.getUserByUserName(username).observe(this, user -> {
-            if (user != null) {
-                Toast.makeText(this, "This username already exists", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                User newUser = new User(username, password, false);
-                viewModel.insertUser(newUser);
-                Toast.makeText(this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
-                startActivity(intent);
-            }
-        });
+            String username = usernameEditText.getText().toString();
+            viewModel.getUserByUserName(username);
     }
 
     // opens LoginActivity when back button is pressed

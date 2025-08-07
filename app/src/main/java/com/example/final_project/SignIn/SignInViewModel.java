@@ -5,8 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
-import com.example.final_project.SignUp.SignUpRepository;
 import com.example.final_project.database.entities.User;
 
 public class SignInViewModel extends AndroidViewModel {
