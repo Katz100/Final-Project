@@ -33,8 +33,6 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignupBinding binding;
     private SignUpViewModel viewModel;
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,9 +111,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return true;
     }
-    private void verifyNewUser(){
-            String username = usernameEditText.getText().toString();
-            viewModel.getUserByUserName(username);
+
+    private void verifyNewUser() {
+        String username = usernameEditText.getText().toString();
+        viewModel.getUserByUserName(username);
     }
 
     // opens LoginActivity when back button is pressed

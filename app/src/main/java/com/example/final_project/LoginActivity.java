@@ -66,6 +66,25 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        viewModel.user.observe(this, user -> {
+            if (user == null) {
+                toastMaker("This username does not exist");
+                Log.i(TAG, "User is null");
+            } else {
+                Log.i(TAG, user.getUsername() + " is a user");
+                String enteredPassword = binding.passwordLoginEditText.getText().toString();
+                if (verifyPassword(user.getPassword(), enteredPassword)) {
+                    if (user.isAdmin()) {
+                        startActivity(AdminActivity.adminIntentFactory(getApplicationContext(), user.getUsername()));
+                    } else {
+                        startActivity(MainActivity.mainIntentFactory(LoginActivity.this, user.getUsername()));
+                    }
+                } else {
+                    toastMaker("Password is incorrect");
+                }
+            }
+        });
     }
 
     //LOGOUT MENU
@@ -94,31 +113,13 @@ public class LoginActivity extends AppCompatActivity {
         String username = binding.usernameLoginEditText.getText().toString();
         String password = binding.passwordLoginEditText.getText().toString();
 
-        if (username.isEmpty()) {
-            toastMaker("Username should not be blank.");
-            Log.e("LoginActivity", "Toast is null");
+        if (username.isEmpty() || password.isEmpty()) {
+            toastMaker("Username or password should not be blank.");
+            Log.i(TAG, "Username or password is blank");
             return;
         }
 
-        viewModel.getUserByUserName(username).observe(this, user -> {
-            if (user == null) {
-                Log.i(TAG, "User is null");
-                Toast.makeText(LoginActivity.this, "This username does not exist", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.i(TAG, "Observing: " + user);
-                if (verifyPassword(user.getPassword(), password)) {
-                    if (user.isAdmin()) {
-                        Intent intent = AdminActivity.adminIntentFactory(getApplicationContext(), username);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = MainActivity.mainIntentFactory(LoginActivity.this, username);
-                        startActivity(intent);
-                    }
-                } else {
-                    Toast.makeText(LoginActivity.this, "Password is incorrect", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        viewModel.getUserByUserName(username);
     }
 
     private boolean verifyPassword(String password, String enteredPassword){

@@ -17,7 +17,6 @@ public class SignUpViewModel extends AndroidViewModel {
     public final LiveData<User> user = _user;
 
     private final SignUpRepository signUpRepository;
-
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     public SignUpViewModel(@NonNull Application application) {
         super(application);

@@ -35,7 +35,7 @@ public class SignInRepository {
         return repository;
     }
 
-    public LiveData<User> getUserByUsername(String username) {
-        return userDAO.getUserByUsername(username);
+    public User getUserByUsername(String username) {
+        return userDAO.getUserByUserName(username);
     }
 }
