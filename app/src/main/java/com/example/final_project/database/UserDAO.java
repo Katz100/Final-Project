@@ -24,7 +24,10 @@ public interface UserDAO {
     void deleteAll();
 
     @Query("SELECT * FROM " + "user_table" + " WHERE username == :username")
-    LiveData<User> getUserByUserName(String username);
+    LiveData<User> getUserByUsername(String username);
+
+    @Query("SELECT * FROM " + "user_table" + " WHERE username == :username")
+    User getUserByUserName(String username);
 
     @Update
     int update(User user);
