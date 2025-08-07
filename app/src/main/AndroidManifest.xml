@@ -19,9 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".AdminThingsActivity" android:exported="false" />
-        <activity android:name=".ManageGenresActivity" android:exported="false" />
         <activity android:name=".ManageUsersActivity" android:exported="false" />
         <activity android:name=".AdminActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
