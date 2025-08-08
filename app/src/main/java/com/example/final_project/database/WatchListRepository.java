@@ -56,4 +56,10 @@ public class WatchListRepository {
     public User getUserByUsername(String username) {
         return userDAO.getUserByUserName(username);
     }
+
+    public void setRating(UserWatchList userWatchList) {
+        executor.execute(() -> {
+          userWatchListDAO.update(userWatchList);
+        });
+    }
 }

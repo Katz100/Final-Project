@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,11 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.final_project.database.UserCompletedMovies;
 import com.example.final_project.database.UsersMovies;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
+import com.example.final_project.database.entities.UserWatchList;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.WatchListAdapter;
@@ -65,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         watchListAdapter = new WatchListAdapter(this, initialWatchList);
         recyclerView.setAdapter(watchListAdapter);
+
+        watchListAdapter.setOnCheckedChangeListener((movie, isChecked) -> {
+            if (isChecked) {
+                showInputDialog(movie);
+            }
+        });
 
         RecyclerView recyclerViewCompleted = findViewById(R.id.completedWatchListRecyclerView);
         recyclerViewCompleted.setLayoutManager(new LinearLayoutManager(this));
@@ -114,6 +123,45 @@ public class MainActivity extends AppCompatActivity {
             Log.e("ActionBar", "An error occurred", e);
         }
     }
+
+    private void showInputDialog(UsersMovies movie) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Add rating for " + movie.getTitle());
+
+        // Create input field
+        final EditText input = new EditText(MainActivity.this);
+        input.setHint("Enter your rating");
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+        builder.setView(input);
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String userInput = input.getText().toString().trim();
+            Log.d(TAG, "User entered: " + userInput + " for movie: " + movie.getTitle());
+            if (!userInput.isEmpty()) {
+                try {
+                    double rating = Double.parseDouble(userInput);
+                    Log.d(TAG, "User entered rating: " + rating + " for movie: " + movie.getTitle());
+                    UserWatchList userWatchList = new UserWatchList(
+                            movie.getUserId(),
+                            movie.getMovieId(),
+                            true,
+                            rating
+                    );
+                    movie.setCompleted(false);
+                    viewModel.setRating(userWatchList);
+
+                } catch (NumberFormatException e) {
+                    Log.e(TAG, "Invalid rating format", e);
+                }
+            } else {
+                Log.w(TAG, "No rating entered");
+            }
+        });
+
+        builder.show();
+    }
+
 
     //Shows a menu with the inputted user's name up top.
     @Override

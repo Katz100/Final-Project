@@ -6,23 +6,34 @@
     android:layout_marginEnd="40dp"
     android:layout_marginBottom="10dp"
     android:padding="16dp"
-    android:orientation="vertical"
-    android:background="#FFFF00"
-    >
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#FFFF00">
 
-    <TextView
-        android:id="@+id/titleWatchListRecyclerItemTextView"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Title"
-        />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/genreWatchListRecyclerItemTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Genre"
-        />
+        <TextView
+            android:id="@+id/titleWatchListRecyclerItemTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Title" />
+
+        <TextView
+            android:id="@+id/genreWatchListRecyclerItemTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Genre" />
+    </LinearLayout>
+
+    <!-- Right: Checkbox -->
+    <CheckBox
+        android:id="@+id/watchListCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
