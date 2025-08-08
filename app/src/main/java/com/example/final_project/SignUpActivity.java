@@ -3,13 +3,16 @@ package com.example.final_project;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.final_project.SignUp.SignUpViewModel;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.User;
 
@@ -23,13 +26,12 @@ import java.util.concurrent.Executors;
 
 
 public class SignUpActivity extends AppCompatActivity {
+    public static final String TAG = "SignUpPage";
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
     private ActivitySignupBinding binding;
-    private WatchListRepository watchListRepository;
-
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private SignUpViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        watchListRepository = WatchListRepository.getRepository(getApplication());
+        viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
         usernameEditText = binding.newUsernameEditText;
         passwordEditText = binding.newPasswordEditText;
@@ -50,6 +52,22 @@ public class SignUpActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        viewModel.user.observe(this, user -> {
+            String username = usernameEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+
+            if (user != null) {
+                Log.i(TAG, "User is not null: " + user.getUsername());
+                Toast.makeText(this, "This username already exists", Toast.LENGTH_SHORT).show();
+            } else if (!username.isEmpty()) {
+                Log.i(TAG, "User is null, creating new user");
+                User newUser = new User(username, password, false);
+                viewModel.insertUser(newUser);
+                Toast.makeText(this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
+                Intent intent = MainActivity.mainIntentFactory(this, username);
+                startActivity(intent);
+            }
+        });
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,29 +110,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return true;
     }
-    private void verifyNewUser(){
-        String username = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
 
-        MovieWatchlistDatabase db = MovieWatchlistDatabase.getDatabase(getApplicationContext());
-        db.getDatabaseWriteExecutor().execute(() -> {
-            User existingUser = db.userDAO().getUserByUserName(username);
-            if(existingUser != null) {
-                runOnUiThread(() -> {
-                    Toast.makeText(SignUpActivity.this, "This username already exists", Toast.LENGTH_SHORT).show();
-                });
-            }else{
-                //Inserts new user
-                User user = new User(username, password, false);
-                db.userDAO().insert(user);
-                runOnUiThread(()->{
-                    Toast.makeText(SignUpActivity.this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                    intent.putExtra(MainActivity.MAIN_ACTIVITY_USERNAME_KEY, username);
-                    startActivity(intent);
-                });
-            }
-        });
+    private void verifyNewUser() {
+        String username = usernameEditText.getText().toString();
+        viewModel.getUserByUserName(username);
     }
 
     // opens LoginActivity when back button is pressed
