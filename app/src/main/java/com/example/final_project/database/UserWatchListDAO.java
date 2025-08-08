@@ -26,7 +26,7 @@ public interface UserWatchListDAO {
     @Query("DELETE FROM user_watch_list WHERE userId = :userId")
     void deleteAllWatchlistItems(int userId);
 
-    @Query("select user_watch_list.userId, movieId, user_watch_list.rating, movie.title, movie.genre" +
+    @Query("select user_watch_list.userId, user_watch_list.movieId, user_watch_list.rating, movie.title, movie.genre" +
             " from user_watch_list" +
             " join movie on user_watch_list.movieId = movie.id" +
             " where user_watch_list.userId = :userId AND completed = true")
