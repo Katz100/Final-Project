@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         watchListAdapter = new WatchListAdapter(this, initialWatchList);
         recyclerView.setAdapter(watchListAdapter);
 
+        watchListAdapter.setOnCheckedChangeListener((movie, isChecked) -> {
+            Log.d("MyTag", "From activity");
+        });
+
         RecyclerView recyclerViewCompleted = findViewById(R.id.completedWatchListRecyclerView);
         recyclerViewCompleted.setLayoutManager(new LinearLayoutManager(this));
         completedListAdapter = new CompletedListAdapter(this, initialCompletedList);
