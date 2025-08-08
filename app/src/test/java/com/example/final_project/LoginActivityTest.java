@@ -1,9 +1,11 @@
 package com.example.final_project;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.robolectric.Shadows.shadowOf;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -35,25 +37,30 @@ public class LoginActivityTest {
     // in the text fields with users from the database
 
     //TODO: Complete a passing test
-//    @Test
-//    public void signingInWithValidCreds_LaunchesMainActivity() {
-//        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
-//            controller.setup();
-//            LoginActivity activity = controller.get();
-//
-//            EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
-//            EditText passwordField = activity.findViewById(R.id.passwordLoginEditText);
-//
-//            usernameField.setText("username");
-//            passwordField.setText("password");
-//
-//            activity.findViewById(R.id.loginButton).performClick();
-//
-//            Intent expectedIntent = MainActivity.mainIntentFactory(activity, "");
-//            Intent actual = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
-//            assertEquals(expectedIntent.getComponent(), actual.getComponent());
-//        }
-//    }
+    @Test
+    public void signingInWithValidCreds_LaunchesMainActivity() {
+        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
+            controller.setup();
+            LoginActivity activity = controller.get();
+
+            EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
+            EditText passwordField = activity.findViewById(R.id.passwordLoginEditText);
+
+            usernameField.setText("testuser1");
+            passwordField.setText("testuser1");
+
+            activity.findViewById(R.id.loginButton).performClick();
+
+            shadowOf(Looper.getMainLooper()).runToEndOfTasks();
+
+
+            Intent expectedIntent = MainActivity.mainIntentFactory(activity, "testuser1");
+            Intent actual = shadowOf(activity).getNextStartedActivity();
+
+            assertNotNull(actual);
+            assertEquals(expectedIntent.getComponent(), actual.getComponent());
+        }
+    }
 
     @Test
     public void signingInWithBlankFields_DoesNotLaunchMainActivity() {
@@ -76,22 +83,30 @@ public class LoginActivityTest {
 
     //TODO: Complete a passing test
 
-//    @Test
-//    public void signingInWithValidCreds_LaunchesAdminActivity(){
-//
-//        try(ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)){
-//            controller.setup();
-//             LoginActivity activity = controller.get();
-//
-//             EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
-//
-//             usernameField.setText("admin");
-//
-//             activity.findViewById(R.id.loginButton).performClick();
-//             Intent expectedIntent = AdminActivity.adminIntentFactory(activity, "admin1");
-//             Intent actualIntent = shadowOf(RuntimeEnvironment.application).getNextStartedActivity();
-//             assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
-//        }
-//    }
+    @Test
+    public void signingInWithValidCreds_LaunchesAdminActivity(){
+
+        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
+            controller.setup();
+            LoginActivity activity = controller.get();
+
+            EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
+            EditText passwordField = activity.findViewById(R.id.passwordLoginEditText);
+
+            usernameField.setText("admin1");
+            passwordField.setText("admin1");
+
+            activity.findViewById(R.id.loginButton).performClick();
+
+           // shadowOf(Looper.getMainLooper()).runToEndOfTasks();
+            RuntimeEnvironment.getMasterScheduler().advanceToLastPostedRunnable();
+
+
+            Intent expectedIntent = AdminActivity.adminIntentFactory(activity, "admin1");
+            Intent actual = shadowOf(activity).getNextStartedActivity();
+
+            assertEquals(expectedIntent.getComponent(), actual.getComponent());
+        }
+    }
 
 }
