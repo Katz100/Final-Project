@@ -1,18 +1,22 @@
 package com.example.final_project.database;
+import androidx.annotation.NonNull;
 
 public class UsersMovies {
     private int userId;
     private int movieId;
     private String title;
     private String genre;
+    private boolean completed;
 
-    public UsersMovies(int userId, int movieId, String title, String genre) {
+    public UsersMovies(int userId, int movieId, String title, String genre, boolean completed) {
         this.userId = userId;
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;
+        this.completed = completed;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "UsersMovies{" +
@@ -21,6 +25,14 @@ public class UsersMovies {
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
                 '}';
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     public int getUserId() {

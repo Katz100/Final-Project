@@ -32,7 +32,7 @@ public interface UserWatchListDAO {
             " where user_watch_list.userId = :userId AND completed = true")
     LiveData<List<UserCompletedMovies>> getCompletedMoviesWithRatings(int userId);
 
-    @Query("select user_watch_list.userId, user_watch_list.movieId, movie.title, movie.genre " +
+    @Query("select user_watch_list.userId, user_watch_list.completed, user_watch_list.movieId, movie.title, movie.genre " +
             "from user_watch_list " +
             "join movie on user_watch_list.movieId = movie.id " +
             "where user_watch_list.userId = :userId AND completed = false")

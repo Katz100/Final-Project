@@ -72,4 +72,7 @@ public class WatchListViewModel extends AndroidViewModel {
             }
         });
     }
+    public void setRating(UserWatchList userWatchList) {
+        watchListRepository.setRating(userWatchList);
+    }
 }
