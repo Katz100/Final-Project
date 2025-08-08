@@ -8,48 +8,6 @@
     tools:context=".AdminActivity"
     >
 
-    <Button
-        android:id="@+id/manageUsersButton"
-        android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="150dp"
-        android:backgroundTint="@color/red"
-        android:gravity="center"
-        android:text="@string/manage_users"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/manageGenresButton"
-        android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/blue"
-        android:gravity="center"
-        android:text="@string/manage_genres"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manageUsersButton" />
-
-    <Button
-        android:id="@+id/adminThingsButton"
-        android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/gold"
-        android:gravity="center"
-        android:text="@string/admin_things"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manageGenresButton" />
-
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

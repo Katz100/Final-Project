@@ -31,21 +31,6 @@ public class AdminActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        binding.manageUsersButton.setOnClickListener(v -> {
-            Intent intent = ManageUsersActivity.manageUsersIntentFactory(getApplicationContext());
-            startActivity(intent);
-        });
-
-        binding.adminThingsButton.setOnClickListener(v -> {
-            Intent intent = AdminThingsActivity.adminThingsIntentFactory(getApplicationContext());
-            startActivity(intent);
-        });
-
-        binding.manageGenresButton.setOnClickListener(v -> {
-            Intent intent = ManageGenresActivity.manageGenresIntentFactory(getApplicationContext());
-            startActivity(intent);
-        });
-
     }
 
     //Shows a menu with the inputted user's name up top.
