@@ -51,10 +51,13 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
         UsersMovies item = mData.get(position);
         holder.titleTextView.setText(item.getTitle());
         holder.genreTextView.setText(item.getGenre());
+
+        holder.checkBox.setOnCheckedChangeListener(null);
+        holder.checkBox.setChecked(item.isCompleted());
+
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             item.setCompleted(isChecked);
             Log.d("WatchListAdapter", "Item " + item.getTitle() + " checked: " + isChecked);
-
             if (checkedChangeListener != null) {
                 checkedChangeListener.onItemCheckedChanged(item, isChecked);
             }
