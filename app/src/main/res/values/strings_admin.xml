@@ -6,4 +6,9 @@
     <string name="manage_users_test">Manage Users Test</string>
     <string name="manage_genres_test">Manage Genres Test</string>
     <string name="admin_things_test">Admin Things Test</string>
+    <string name="admin_users">Admin Users</string>
+    <string name="promote">PROMOTE</string>
+    <string name="delete">DELETE</string>
+    <string name="users">Users</string>
+    <string name="demote">DEMOTE</string>
 </resources>
