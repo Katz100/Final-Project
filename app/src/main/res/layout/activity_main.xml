@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/mainActivityToolbar"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        android:background="#424242"
-        app:title="Back to Login"
+        android:background="#FF0000"
+        app:title="MOVIE WATCHLIST"
         app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
@@ -22,11 +22,14 @@
         android:id="@+id/watchMoviesTextView"
         android:text="@string/movies_to_watch"
         android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         android:padding="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
-        app:layout_constraintTop_toBottomOf="@id/mainActivityToolbar"
+        app:layout_constraintTop_toBottomOf="@id/addMovieButton"
         app:layout_constraintStart_toStartOf="parent"
         />
 
@@ -46,8 +49,9 @@
         android:layout_height="wrap_content"
         android:text="@string/watched_movies"
         android:textStyle="bold"
+        android:textSize="20sp"
         android:layout_marginStart="40dp"
-
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/watchListRecyclerView"
         />
@@ -67,9 +71,12 @@
         android:layout_height="wrap_content"
         android:text="@string/add_movies"
         android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/completedWatchListRecyclerView"
+        app:layout_constraintTop_toBottomOf="@id/mainActivityToolbar"
         />
 
     <EditText
@@ -110,7 +117,9 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="#0000FF"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:background="@drawable/activitymain_addmoviebutton_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movieGenreInputEditText" />
