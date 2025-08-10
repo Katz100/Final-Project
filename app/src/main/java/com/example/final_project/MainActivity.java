@@ -212,9 +212,9 @@ public class MainActivity extends AppCompatActivity {
     //Afer a user confirms they want to logout, it takes them back to the sign in screen
     private void showLogoutDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-        final AlertDialog alertDialog = alertBuilder.create();
+        //final AlertDialog alertDialog = alertBuilder.create();
 
-        alertDialog.setMessage("Logout?");
+        alertBuilder.setMessage("Logout?");
         alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
 
             @Override
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
+                dialog.dismiss();
             }
         });
         alertBuilder.create().show();
