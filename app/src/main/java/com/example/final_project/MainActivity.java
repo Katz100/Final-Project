@@ -70,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         watchListAdapter = new WatchListAdapter(this, initialWatchList);
         recyclerView.setAdapter(watchListAdapter);
 
-        watchListAdapter.setOnCheckedChangeListener((movie, isChecked) -> {
+        watchListAdapter.setOnCheckedChangeListener((movie, position, isChecked) -> {
             if (isChecked) {
-                showInputDialog(movie);
+                showInputDialog(movie, position);
             }
         });
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showInputDialog(UsersMovies movie) {
+    private void showInputDialog(UsersMovies movie, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Add rating for " + movie.getTitle());
 
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     if (rating < 0.0 || rating > 5.0) {
                         input.setError("Rating must be between 0.0 and 5.0");
                         Toast.makeText(MainActivity.this, "Rating must be between 0.0 and 5.0", Toast.LENGTH_SHORT).show();
+                        watchListAdapter.setItemChecked(position, false);
                         return;
                     }
                     Log.d(TAG, "User entered rating: " + rating + " for movie: " + movie.getTitle());
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } catch (NumberFormatException e) {
                     Log.e(TAG, "Invalid rating format", e);
+                    watchListAdapter.setItemChecked(position, false);
                 }
             } else {
                 Log.w(TAG, "No rating entered");
