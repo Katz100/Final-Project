@@ -31,21 +31,6 @@ public class AdminActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        binding.manageUsersButton.setOnClickListener(v -> {
-            Intent intent = ManageUsersActivity.manageUsersIntentFactory(getApplicationContext());
-            startActivity(intent);
-        });
-
-        binding.adminThingsButton.setOnClickListener(v -> {
-            Intent intent = AdminThingsActivity.adminThingsIntentFactory(getApplicationContext());
-            startActivity(intent);
-        });
-
-        binding.manageGenresButton.setOnClickListener(v -> {
-            Intent intent = ManageGenresActivity.manageGenresIntentFactory(getApplicationContext());
-            startActivity(intent);
-        });
-
     }
 
     //Shows a menu with the inputted user's name up top.
@@ -97,9 +82,9 @@ public class AdminActivity extends AppCompatActivity {
     //Afer a user confirms they want to logout, it takes them back to the sign in screen
     private void showLogoutDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AdminActivity.this);
-        final AlertDialog alertDialog = alertBuilder.create();
+        //final AlertDialog alertDialog = alertBuilder.create();
 
-        alertDialog.setMessage("Logout?");
+        alertBuilder.setMessage("Logout?");
         alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
 
             @Override
@@ -111,7 +96,7 @@ public class AdminActivity extends AppCompatActivity {
         alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
+                dialog.dismiss();
             }
         });
         alertBuilder.create().show();

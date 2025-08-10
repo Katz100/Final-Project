@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,16 @@ import java.util.List;
 public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.ViewHolder> {
     private List<UsersMovies> mData;
     private LayoutInflater mInflater;
+
+    public interface OnCheckedChangeListener {
+        void onItemCheckedChanged(UsersMovies item, boolean isChecked);
+    }
+
+    private OnCheckedChangeListener checkedChangeListener;
+
+    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
+        this.checkedChangeListener = listener;
+    }
 
     public WatchListAdapter(Context context, List<UsersMovies> data) {
         this.mInflater = LayoutInflater.from(context);
@@ -40,6 +51,17 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
         UsersMovies item = mData.get(position);
         holder.titleTextView.setText(item.getTitle());
         holder.genreTextView.setText(item.getGenre());
+
+        holder.checkBox.setOnCheckedChangeListener(null);
+        holder.checkBox.setChecked(item.isCompleted());
+
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            item.setCompleted(isChecked);
+            Log.d("WatchListAdapter", "Item " + item.getTitle() + " checked: " + isChecked);
+            if (checkedChangeListener != null) {
+                checkedChangeListener.onItemCheckedChanged(item, isChecked);
+            }
+        });
     }
 
     @Override
@@ -55,10 +77,13 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
         TextView titleTextView;
         TextView genreTextView;
 
+        CheckBox checkBox;
+
         ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleWatchListRecyclerItemTextView);
             genreTextView = itemView.findViewById(R.id.genreWatchListRecyclerItemTextView);
+            checkBox = itemView.findViewById(R.id.watchListCheckBox);
             itemView.setOnClickListener(this);
         }
 

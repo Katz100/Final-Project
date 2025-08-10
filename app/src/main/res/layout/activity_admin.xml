@@ -2,63 +2,127 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
-    tools:context=".AdminActivity"
-    >
-
-    <Button
-        android:id="@+id/manageUsersButton"
-        android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="150dp"
-        android:backgroundTint="@color/red"
-        android:gravity="center"
-        android:text="@string/manage_users"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/manageGenresButton"
-        android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/blue"
-        android:gravity="center"
-        android:text="@string/manage_genres"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manageUsersButton" />
-
-    <Button
-        android:id="@+id/adminThingsButton"
-        android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/gold"
-        android:gravity="center"
-        android:text="@string/admin_things"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manageGenresButton" />
+    tools:context=".AdminActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/adminToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/adminToolbar"
-        app:navigationIcon="?attr/homeAsUpIndicator"
         android:background="#424242"
-        app:title="Back to Login"
-        app:titleTextColor="@color/white"
+        android:backgroundTint="#FFAF52"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         app:layout_constraintTop_toTopOf="parent"
-        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="ADMIN DASHBOARD"
+        app:titleTextColor="@color/white" />
+
+    <TextView
+        android:id="@+id/userAdminTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
+        android:text="@string/users"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adminToolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userAdminRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userAdminTextView" />
+
+    <Button
+        android:id="@+id/deleteUserButton"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/admindashboard_deletebutton_background"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/promoteUserButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userAdminRecyclerView" />
+
+    <Button
+        android:id="@+id/promoteUserButton"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/admindashboard_promotedemotebottom_background"
+        android:text="@string/promote"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/deleteUserButton"
+        app:layout_constraintTop_toBottomOf="@id/userAdminRecyclerView" />
+
+    <TextView
+        android:id="@+id/adminUserAdminTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
+        android:text="@string/admin_users"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteUserButton" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/adminUserAdminRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adminUserAdminTextView" />
+
+    <Button
+        android:id="@+id/deleteButtonAdmin"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/admindashboard_deletebutton_background"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/demoteAdminButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adminUserAdminRecyclerView" />
+
+    <Button
+        android:id="@+id/demoteAdminButton"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/admindashboard_promotedemotebottom_background"
+        android:text="@string/demote"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/deleteButtonAdmin"
+        app:layout_constraintTop_toBottomOf="@id/adminUserAdminRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
