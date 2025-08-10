@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.final_project.database.UserCompletedMovies;
 import com.example.final_project.database.UsersMovies;
@@ -141,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
             if (!userInput.isEmpty()) {
                 try {
                     double rating = Double.parseDouble(userInput);
+                    if (rating < 0.0 || rating > 5.0) {
+                        input.setError("Rating must be between 0.0 and 5.0");
+                        Toast.makeText(MainActivity.this, "Rating must be between 0.0 and 5.0", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Log.d(TAG, "User entered rating: " + rating + " for movie: " + movie.getTitle());
                     UserWatchList userWatchList = new UserWatchList(
                             movie.getUserId(),
@@ -150,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                     );
                     movie.setCompleted(false);
                     viewModel.setRating(userWatchList);
+                    dialog.dismiss();
 
                 } catch (NumberFormatException e) {
                     Log.e(TAG, "Invalid rating format", e);
