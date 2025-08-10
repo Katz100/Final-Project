@@ -27,6 +27,7 @@
         android:layout_marginTop="20dp"
         android:padding="8dp"
         android:text="@string/users"
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +81,7 @@
         android:padding="8dp"
         android:text="@string/admin_users"
         android:textColor="@color/black"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/deleteUserButton" />
