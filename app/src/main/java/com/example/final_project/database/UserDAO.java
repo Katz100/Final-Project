@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.final_project.database.entities.User;
@@ -25,6 +26,9 @@ public interface UserDAO {
 
     @Query("SELECT * FROM " + "user_table" + " WHERE username == :username")
     User getUserByUserName(String username);
+
+    @Query("SELECT * FROM " + "user_table" + " ORDER BY username")
+    LiveData<List<User>> getAllUsers();
 
     @Update
     int update(User user);

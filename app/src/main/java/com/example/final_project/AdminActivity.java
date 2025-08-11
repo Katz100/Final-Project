@@ -5,18 +5,31 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityAdminBinding;
+import com.example.final_project.viewHolder.AdminDashboardListViewModel;
+import com.example.final_project.viewHolder.AdminListAdapter;
+import com.example.final_project.viewHolder.UserListAdapter;
+
+import java.util.ArrayList;
 
 public class AdminActivity extends AppCompatActivity {
 
     private ActivityAdminBinding binding;
+    UserListAdapter userListAdapter;
+    AdminListAdapter adminListAdapter;
+    private AdminDashboardListViewModel viewModel;
     public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminActivity.username";
 
     @Override
@@ -24,12 +37,34 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        viewModel = new ViewModelProvider(this).get(AdminDashboardListViewModel.class);
+
+        ArrayList<User> userList = new ArrayList<>();
+
+        RecyclerView recyclerViewUsers = findViewById(R.id.userAdminRecyclerView);
+        recyclerViewUsers.setLayoutManager(new LinearLayoutManager(this));
+        userListAdapter = new UserListAdapter(this, userList);
+        recyclerViewUsers.setAdapter(userListAdapter);
 
         //adds back button to action bar
         setSupportActionBar(binding.adminToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        String username = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
+        if (username != null) {
+            viewModel.getAllUsers();
+        } else {
+            Log.e("MainActivity", "Username extra was null!");
+        }
+
+        viewModel.getUsers.observe(this, users -> {
+            if (users != null) {
+                Log.i("Admin Activity", "Users: " + users.toString());
+                userListAdapter.updateUsers(users);
+            }
+        });
 
     }
 

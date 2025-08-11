@@ -90,7 +90,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         public void onClick(View view) {
             // Handle item click if needed
             int position = getAdapterPosition();
-            Log.d("WatchListAdapter", "Clicked item at position " + position);
+            Log.d("UserListAdapter", "Clicked item at position " + position);
         }
     }
 }
