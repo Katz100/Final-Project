@@ -17,24 +17,39 @@ public class AdminDashboardListViewModel extends AndroidViewModel {
     private final MutableLiveData<User> _user = new MutableLiveData<>(null);
     public final LiveData<User> user = _user;
 
-    public LiveData<List<User>> allUsers;
+    public LiveData<List<User>> allNonAdmins;
+    public LiveData<List<User>> allAdmins;
     UserListRepository userListRepository;
     public AdminDashboardListViewModel(@NonNull Application application) {
         super(application);
         userListRepository = UserListRepository.getRepository(application);
-        allUsers = userListRepository.getAllUsers();
+        allAdmins = userListRepository.getAllAdmins();
+        allNonAdmins = userListRepository.getAllNonAdmins();
     }
 
-    public final LiveData<List<User>> getUsers =
+    public final LiveData<List<User>> getNonAdmins =
             Transformations.switchMap(_user, user -> {
                 if (user != null) {
-                    return userListRepository.getAllUsers();
+                    return userListRepository.getAllNonAdmins();
                 } else {
                     return new MutableLiveData<>(List.of());
                 }
             });
 
-    public void getAllUsers() {
-        userListRepository.getAllUsers();
+    public final LiveData<List<User>> getAdmins =
+            Transformations.switchMap(_user, user -> {
+                if (user != null) {
+                    return userListRepository.getAllAdmins();
+                } else {
+                    return new MutableLiveData<>(List.of());
+                }
+            });
+
+    public void getAllAdmins() {
+        userListRepository.getAllAdmins();
+    }
+
+    public void getAllNonAdmins() {
+        userListRepository.getAllNonAdmins();
     }
 }

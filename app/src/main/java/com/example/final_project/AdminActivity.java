@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class AdminActivity extends AppCompatActivity {
 
     private ActivityAdminBinding binding;
-    UserListAdapter userListAdapter;
+    UserListAdapter nonAdminListAdapter;
     AdminListAdapter adminListAdapter;
     private AdminDashboardListViewModel viewModel;
     public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminActivity.username";
@@ -39,12 +39,18 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(AdminDashboardListViewModel.class);
 
-        ArrayList<User> userList = new ArrayList<>();
+        ArrayList<User> nonAdminList = new ArrayList<>();
+        ArrayList<User> adminList = new ArrayList<>();
 
-        RecyclerView recyclerViewUsers = findViewById(R.id.userAdminRecyclerView);
-        recyclerViewUsers.setLayoutManager(new LinearLayoutManager(this));
-        userListAdapter = new UserListAdapter(this, userList);
-        recyclerViewUsers.setAdapter(userListAdapter);
+        RecyclerView recyclerViewNonAdmins = findViewById(R.id.userAdminRecyclerView);
+        recyclerViewNonAdmins.setLayoutManager(new LinearLayoutManager(this));
+        nonAdminListAdapter = new UserListAdapter(this, nonAdminList);
+        recyclerViewNonAdmins.setAdapter(nonAdminListAdapter);
+
+        RecyclerView recyclerViewAdmins = findViewById(R.id.adminUserAdminRecyclerView);
+        recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(this));
+        adminListAdapter = new AdminListAdapter(this, adminList);
+        recyclerViewAdmins.setAdapter(adminListAdapter);
 
         //adds back button to action bar
         setSupportActionBar(binding.adminToolbar);
@@ -54,22 +60,23 @@ public class AdminActivity extends AppCompatActivity {
 
         String username = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
         if (username != null) {
-            viewModel.getAllUsers();
+            viewModel.getAllAdmins();
+            viewModel.getAllNonAdmins();
         } else {
             Log.e("MainActivity", "Username extra was null!");
         }
 
-//        viewModel.getUsers.observe(this, users -> {
-//            if (users != null) {
-//                Log.i("Admin Activity", "Users: " + users.toString());
-//                userListAdapter.updateUsers(users);
-//            }
-//        });
-
-        viewModel.allUsers.observe(this, users -> {
+        viewModel.allAdmins.observe(this, users -> {
             if (users != null) {
-                Log.i("Admin Activity", "Users: " + users.toString());
-                userListAdapter.updateUsers(users);
+                Log.i("Admin Activity", "Admins: " + users.toString());
+                adminListAdapter.updateUsers(users);
+            }
+        });
+
+        viewModel.allNonAdmins.observe(this, users -> {
+            if (users != null) {
+                Log.i("Admin Activity", "Non-Admins: " + users.toString());
+                nonAdminListAdapter.updateUsers(users);
             }
         });
 

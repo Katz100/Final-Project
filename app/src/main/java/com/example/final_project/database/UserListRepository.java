@@ -1,18 +1,12 @@
 package com.example.final_project.database;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.final_project.database.entities.User;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public class UserListRepository {
     private UserDAO userDAO;
@@ -29,6 +23,14 @@ public class UserListRepository {
             repository = new UserListRepository(application);
         }
         return repository;
+    }
+
+    public LiveData<List<User>> getAllNonAdmins() {
+        return userDAO.getAllNonAdmins();
+    }
+
+    public LiveData<List<User>> getAllAdmins() {
+        return userDAO.getAllAdmins();
     }
 
     public LiveData<List<User>> getAllUsers() {

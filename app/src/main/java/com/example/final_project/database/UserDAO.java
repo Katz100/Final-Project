@@ -30,6 +30,12 @@ public interface UserDAO {
     @Query("SELECT * FROM " + "user_table" + " ORDER BY username")
     LiveData<List<User>> getAllUsers();
 
+    @Query("SELECT * FROM user_table WHERE isAdmin == false")
+    LiveData<List<User>> getAllNonAdmins();
+
+    @Query("SELECT * FROM user_table WHERE isAdmin == true")
+    LiveData<List<User>> getAllAdmins();
+
     @Update
     int update(User user);
 /*
