@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,18 @@ public class AdminActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        // Set up button listeners
+        Button promoteButton = findViewById(R.id.promoteUserButton);
+        Button deleteUserButton = findViewById(R.id.deleteUserButton);
+        Button demoteButton = findViewById(R.id.demoteAdminButton);
+        Button deleteButtonAdmin = findViewById((R.id.deleteButtonAdmin));
+
+        promoteButton.setOnClickListener(v -> showPromoteDialog());
+        deleteUserButton.setOnClickListener(v -> showDeleteUserDialog());
+
+        demoteButton.setOnClickListener(v -> showDemoteDialog());
+        deleteButtonAdmin.setOnClickListener(v -> showDeleteAdminDialog());
 
     }
 
@@ -100,6 +114,63 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
         alertBuilder.create().show();
+    }
+
+    private void showPromoteDialog(){
+        Button promoteButton = findViewById(R.id.promoteUserButton);
+        promoteButton.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Promotion")
+                    .setMessage("Are you sure you want to promote this user?") //change to show selected user
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        Toast.makeText(this, "This user has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    })
+                    .setNegativeButton("Cancel", null).show();
+        });
+
+    }
+
+    private void showDemoteDialog(){
+        Button demoteButton = findViewById(R.id.demoteAdminButton);
+        demoteButton.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Demotion")
+                    .setMessage("Are you sure you want to demote this user?") //change to show selected user
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        Toast.makeText(this, "This user has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    })
+                    .setNegativeButton("Cancel", null).show();
+        });
+
+    }
+
+    private void showDeleteUserDialog(){
+        Button deleteUserButton = findViewById(R.id.deleteUserButton);
+        deleteUserButton.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Deletion")
+                    .setMessage("Are you sure you want to delete this user?") //change to show selected user
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        //call delete user method
+                        Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    })
+                    .setNegativeButton("Cancel", null).show();
+        });
+
+    }
+
+    private void showDeleteAdminDialog() {
+        Button deleteButtonAdmin = findViewById(R.id.deleteButtonAdmin);
+        deleteButtonAdmin.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Deletion")
+                    .setMessage("Are you sure you want to delete this admin?") //change to show selected user
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        //call delete user method
+                        Toast.makeText(this, "This admin has been deleted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    })
+                    .setNegativeButton("Cancel", null).show();
+        });
     }
 
     private void logout(){
