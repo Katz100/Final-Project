@@ -59,7 +59,14 @@ public class AdminActivity extends AppCompatActivity {
             Log.e("MainActivity", "Username extra was null!");
         }
 
-        viewModel.getUsers.observe(this, users -> {
+//        viewModel.getUsers.observe(this, users -> {
+//            if (users != null) {
+//                Log.i("Admin Activity", "Users: " + users.toString());
+//                userListAdapter.updateUsers(users);
+//            }
+//        });
+
+        viewModel.allUsers.observe(this, users -> {
             if (users != null) {
                 Log.i("Admin Activity", "Users: " + users.toString());
                 userListAdapter.updateUsers(users);

@@ -16,10 +16,13 @@ import java.util.List;
 public class AdminDashboardListViewModel extends AndroidViewModel {
     private final MutableLiveData<User> _user = new MutableLiveData<>(null);
     public final LiveData<User> user = _user;
+
+    public LiveData<List<User>> allUsers;
     UserListRepository userListRepository;
     public AdminDashboardListViewModel(@NonNull Application application) {
         super(application);
         userListRepository = UserListRepository.getRepository(application);
+        allUsers = userListRepository.getAllUsers();
     }
 
     public final LiveData<List<User>> getUsers =
