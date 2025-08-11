@@ -20,10 +20,18 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
     private LayoutInflater mInflater;
 
     public interface OnCheckedChangeListener {
-        void onItemCheckedChanged(UsersMovies item, boolean isChecked);
+        void onItemCheckedChanged(UsersMovies item, int position, boolean isChecked);
     }
 
     private OnCheckedChangeListener checkedChangeListener;
+
+    // uncheck/recheck box if not within rating range
+    public void setItemChecked(int position, boolean checked) {
+        if (position < 0 || position >= mData.size()) return;
+        UsersMovies item = mData.get(position);
+        item.setCompleted(checked);
+        notifyItemChanged(position);
+    }
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
         this.checkedChangeListener = listener;
@@ -56,10 +64,11 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
         holder.checkBox.setChecked(item.isCompleted());
 
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            item.setCompleted(isChecked);
-            Log.d("WatchListAdapter", "Item " + item.getTitle() + " checked: " + isChecked);
             if (checkedChangeListener != null) {
-                checkedChangeListener.onItemCheckedChanged(item, isChecked);
+                int adapterPos = holder.getAdapterPosition();
+                if (adapterPos != RecyclerView.NO_POSITION) {
+                    checkedChangeListener.onItemCheckedChanged(item, adapterPos, isChecked);
+                }
             }
         });
     }
