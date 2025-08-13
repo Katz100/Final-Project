@@ -36,15 +36,15 @@ public class UserListRepository {
     public LiveData<List<User>> getAllUsers() {
         return userDAO.getAllUsers();
     }
-    public void promoteUser(String username) {
+    public void promoteUser(User user) {
         MovieWatchlistDatabase.databaseWriteExecutor.execute(() -> {
-            userDAO.promoteUser(username);
+            userDAO.promoteUser(user.getUsername());
         });
     }
 
-    public void demoteUser(String username) {
+    public void demoteUser(User user) {
         MovieWatchlistDatabase.databaseWriteExecutor.execute(() -> {
-            userDAO.demoteUser(username);
+            userDAO.demoteUser(user.getUsername());
         });
     }
 

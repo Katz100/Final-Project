@@ -64,7 +64,7 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
                 admin.setAdmin(true);
                 dao.insert(admin);
                 User admin2 = new User("admin2", "admin2", true);
-                admin.setAdmin(true);
+                admin2.setAdmin(true);
                 dao.insert(admin2);
                 User testUser1 = new User("testuser1", "testuser1", false);
                 dao.insert(testUser1);
