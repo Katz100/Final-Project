@@ -37,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
     ActivityMainBinding binding;
-
-    private WatchListRepository repository;
     WatchListAdapter watchListAdapter;
     CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
 
     private WatchListViewModel viewModel;
+
+    private EditText editTitle;
+    private EditText editGenre;
 
     String movieTitle = "";
     String movieGenre = "";
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        editTitle = findViewById(R.id.movieTitleInputEditText);
+        editGenre = findViewById(R.id.movieGenreInputEditText);
         viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
 
         //adds back button to action bar
@@ -81,13 +84,13 @@ public class MainActivity extends AppCompatActivity {
         completedListAdapter = new CompletedListAdapter(this, initialCompletedList);
         recyclerViewCompleted.setAdapter(completedListAdapter);
 
-        repository = WatchListRepository.getRepository(getApplication());
-
         binding.addMovieButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getInformationFromDisplay();
                 insertMovieRecord();
+                editGenre.setText("");
+                editTitle.setText("");
             }
         });
 
