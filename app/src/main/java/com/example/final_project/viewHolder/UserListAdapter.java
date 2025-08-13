@@ -24,6 +24,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     public interface OnCheckedChangeListener {
         void onItemCheckedChanged(User item, boolean isChecked);
     }
+    public void setOnCheckedChangeListener(UserListAdapter.OnCheckedChangeListener listener) {
+        this.checkedChangeListener = listener;
+    }
 
     private UserListAdapter.OnCheckedChangeListener checkedChangeListener;
 
@@ -51,16 +54,16 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         holder.isAdminTextView.setText(item.isAdmin()? "Admin: Yes" : "Admin: No");
 
         holder.checkBox.setOnCheckedChangeListener(null);
-        /* will need to be changed to current selected user
+        // will need to be changed to current selected user
         holder.checkBox.setChecked(item.isAdmin());
 
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            item.setCompleted(isChecked);
-            Log.d("WatchListAdapter", "Item " + item.getTitle() + " checked: " + isChecked);
+            item.setAdmin(isChecked);
+            Log.d("WatchListAdapter", "Item " + item.getUsername() + " checked: " + isChecked);
             if (checkedChangeListener != null) {
                 checkedChangeListener.onItemCheckedChanged(item, isChecked);
             }
-        });*/
+        });
     }
 
     @Override

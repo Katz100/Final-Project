@@ -25,6 +25,8 @@ import com.example.final_project.viewHolder.AdminListAdapter;
 import com.example.final_project.viewHolder.UserListAdapter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -32,6 +34,8 @@ public class AdminActivity extends AppCompatActivity {
     UserListAdapter nonAdminListAdapter;
     AdminListAdapter adminListAdapter;
     private AdminDashboardListViewModel viewModel;
+    private final Set<User> selectedUsers = new HashSet<>();
+
     public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminActivity.username";
 
     @Override
@@ -53,6 +57,14 @@ public class AdminActivity extends AppCompatActivity {
         recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(this));
         adminListAdapter = new AdminListAdapter(this, adminList);
         recyclerViewAdmins.setAdapter(adminListAdapter);
+
+        nonAdminListAdapter.setOnCheckedChangeListener((user, isChecked) -> {
+            if (isChecked) {
+                selectedUsers.add(user);
+            } else {
+                selectedUsers.remove(user);
+            }
+        });
 
         //adds back button to action bar
         setSupportActionBar(binding.adminToolbar);
@@ -168,14 +180,22 @@ public class AdminActivity extends AppCompatActivity {
     private void showPromoteDialog(){
         Button promoteButton = findViewById(R.id.promoteUserButton);
         promoteButton.setOnClickListener(v -> {
+            if (selectedUsers.isEmpty()) {
+                Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+                return;
+            }
             new AlertDialog.Builder(this)
-                    .setTitle("Confirm Promotion")
-                    .setMessage("Are you sure you want to promote this user?") //change to show selected user
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        Toast.makeText(this, "This user has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
-                    })
-                    .setNegativeButton("Cancel", null).show();
-        });
+                        .setTitle("Confirm Promotion")
+                        .setMessage("Are you sure you want to promote this user?") //change to show selected user
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            for (User user : selectedUsers) {
+                                viewModel.promoteUser(user.getUsername());
+                                }
+                            Toast.makeText(this,"User has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                            selectedUsers.clear();
+                            })
+                        .setNegativeButton("Cancel", null).show();
+            });
 
     }
 
@@ -240,5 +260,6 @@ public class AdminActivity extends AppCompatActivity {
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
     }
+
 
 }
