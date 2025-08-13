@@ -55,7 +55,7 @@ public class AdminActivity extends AppCompatActivity {
 
         RecyclerView recyclerViewAdmins = findViewById(R.id.adminUserAdminRecyclerView);
         recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(this));
-        adminListAdapter = new AdminListAdapter(this, adminList);
+        adminListAdapter = new AdminListAdapter(this, adminList, selectedUsers);
         recyclerViewAdmins.setAdapter(adminListAdapter);
 
         nonAdminListAdapter.setOnCheckedChangeListener((user, isChecked) -> {
