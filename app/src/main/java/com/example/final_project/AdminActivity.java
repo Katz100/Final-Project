@@ -66,6 +66,14 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
+        adminListAdapter.setOnCheckedChangeListener((user, isChecked) -> {
+            if (isChecked) {
+                selectedUsers.add(user);
+            } else {
+                selectedUsers.remove(user);
+            }
+        });
+
         //adds back button to action bar
         setSupportActionBar(binding.adminToolbar);
         if (getSupportActionBar() != null) {
@@ -202,11 +210,19 @@ public class AdminActivity extends AppCompatActivity {
     private void showDemoteDialog(){
         Button demoteButton = findViewById(R.id.demoteAdminButton);
         demoteButton.setOnClickListener(v -> {
+            if (selectedUsers.isEmpty()) {
+                Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+                return;
+            }
             new AlertDialog.Builder(this)
                     .setTitle("Confirm Demotion")
-                    .setMessage("Are you sure you want to demote this user?") //change to show selected user
+                    .setMessage("Are you sure you want to demote this user?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        Toast.makeText(this, "This user has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                        for (User user : selectedUsers) {
+                            viewModel.demoteUser(user.getUsername());
+                        }
+                        Toast.makeText(this, "This user has been demoted", Toast.LENGTH_SHORT).show();
+                        selectedUsers.clear();
                     })
                     .setNegativeButton("Cancel", null).show();
         });
