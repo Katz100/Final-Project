@@ -32,6 +32,7 @@ public class LoginActivityTest {
         assertNotNull(result);
         assertEquals("testuser1", result.getUsername());
     }
+
     @Test
     public void signingInWithWrongPassword_DoesNotLaunchMainActivity() {
         try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
@@ -105,63 +106,44 @@ public class LoginActivityTest {
         }
     }
 
+    @Test
+    public void startMainActivity_LaunchesMainActivity() {
+        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
+            controller.setup();
+            LoginActivity activity = controller.get();
+
+            String username = "testuser1";
+            activity.startMainActivity(username);
+
+            Intent expectedIntent = MainActivity.mainIntentFactory(activity, username);
+            Intent actualIntent = shadowOf(activity).getNextStartedActivity();
+
+            assertNotNull(actualIntent);
+            assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
+            assertEquals(expectedIntent.getExtras().getString("username"), actualIntent.getExtras().getString("username"));
+
+        }
+    }
 
 
-    // This will need to be changed once we are comparing the values
-    // in the text fields with users from the database
+    @Test
+    public void startAdminActivity_LaunchesAdminActivity(){
 
-//    TODO: Complete a passing test
-//    @Test
-//    public void signingInWithValidCreds_LaunchesMainActivity() {
-//        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
-//            controller.setup();
-//            LoginActivity activity = controller.get();
-//
-//            EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
-//            EditText passwordField = activity.findViewById(R.id.passwordLoginEditText);
-//
-//            usernameField.setText("testuser1");
-//            passwordField.setText("testuser1");
-//
-//            activity.findViewById(R.id.loginButton).performClick();
-//
-//            shadowOf(Looper.getMainLooper()).runToEndOfTasks();
-//
-//
-//            Intent expectedIntent = MainActivity.mainIntentFactory(activity, "testuser1");
-//            Intent actual = shadowOf(activity).getNextStartedActivity();
-//
-//            assertNotNull(actual);
-//            assertEquals(expectedIntent.getComponent(), actual.getComponent());
-//        }
-//    }
+        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
+            controller.setup();
+            LoginActivity activity = controller.get();
 
-    //TODO: Complete a passing test
+            String username = "admin1";
+            activity.startAdminActivity(username);
 
-//    @Test
-//    public void signingInWithValidCreds_LaunchesAdminActivity(){
-//
-//        try (ActivityController<LoginActivity> controller = Robolectric.buildActivity(LoginActivity.class)) {
-//            controller.setup();
-//            LoginActivity activity = controller.get();
-//
-//            EditText usernameField = activity.findViewById(R.id.usernameLoginEditText);
-//            EditText passwordField = activity.findViewById(R.id.passwordLoginEditText);
-//
-//            usernameField.setText("admin1");
-//            passwordField.setText("admin1");
-//
-//            activity.findViewById(R.id.loginButton).performClick();
-//
-//           // shadowOf(Looper.getMainLooper()).runToEndOfTasks();
-//            RuntimeEnvironment.getMasterScheduler().advanceToLastPostedRunnable();
-//
-//
-//            Intent expectedIntent = AdminActivity.adminIntentFactory(activity, "admin1");
-//            Intent actual = shadowOf(activity).getNextStartedActivity();
-//
-//            assertEquals(expectedIntent.getComponent(), actual.getComponent());
-//        }
-//    }
+            Intent expectedIntent = AdminActivity.adminIntentFactory(activity, username);
+            Intent actualIntent = shadowOf(activity).getNextStartedActivity();
+
+            assertNotNull(actualIntent);
+            assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
+            assertEquals(expectedIntent.getExtras().getString("username"), actualIntent.getExtras().getString("username"));
+
+        }
+    }
 
 }
