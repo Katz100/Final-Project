@@ -38,6 +38,14 @@ public interface UserDAO {
 
     @Update
     int update(User user);
+
+    @Query("UPDATE user_table SET isAdmin = 1 WHERE username == :username")
+    void promoteUser(String username);
+
+    @Query("UPDATE user_table SET isAdmin = 0 WHERE username == :username")
+    void demoteUser(String username);
+
+
 /*
     @Query("SELECT * FROM " + MovieWatchListDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUsers();

@@ -1,8 +1,10 @@
 package com.example.final_project.database;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -94,5 +96,24 @@ public class UserDAOTest {
         assertNull(user1);
         assertNull(user2);
     }
+
+    @Test
+    public void testPromoteUser() {
+        User user = new User("user1", "user1", false);
+        userDao.insert(user);
+        userDao.promoteUser(user.getUsername());
+        User updatedUser = userDao.getUserByUserName(user.getUsername());
+        assertTrue(updatedUser.isAdmin());
+    }
+
+    @Test
+    public void testDemoteUser() {
+        User user = new User("user1", "user1", false);
+        userDao.insert(user);
+        userDao.demoteUser(user.getUsername());
+        User updatedUser = userDao.getUserByUserName(user.getUsername());
+        assertFalse(updatedUser.isAdmin());
+    }
+
 
 }

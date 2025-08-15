@@ -52,4 +52,16 @@ public class AdminDashboardListViewModel extends AndroidViewModel {
     public void getAllNonAdmins() {
         userListRepository.getAllNonAdmins();
     }
+    public void promoteUser(User user) {
+        userListRepository.promoteUser(user);
+    }
+
+    public void demoteUser(User user) {
+        userListRepository.demoteUser(user);
+    }
+
+    public void deleteUser(User user) {
+        userListRepository.deleteUser(user);
+    }
+
 }

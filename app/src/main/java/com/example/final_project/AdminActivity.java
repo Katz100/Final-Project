@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,8 @@ import com.example.final_project.viewHolder.AdminListAdapter;
 import com.example.final_project.viewHolder.UserListAdapter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -30,6 +34,8 @@ public class AdminActivity extends AppCompatActivity {
     UserListAdapter nonAdminListAdapter;
     AdminListAdapter adminListAdapter;
     private AdminDashboardListViewModel viewModel;
+    private final Set<User> selectedUsers = new HashSet<>();
+
     public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminActivity.username";
 
     @Override
@@ -49,8 +55,24 @@ public class AdminActivity extends AppCompatActivity {
 
         RecyclerView recyclerViewAdmins = findViewById(R.id.adminUserAdminRecyclerView);
         recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(this));
-        adminListAdapter = new AdminListAdapter(this, adminList);
+        adminListAdapter = new AdminListAdapter(this, adminList, selectedUsers);
         recyclerViewAdmins.setAdapter(adminListAdapter);
+
+        nonAdminListAdapter.setOnCheckedChangeListener((user, isChecked) -> {
+            if (isChecked) {
+                selectedUsers.add(user);
+            } else {
+                selectedUsers.remove(user);
+            }
+        });
+
+        adminListAdapter.setOnCheckedChangeListener((user, isChecked) -> {
+            if (isChecked) {
+                selectedUsers.add(user);
+            } else {
+                selectedUsers.remove(user);
+            }
+        });
 
         //adds back button to action bar
         setSupportActionBar(binding.adminToolbar);
@@ -58,6 +80,18 @@ public class AdminActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        // Set up button listeners
+        Button promoteButton = findViewById(R.id.promoteUserButton);
+        Button deleteUserButton = findViewById(R.id.deleteUserButton);
+        Button demoteButton = findViewById(R.id.demoteAdminButton);
+        Button deleteButtonAdmin = findViewById((R.id.deleteButtonAdmin));
+
+        promoteButton.setOnClickListener(v -> showPromoteDialog());
+        deleteUserButton.setOnClickListener(v -> showDeleteUserDialog());
+
+        demoteButton.setOnClickListener(v -> showDemoteDialog());
+        deleteButtonAdmin.setOnClickListener(v -> showDeleteAdminDialog());
+      
         String username = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
         if (username != null) {
             viewModel.getAllAdmins();
@@ -151,6 +185,80 @@ public class AdminActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
+    private void showPromoteDialog() {
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Promotion")
+                .setMessage("Are you sure you want to promote this user?") //change to show selected user
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.promoteUser(user);
+                    }
+                    Toast.makeText(this, "User has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    selectedUsers.clear();
+                })
+                .setNegativeButton("Cancel", null).show();
+
+
+    }
+
+    private void showDemoteDialog() {
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Demotion")
+                .setMessage("Are you sure you want to demote this user?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.demoteUser(user);
+                    }
+                    Toast.makeText(this, "This user has been demoted", Toast.LENGTH_SHORT).show();
+                    selectedUsers.clear();
+                })
+                .setNegativeButton("Cancel", null).show();
+    }
+
+
+    private void showDeleteUserDialog() {
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Deletion")
+                .setMessage("Are you sure you want to delete this user?") //change to show selected user
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.deleteUser(user);
+                    }
+                    Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                })
+                .setNegativeButton("Cancel", null).show();
+
+    }
+
+    private void showDeleteAdminDialog() {
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Deletion")
+                .setMessage("Are you sure you want to delete this user?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.deleteUser(user);
+                    }
+                    Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null).show();
+    }
+
     private void logout(){
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
@@ -169,5 +277,6 @@ public class AdminActivity extends AppCompatActivity {
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
     }
+
 
 }
