@@ -57,6 +57,12 @@ public class SignUpActivity extends AppCompatActivity {
                 Log.i(TAG, "User is null, creating new user");
                 User newUser = new User(username, password, false);
                 viewModel.insertUser(newUser);
+
+                // clear input fields after successful sign up
+                usernameEditText.setText("");
+                passwordEditText.setText("");
+                confirmPasswordEditText.setText("");
+
                 Toast.makeText(this, "Welcome, " + username + "!", Toast.LENGTH_SHORT).show();
                 Intent intent = MainActivity.mainIntentFactory(this, username);
                 startActivity(intent);
