@@ -1,28 +1,22 @@
 package com.example.final_project;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.final_project.SignUp.SignUpViewModel;
-import com.example.final_project.database.WatchListRepository;
-import com.example.final_project.database.entities.User;
-
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
-
-import com.example.final_project.database.MovieWatchlistDatabase;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -128,6 +122,48 @@ public class SignUpActivity extends AppCompatActivity {
     static Intent signupIntentFactory(Context context) {
         Intent intent = new Intent(context, SignUpActivity.class);
         return intent;
+    }
+
+    //LOGOUT MENU
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    // Handle logout action
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            showLogoutDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //After a user confirms they want to logout, it takes them back to the sign in screen
+    private void showLogoutDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(SignUpActivity.this);
+
+        alertBuilder.setMessage("Logout?");
+        alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+            }
+        });
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertBuilder.create().show();
+    }
+
+    private void logout(){
+        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
 }
 
