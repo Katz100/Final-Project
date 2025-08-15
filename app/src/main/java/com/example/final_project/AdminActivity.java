@@ -185,87 +185,78 @@ public class AdminActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
-    private void showPromoteDialog(){
-            if (selectedUsers.isEmpty()) {
-                Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            new AlertDialog.Builder(this)
-                        .setTitle("Confirm Promotion")
-                        .setMessage("Are you sure you want to promote this user?") //change to show selected user
-                        .setPositiveButton("Yes", (dialog, which) -> {
-                            for (User user : selectedUsers) {
-                                viewModel.promoteUser(user);
-                                }
-                            Toast.makeText(this,"User has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
-                            selectedUsers.clear();
-                            })
-                        .setNegativeButton("Cancel", null).show();
-          
+    private void showPromoteDialog() {
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Promotion")
+                .setMessage("Are you sure you want to promote this user?") //change to show selected user
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.promoteUser(user);
+                    }
+                    Toast.makeText(this, "User has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    selectedUsers.clear();
+                })
+                .setNegativeButton("Cancel", null).show();
+
 
     }
 
-    private void showDemoteDialog(){
-        Button demoteButton = findViewById(R.id.demoteAdminButton);
-        demoteButton.setOnClickListener(v -> {
-            if (selectedUsers.isEmpty()) {
-                Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            new AlertDialog.Builder(this)
-                    .setTitle("Confirm Demotion")
-                    .setMessage("Are you sure you want to demote this user?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        for (User user : selectedUsers) {
-                            viewModel.demoteUser(user);
-                        }
-                        Toast.makeText(this, "This user has been demoted", Toast.LENGTH_SHORT).show();
-                        selectedUsers.clear();
-                    })
-                    .setNegativeButton("Cancel", null).show();
-        });
-
+    private void showDemoteDialog() {
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Demotion")
+                .setMessage("Are you sure you want to demote this user?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.demoteUser(user);
+                    }
+                    Toast.makeText(this, "This user has been demoted", Toast.LENGTH_SHORT).show();
+                    selectedUsers.clear();
+                })
+                .setNegativeButton("Cancel", null).show();
     }
 
-    private void showDeleteUserDialog(){
-        Button deleteUserButton = findViewById(R.id.deleteUserButton);
-        deleteUserButton.setOnClickListener(v -> {
-            if (selectedUsers.isEmpty()) {
-                Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            new AlertDialog.Builder(this)
-                    .setTitle("Confirm Deletion")
-                    .setMessage("Are you sure you want to delete this user?") //change to show selected user
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        for (User user : selectedUsers) {
-                            viewModel.deleteUser(user);
-                        }
-                        Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show(); //change to show selected user
-                    })
-                    .setNegativeButton("Cancel", null).show();
-        });
+
+    private void showDeleteUserDialog() {
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Deletion")
+                .setMessage("Are you sure you want to delete this user?") //change to show selected user
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.deleteUser(user);
+                    }
+                    Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                })
+                .setNegativeButton("Cancel", null).show();
 
     }
 
     private void showDeleteAdminDialog() {
-        Button deleteButtonAdmin = findViewById(R.id.deleteButtonAdmin);
-        deleteButtonAdmin.setOnClickListener(v -> {
-            if (selectedUsers.isEmpty()) {
-                Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            new AlertDialog.Builder(this)
-                    .setTitle("Confirm Deletion")
-                    .setMessage("Are you sure you want to delete this user?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        for (User user : selectedUsers) {
-                            viewModel.deleteUser(user);
-                        }
-                        Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show();
-                    })
-                    .setNegativeButton("Cancel", null).show();
-        });
+        if (selectedUsers.isEmpty()) {
+            Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Deletion")
+                .setMessage("Are you sure you want to delete this user?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    for (User user : selectedUsers) {
+                        viewModel.deleteUser(user);
+                    }
+                    Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null).show();
     }
 
     private void logout(){

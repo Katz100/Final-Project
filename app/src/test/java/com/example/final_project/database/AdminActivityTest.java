@@ -1,11 +1,13 @@
 package com.example.final_project.database;
 
+import com.example.final_project.database.entities.User;
+
 import org.junit.Test;
 
 public class AdminActivityTest {
     @Test
-    public void testPromoteButtonUpdatesUser() {
-        // Launch activity, click promote button, verify user is promoted
+    public void testPromote() {
+        // Launch activity, click demote button, verify user is promoted
     }
 
     @Test
