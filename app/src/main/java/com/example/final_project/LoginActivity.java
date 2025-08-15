@@ -76,9 +76,9 @@ public class LoginActivity extends AppCompatActivity {
                 String enteredPassword = binding.passwordLoginEditText.getText().toString();
                 if (verifyPassword(user.getPassword(), enteredPassword)) {
                     if (user.isAdmin()) {
-                        startActivity(AdminActivity.adminIntentFactory(getApplicationContext(), user.getUsername()));
+                        startAdminActivity(user.getUsername());
                     } else {
-                        startActivity(MainActivity.mainIntentFactory(LoginActivity.this, user.getUsername()));
+                        startMainActivity(user.getUsername());
                     }
                 } else {
                     toastMaker("Password is incorrect");
@@ -129,4 +129,15 @@ public class LoginActivity extends AppCompatActivity {
     private void toastMaker(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    public void startMainActivity(String username) {
+        Intent intent = MainActivity.mainIntentFactory(this, username);
+        startActivity(intent);
+    }
+
+    public void startAdminActivity(String username){
+        startActivity(AdminActivity.adminIntentFactory(getApplicationContext(), username));
+    }
+
+
 }
