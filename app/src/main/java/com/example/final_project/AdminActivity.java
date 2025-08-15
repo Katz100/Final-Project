@@ -186,8 +186,6 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void showPromoteDialog(){
-        Button promoteButton = findViewById(R.id.promoteUserButton);
-        promoteButton.setOnClickListener(v -> {
             if (selectedUsers.isEmpty()) {
                 Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
                 return;
@@ -203,7 +201,7 @@ public class AdminActivity extends AppCompatActivity {
                             selectedUsers.clear();
                             })
                         .setNegativeButton("Cancel", null).show();
-            });
+          
 
     }
 
