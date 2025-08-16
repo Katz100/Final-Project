@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * Shows a dialog to allow the user to input a rating for a movie
      * @param movie Movie to be rated
      * @param position The movie's position in the recyclerview
      */
