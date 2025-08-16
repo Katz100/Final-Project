@@ -28,6 +28,10 @@ import com.example.final_project.viewHolder.WatchListAdapter;
 import com.example.final_project.viewHolder.WatchListViewModel;
 import java.util.ArrayList;
 
+/** This is the main activity of the app, where users can view/rate movies from their watchlist
+ * @author Cody Hopkins
+ * created: 7/30/2025
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Setup view/viewmodel
         editTitle = findViewById(R.id.movieTitleInputEditText);
         editGenre = findViewById(R.id.movieGenreInputEditText);
         viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        // Setup recyclerview for completed and uncompleted movies
         ArrayList<UsersMovies> initialWatchList = new ArrayList<>();
         ArrayList<UserCompletedMovies> initialCompletedList = new ArrayList<>();
 
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         watchListAdapter = new WatchListAdapter(this, initialWatchList);
         recyclerView.setAdapter(watchListAdapter);
 
+        // Set a click listener for the checkboxes inside the recyclerview items
         watchListAdapter.setOnCheckedChangeListener((movie, position, isChecked) -> {
             if (isChecked) {
                 showInputDialog(movie, position);
@@ -76,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         completedListAdapter = new CompletedListAdapter(this, initialCompletedList);
         recyclerViewCompleted.setAdapter(completedListAdapter);
 
+        // Adds a new movie to the user's watchlist
         binding.addMovieButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Stores the signed in user
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
         if (username != null) {
             viewModel.getUserByUsername(username);
@@ -93,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Username extra was null!");
         }
 
+        // Observe changes to the UserWatchList table and update the recyclerview
         viewModel.uncompletedMovies.observe(this, movies -> {
             if (movies != null) {
                 Log.i(TAG, "Movies: " + movies.toString());
@@ -120,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // A dialog for adding ratings to a user's watchlist movie
     private void showInputDialog(UsersMovies movie, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Add rating for " + movie.getTitle());
