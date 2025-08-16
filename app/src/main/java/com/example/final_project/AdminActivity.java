@@ -69,17 +69,12 @@ public class AdminActivity extends AppCompatActivity {
         Button adminsActivityButton = findViewById(R.id.adminsActivityButton);
         Button usersActivityButton = findViewById(R.id.usersActivityButton);
 
-        usersActivityButton.setOnClickListener(v -> adminUsersActivity(username));
         adminsActivityButton.setOnClickListener(v -> adminsActivity(username));
 
     }
 
     private void adminsActivity(String username) {
         startActivity(AdminsActivity.adminsActivityIntentFactory(getApplicationContext(), username));
-    }
-
-    private void adminUsersActivity(String username) {
-        startActivity(AdminUsersActivity.adminUsersIntentFactory(getApplicationContext(), username));
     }
 
     @Override
