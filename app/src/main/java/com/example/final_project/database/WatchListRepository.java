@@ -1,5 +1,4 @@
 package com.example.final_project.database;
-
 import android.app.Application;
 import androidx.lifecycle.LiveData;
 import com.example.final_project.database.entities.Movie;
@@ -13,10 +12,7 @@ public class WatchListRepository {
     private MovieDAO movieDAO;
     private UserWatchListDAO userWatchListDAO;
     private UserDAO userDAO;
-
     ExecutorService executor = MovieWatchlistDatabase.databaseWriteExecutor;
-
-
     private static WatchListRepository repository;
 
     private WatchListRepository(Application application) {

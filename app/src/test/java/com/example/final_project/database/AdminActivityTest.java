@@ -1,7 +1,4 @@
 package com.example.final_project.database;
-
-import com.example.final_project.database.entities.User;
-
 import org.junit.Test;
 
 public class AdminActivityTest {
@@ -14,7 +11,4 @@ public class AdminActivityTest {
     public void testDemoteButtonUpdatesUser() {
         // Launch activity, click demote button, verify user is promoted
     }
-
-
-
 }

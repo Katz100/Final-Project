@@ -9,28 +9,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import com.example.final_project.database.UserCompletedMovies;
 import com.example.final_project.database.UsersMovies;
-import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.UserWatchList;
 import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.viewHolder.CompletedListAdapter;
 import com.example.final_project.viewHolder.WatchListAdapter;
 import com.example.final_project.viewHolder.WatchListViewModel;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,12 +35,9 @@ public class MainActivity extends AppCompatActivity {
     WatchListAdapter watchListAdapter;
     CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
-
     private WatchListViewModel viewModel;
-
     private EditText editTitle;
     private EditText editGenre;
-
     String movieTitle = "";
     String movieGenre = "";
 
@@ -147,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
                     double rating = Double.parseDouble(userInput);
                     if (rating < 0.0 || rating > 5.0) {
                         input.setError("Rating must be between 0.0 and 5.0");
-                        Toast.makeText(MainActivity.this, "Rating must be between 0.0 and 5.0", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Rating must be between 0.0 and 5.0",
+                                Toast.LENGTH_SHORT).show();
                         watchListAdapter.setItemChecked(position, false);
                         return;
                     }
@@ -173,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
         builder.show();
     }
-
 
     //Shows a menu with the inputted user's name up top.
     @Override
@@ -276,5 +268,4 @@ public class MainActivity extends AppCompatActivity {
         movieTitle = binding.movieTitleInputEditText.getText().toString();
         movieGenre = binding.movieGenreInputEditText.getText().toString();
     }
-
 }

@@ -3,15 +3,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.robolectric.Shadows.shadowOf;
-
 import android.content.Intent;
 import android.os.Looper;
 import android.widget.EditText;
-
 import com.example.final_project.SignIn.TestSignInViewModel;
 import com.example.final_project.database.FakeRepository;
 import com.example.final_project.database.entities.User;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -125,7 +122,6 @@ public class LoginActivityTest {
         }
     }
 
-
     @Test
     public void startAdminActivity_LaunchesAdminActivity(){
 
@@ -145,5 +141,4 @@ public class LoginActivityTest {
 
         }
     }
-
 }

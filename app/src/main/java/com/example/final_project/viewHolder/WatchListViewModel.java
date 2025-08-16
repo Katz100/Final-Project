@@ -1,23 +1,18 @@
 package com.example.final_project.viewHolder;
-
 import android.app.Application;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-
 import com.example.final_project.database.UserCompletedMovies;
 import com.example.final_project.database.UsersMovies;
 import com.example.final_project.database.WatchListRepository;
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.database.entities.UserWatchList;
-
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,7 +21,6 @@ public class WatchListViewModel extends AndroidViewModel {
     private final MutableLiveData<User> _user = new MutableLiveData<>(null);
     public final LiveData<User> user = _user;
     WatchListRepository watchListRepository;
-
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     public WatchListViewModel(@NonNull Application application) {
         super(application);
@@ -50,7 +44,6 @@ public class WatchListViewModel extends AndroidViewModel {
                     return new MutableLiveData<>(List.of());
                 }
             });
-
 
     public void getUserByUsername(String username) {
         executorService.execute(() -> {

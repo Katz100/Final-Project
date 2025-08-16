@@ -1,5 +1,4 @@
 package com.example.final_project.viewHolder;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,13 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.final_project.R;
 import com.example.final_project.database.entities.User;
-
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +18,6 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.View
     private List<User> mData;
     private LayoutInflater mInflater;
     private Set<User> selectedUsers;
-
-
 
     public interface OnCheckedChangeListener {
         void onItemCheckedChanged(User item, boolean isChecked);
@@ -84,7 +78,6 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView userTextView;
         TextView isAdminTextView;
-
         CheckBox checkBox;
         ViewHolder(View itemView)
         {

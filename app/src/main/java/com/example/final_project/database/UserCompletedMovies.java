@@ -3,7 +3,6 @@ package com.example.final_project.database;
 public class UserCompletedMovies {
     private int userId;
     private int movieId;
-
     private double rating;
     private String title;
     private String genre;

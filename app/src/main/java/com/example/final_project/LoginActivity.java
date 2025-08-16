@@ -1,6 +1,4 @@
 package com.example.final_project;
-
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +9,9 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.final_project.SignIn.SignInViewModel;
-import com.example.final_project.SignUp.SignUpViewModel;
-import com.example.final_project.database.MovieWatchlistDatabase;
-import com.example.final_project.database.WatchListRepository;
-import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityLoginBinding;
-
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * This is a simple login activity that allows users to log in with their username and password.
@@ -34,7 +24,6 @@ import java.util.concurrent.Executors;
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivityTAG";
     private ActivityLoginBinding binding;
-
     private SignInViewModel viewModel;
 
     @Override
@@ -138,6 +127,4 @@ public class LoginActivity extends AppCompatActivity {
     public void startAdminActivity(String username){
         startActivity(AdminActivity.adminIntentFactory(getApplicationContext(), username));
     }
-
-
 }
