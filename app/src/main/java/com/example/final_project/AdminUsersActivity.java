@@ -28,6 +28,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Allows Admins to view & manage Admin users
+ * @author Justin Martlock
+ * <br>
+ * created: 8/16/2025
+ * @since 0.1.0
+ */
+
+
 public class AdminUsersActivity extends AppCompatActivity {
 
     private ActivityAdminUsersBinding binding;
@@ -177,7 +186,7 @@ public class AdminUsersActivity extends AppCompatActivity {
         return true;
     }
 
-    static Intent adminUsersIntentFactory(Context context, String username) {
+    public static Intent adminUsersIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, AdminUsersActivity.class);
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
         return intent;

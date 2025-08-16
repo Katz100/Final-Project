@@ -28,6 +28,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Allows Admins to traverse to AdminUsersActivity or UsersActivity
+ * @author Justin Martlock
+ * <br>
+ * created: 8/16/2025
+ * @since 0.1.0
+ */
+
+
 public class AdminActivity extends AppCompatActivity {
 
     private ActivityAdminBinding binding;
