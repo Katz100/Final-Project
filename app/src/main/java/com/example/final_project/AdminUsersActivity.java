@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityAdminBinding;
+import com.example.final_project.databinding.ActivityAdminUsersBinding;
 import com.example.final_project.viewHolder.AdminDashboardListViewModel;
 import com.example.final_project.viewHolder.AdminListAdapter;
 import com.example.final_project.viewHolder.UserListAdapter;
@@ -28,29 +28,30 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminUsersActivity extends AppCompatActivity {
 
-    private ActivityAdminBinding binding;
-    AdminListAdapter adminListAdapter;
+    private ActivityAdminUsersBinding binding;
+    UserListAdapter nonAdminListAdapter;
     private AdminDashboardListViewModel viewModel;
     private final Set<User> selectedUsers = new HashSet<>();
-    public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminActivity.username";
+    public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminUsersActivity.username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAdminBinding.inflate(getLayoutInflater());
+
+        binding = ActivityAdminUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(AdminDashboardListViewModel.class);
 
-        ArrayList<User> adminList = new ArrayList<>();
+        ArrayList<User> nonAdminList = new ArrayList<>();
 
-        RecyclerView recyclerViewAdmins = findViewById(R.id.adminUserAdminRecyclerView);
-        recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(this));
-        adminListAdapter = new AdminListAdapter(this, adminList, selectedUsers);
-        recyclerViewAdmins.setAdapter(adminListAdapter);
+        RecyclerView recyclerViewNonAdmins = findViewById(R.id.userAdminRecyclerView);
+        recyclerViewNonAdmins.setLayoutManager(new LinearLayoutManager(this));
+        nonAdminListAdapter = new UserListAdapter(this, nonAdminList);
+        recyclerViewNonAdmins.setAdapter(nonAdminListAdapter);
 
-        adminListAdapter.setOnCheckedChangeListener((user, isChecked) -> {
+        nonAdminListAdapter.setOnCheckedChangeListener((user, isChecked) -> {
             if (isChecked) {
                 selectedUsers.add(user);
             } else {
@@ -64,69 +65,30 @@ public class AdminActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        // Set up button listeners
+        Button promoteButton = findViewById(R.id.promoteUserButton);
+        Button deleteUserButton = findViewById(R.id.deleteUserButton);
+
+        promoteButton.setOnClickListener(v -> showPromoteDialog());
+        deleteUserButton.setOnClickListener(v -> showDeleteUserDialog());
+
 
         String username = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
         if (username != null) {
-            viewModel.getAllAdmins();
             viewModel.getAllNonAdmins();
         } else {
             Log.e("MainActivity", "Username extra was null!");
         }
 
-        // Set up button listeners
-        Button usersActivityButton = findViewById(R.id.usersActivityButton);
-        Button demoteButton = findViewById(R.id.demoteAdminButton);
-        Button deleteButtonAdmin = findViewById((R.id.deleteButtonAdmin));
-
-        usersActivityButton.setOnClickListener(v -> adminUsersActivity(username));
-        demoteButton.setOnClickListener(v -> showDemoteDialog());
-        deleteButtonAdmin.setOnClickListener(v -> showDeleteAdminDialog());
-
-
-        viewModel.allAdmins.observe(this, users -> {
+        viewModel.allNonAdmins.observe(this, users -> {
             if (users != null) {
-                Log.i("Admin Activity", "Admins: " + users.toString());
-                adminListAdapter.updateUsers(users);
+                Log.i("Admin Activity", "Non-Admins: " + users.toString());
+                nonAdminListAdapter.updateUsers(users);
             }
         });
 
     }
 
-    private void adminUsersActivity(String username) {
-        startActivity(AdminUsersActivity.adminUsersIntentFactory(getApplicationContext(), username));
-    }
-
-    //Shows a menu with the inputted user's name up top.
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
-
-        // Get the logout menu item
-        MenuItem item = menu.findItem(R.id.action_logout);
-
-        // Check if the menu item exists
-        if (item != null) {
-            // Get the username from the intent
-            String username = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
-
-            // Check if the EditText exists
-            if (username != null) {
-                //Set the menu item title to username
-                item.setTitle(username);
-
-            } else {
-                //Set a default title
-                item.setTitle("Admin");
-            }
-            //Make the menu item visible
-            item.setVisible(true);
-        }
-        return true;
-    }
-
-    //When a user clicks on their username, it prompts them to logout
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_logout);
@@ -141,9 +103,8 @@ public class AdminActivity extends AppCompatActivity {
         return true;
     }
 
-    //Afer a user confirms they want to logout, it takes them back to the sign in screen
     private void showLogoutDialog() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AdminActivity.this);
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AdminUsersActivity.this);
         //final AlertDialog alertDialog = alertBuilder.create();
 
         alertBuilder.setMessage("Logout?");
@@ -151,7 +112,6 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 logout();
-
             }
         });
         alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -163,39 +123,41 @@ public class AdminActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
-    private void showDemoteDialog() {
+    private void showPromoteDialog() {
         if (selectedUsers.isEmpty()) {
             Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
             return;
         }
         new AlertDialog.Builder(this)
-                .setTitle("Confirm Demotion")
-                .setMessage("Are you sure you want to demote this user?")
+                .setTitle("Confirm Promotion")
+                .setMessage("Are you sure you want to promote this user?") //change to show selected user
                 .setPositiveButton("Yes", (dialog, which) -> {
                     for (User user : selectedUsers) {
-                        viewModel.demoteUser(user);
+                        viewModel.promoteUser(user);
                     }
-                    Toast.makeText(this, "This user has been demoted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "User has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
                     selectedUsers.clear();
                 })
                 .setNegativeButton("Cancel", null).show();
     }
 
-    private void showDeleteAdminDialog() {
+    private void showDeleteUserDialog() {
         if (selectedUsers.isEmpty()) {
             Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
             return;
         }
         new AlertDialog.Builder(this)
                 .setTitle("Confirm Deletion")
-                .setMessage("Are you sure you want to delete this user?")
+                .setMessage("Are you sure you want to delete this user?") //change to show selected user
                 .setPositiveButton("Yes", (dialog, which) -> {
                     for (User user : selectedUsers) {
                         viewModel.deleteUser(user);
                     }
-                    Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "This user has been deleted",
+                            Toast.LENGTH_SHORT).show(); //change to show selected user
                 })
                 .setNegativeButton("Cancel", null).show();
+
     }
 
     private void logout() {
@@ -205,15 +167,16 @@ public class AdminActivity extends AppCompatActivity {
     // opens LoginActivity when back button is pressed
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, AdminActivity.class);
         startActivity(intent);
         finish();
         return true;
     }
 
-    static Intent adminIntentFactory(Context context, String username) {
-        Intent intent = new Intent(context, AdminActivity.class);
+    static Intent adminUsersIntentFactory(Context context, String username) {
+        Intent intent = new Intent(context, AdminUsersActivity.class);
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
     }
+
 }
