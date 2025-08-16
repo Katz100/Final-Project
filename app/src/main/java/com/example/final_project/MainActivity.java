@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
     ActivityMainBinding binding;
-    WatchListAdapter watchListAdapter;
-    CompletedListAdapter completedListAdapter;
+//    CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
     private WatchListViewModel viewModel;
     private EditText editTitle;
@@ -66,26 +65,12 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Setup recyclerview for completed and uncompleted movies
-        ArrayList<UsersMovies> initialWatchList = new ArrayList<>();
         ArrayList<UserCompletedMovies> initialCompletedList = new ArrayList<>();
 
-        RecyclerView recyclerView = findViewById(R.id.watchListRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        watchListAdapter = new WatchListAdapter(this, initialWatchList);
-        recyclerView.setAdapter(watchListAdapter);
-
-        // Set a click listener for the checkboxes inside the recyclerview items
-        watchListAdapter.setOnCheckedChangeListener((movie, position, isChecked) -> {
-            if (isChecked) {
-                showInputDialog(movie, position);
-            }
-        });
-
-        RecyclerView recyclerViewCompleted = findViewById(R.id.completedWatchListRecyclerView);
-        recyclerViewCompleted.setLayoutManager(new LinearLayoutManager(this));
-        completedListAdapter = new CompletedListAdapter(this, initialCompletedList);
-        recyclerViewCompleted.setAdapter(completedListAdapter);
+//        RecyclerView recyclerViewCompleted = findViewById(R.id.completedWatchListRecyclerView);
+//        recyclerViewCompleted.setLayoutManager(new LinearLayoutManager(this));
+//        completedListAdapter = new CompletedListAdapter(this, initialCompletedList);
+//        recyclerViewCompleted.setAdapter(completedListAdapter);
 
         // Adds a new movie to the user's watchlist
         binding.addMovieButton.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +83,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.goToWatchListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (viewModel.user.getValue() == null) return;
+                startActivity(WatchListActivity.WatchListActivityIntentFactory(
+                        getApplicationContext(),
+                        viewModel.user.getValue().getUsername()
+                ));
+            }
+        });
+
+        binding.viewCompletedMoviesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (viewModel.user.getValue() == null) return;
+//                startActivity(CompletedListActivity.CompletedListActivityIntentFactory(
+//                        getApplicationContext(),
+//                        viewModel.user.getValue().getUsername()
+//                ));
+            }
+        });
+
         // Stores the signed in user
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
         if (username != null) {
@@ -107,18 +114,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Observe changes to the UserWatchList table and update the recyclerview
-        viewModel.uncompletedMovies.observe(this, movies -> {
-            if (movies != null) {
-                Log.i(TAG, "Movies: " + movies.toString());
-                watchListAdapter.updateUsersMovies(movies);
-            }
-        });
 
-        viewModel.completedMovies.observe(this, movies -> {
-            if (movies != null) {
-                completedListAdapter.updateUsersCompletedMovies(movies);
-            }
-        });
+//        viewModel.completedMovies.observe(this, movies -> {
+//            if (movies != null) {
+//                completedListAdapter.updateUsersCompletedMovies(movies);
+//            }
+//        });
 
         //Changes the title in the Menu Bar to MovieWatchlist
         try {
@@ -132,58 +133,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("ActionBar", "An error occurred", e);
         }
-    }
-
-    /**
-     * Shows a dialog to allow the user to input a rating for a movie
-     * @param movie Movie to be rated
-     * @param position The movie's position in the recyclerview
-     */
-    private void showInputDialog(UsersMovies movie, int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Add rating for " + movie.getTitle());
-
-        // Create input field
-        final EditText input = new EditText(MainActivity.this);
-        input.setHint("Enter your rating");
-        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
-        builder.setView(input);
-
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            String userInput = input.getText().toString().trim();
-            Log.d(TAG, "User entered: " + userInput + " for movie: " + movie.getTitle());
-            if (!userInput.isEmpty()) {
-                try {
-                    double rating = Double.parseDouble(userInput);
-                    if (rating < 0.0 || rating > 5.0) {
-                        input.setError("Rating must be between 0.0 and 5.0");
-                        Toast.makeText(MainActivity.this, "Rating must be between 0.0 and 5.0",
-                                Toast.LENGTH_SHORT).show();
-                        watchListAdapter.setItemChecked(position, false);
-                        return;
-                    }
-                    Log.d(TAG, "User entered rating: " + rating + " for movie: " + movie.getTitle());
-                    UserWatchList userWatchList = new UserWatchList(
-                            movie.getUserId(),
-                            movie.getMovieId(),
-                            true,
-                            rating
-                    );
-                    movie.setCompleted(false);
-                    viewModel.setRating(userWatchList);
-                    dialog.dismiss();
-
-                } catch (NumberFormatException e) {
-                    Log.e(TAG, "Invalid rating format", e);
-                    watchListAdapter.setItemChecked(position, false);
-                }
-            } else {
-                Log.w(TAG, "No rating entered");
-            }
-        });
-
-        builder.show();
     }
 
     //Shows a menu with the inputted user's name up top.
