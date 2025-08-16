@@ -29,6 +29,13 @@ import com.example.final_project.viewHolder.WatchListViewModel;
 
 import java.util.ArrayList;
 
+/**
+ * Allows users to view their watch list
+ * @author Cody Hopkins
+ * <br>
+ * created: 8/16/2025
+ * @since 0.1.0
+ */
 public class WatchListActivity extends AppCompatActivity {
 
     public static String TAG = "WatchListActivity";
