@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 //    CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
-    private WatchListViewModel viewModel;
+    WatchListViewModel viewModel;
     private EditText editTitle;
     private EditText editGenre;
     String movieTitle = "";
