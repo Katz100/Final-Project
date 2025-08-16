@@ -134,7 +134,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // A dialog for adding ratings to a user's watchlist movie
+    /**
+     *
+     * @param movie Movie to be rated
+     * @param position The movie's position in the recyclerview
+     */
     private void showInputDialog(UsersMovies movie, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Add rating for " + movie.getTitle());
