@@ -6,4 +6,6 @@
     <string name="enter_title">Enter title</string>
     <string name="enter_genre">Enter genre</string>
     <string name="add_movie">ADD MOVIE</string>
+    <string name="start_watch_list_activity">Go To WatchList</string>
+    <string name="start_completed_list_activity">Go To Completed List</string>
 </resources>

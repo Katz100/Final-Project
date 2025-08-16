@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.loginToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
