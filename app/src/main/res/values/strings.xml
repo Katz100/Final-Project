@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Final-Project</string>
     <string name="userspage">USERS</string>
+    <string name="admins">Admins</string>
 </resources>
