@@ -1,9 +1,7 @@
 package com.example.final_project.SignIn;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.final_project.database.entities.IUserRepository;
 import com.example.final_project.database.entities.User;
 

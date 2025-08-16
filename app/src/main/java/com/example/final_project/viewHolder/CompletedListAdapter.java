@@ -1,20 +1,14 @@
 package com.example.final_project.viewHolder;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.final_project.R;
 import com.example.final_project.database.UserCompletedMovies;
-import com.example.final_project.database.UsersMovies;
-import com.example.final_project.database.entities.User;
-
 import java.util.List;
 
 public class CompletedListAdapter extends RecyclerView.Adapter<CompletedListAdapter.ViewHolder>{

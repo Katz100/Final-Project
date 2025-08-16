@@ -1,5 +1,4 @@
 package com.example.final_project;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,19 +10,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityAdminBinding;
 import com.example.final_project.viewHolder.AdminDashboardListViewModel;
 import com.example.final_project.viewHolder.AdminListAdapter;
 import com.example.final_project.viewHolder.UserListAdapter;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,7 +31,6 @@ public class AdminActivity extends AppCompatActivity {
     AdminListAdapter adminListAdapter;
     private AdminDashboardListViewModel viewModel;
     private final Set<User> selectedUsers = new HashSet<>();
-
     public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminActivity.username";
 
     @Override
@@ -151,7 +146,6 @@ public class AdminActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_logout);
         item.setVisible(true);
-
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
@@ -169,7 +163,6 @@ public class AdminActivity extends AppCompatActivity {
 
         alertBuilder.setMessage("Logout?");
         alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 logout();
@@ -201,8 +194,6 @@ public class AdminActivity extends AppCompatActivity {
                     selectedUsers.clear();
                 })
                 .setNegativeButton("Cancel", null).show();
-
-
     }
 
     private void showDemoteDialog() {
@@ -236,7 +227,8 @@ public class AdminActivity extends AppCompatActivity {
                     for (User user : selectedUsers) {
                         viewModel.deleteUser(user);
                     }
-                    Toast.makeText(this, "This user has been deleted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    Toast.makeText(this, "This user has been deleted",
+                            Toast.LENGTH_SHORT).show(); //change to show selected user
                 })
                 .setNegativeButton("Cancel", null).show();
 
@@ -277,6 +269,4 @@ public class AdminActivity extends AppCompatActivity {
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
     }
-
-
 }

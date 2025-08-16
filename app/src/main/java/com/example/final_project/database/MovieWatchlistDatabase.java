@@ -1,5 +1,4 @@
 package com.example.final_project.database;
-
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -12,23 +11,16 @@ import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.MovieDAO;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.database.entities.UserWatchList;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 
 @Database(entities = {Movie.class, UserWatchList.class, User.class}, version = 1, exportSchema = false)
 public abstract class MovieWatchlistDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "MovieWatchlistDatabase";
-
     public static final String USER_WATCH_LIST_TABLE = "userWatchListTable";
-
     public static final String USER_TABLE = "userTable";
-
     private static volatile MovieWatchlistDatabase INSTANCE;
-
     private static final int NUMBER_OF_THREADS = 4;
-
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     public static MovieWatchlistDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -90,5 +82,4 @@ public abstract class MovieWatchlistDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
 
     public abstract UserWatchListDAO userWatchListDAO();
-
 }

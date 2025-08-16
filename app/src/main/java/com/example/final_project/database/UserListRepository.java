@@ -1,16 +1,11 @@
 package com.example.final_project.database;
-
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import com.example.final_project.database.entities.User;
-
 import java.util.List;
 
 public class UserListRepository {
     private UserDAO userDAO;
-
     private static UserListRepository repository;
 
     private UserListRepository(Application application) {
@@ -53,6 +48,4 @@ public class UserListRepository {
             userDAO.delete(user);
         });
     }
-
-
 }

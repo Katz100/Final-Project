@@ -85,7 +85,6 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView titleTextView;
         TextView genreTextView;
-
         CheckBox checkBox;
 
         ViewHolder(View itemView) {

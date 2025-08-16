@@ -1,5 +1,4 @@
 package com.example.final_project.database;
-
 import com.example.final_project.database.entities.IUserRepository;
 import com.example.final_project.database.entities.User;
 
@@ -13,5 +12,4 @@ public class FakeRepository implements IUserRepository {
         }
         return null;
     }
-
 }

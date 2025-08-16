@@ -1,5 +1,4 @@
 package com.example.final_project.viewHolder;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,13 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.final_project.R;
 import com.example.final_project.database.entities.User;
-
 import java.util.List;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
@@ -78,7 +74,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView userTextView;
         TextView isAdminTextView;
-
         CheckBox checkBox;
         ViewHolder(View itemView)
         {

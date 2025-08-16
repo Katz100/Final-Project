@@ -1,19 +1,14 @@
 package com.example.final_project.database;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
 import android.content.Context;
-
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.example.final_project.database.entities.User;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +34,6 @@ public class UserDAOTest {
     public void tearDown() throws IOException {
         db.close();
     }
-
 
     @Test
     public void testInsertAndGetUserByUserName() {
@@ -114,6 +108,4 @@ public class UserDAOTest {
         User updatedUser = userDao.getUserByUserName(user.getUsername());
         assertFalse(updatedUser.isAdmin());
     }
-
-
 }

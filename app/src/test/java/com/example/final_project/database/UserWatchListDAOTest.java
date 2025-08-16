@@ -1,22 +1,15 @@
 package com.example.final_project.database;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
 import android.content.Context;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.example.final_project.database.entities.Movie;
 import com.example.final_project.database.entities.MovieDAO;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.database.entities.UserWatchList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

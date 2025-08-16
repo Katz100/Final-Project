@@ -1,9 +1,7 @@
 package com.example.final_project.database.entities;
-
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
 import java.util.Objects;
 
 @Entity(tableName = "movie")

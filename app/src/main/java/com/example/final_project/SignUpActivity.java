@@ -1,5 +1,4 @@
 package com.example.final_project;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.final_project.SignUp.SignUpViewModel;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
-
 
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignUpPage";

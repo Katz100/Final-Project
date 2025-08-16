@@ -1,9 +1,7 @@
 package com.example.final_project.database.entities;
-
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
 @Entity(
         tableName = "user_watch_list",
@@ -40,7 +38,6 @@ public class UserWatchList {
         this.completed = completed;
         this.rating = rating;
     }
-
 
     public int getUserId() {
         return userId;
