@@ -50,4 +50,45 @@ public class MainActivityTest {
         }
     }
 
+    @Test
+    public void clickingOnCompletedListButton_GoesToCompletedListActivity() {
+        try (ActivityController<MainActivity> controller =
+                     Robolectric.buildActivity(MainActivity.class)) {
+            controller.setup();
+            MainActivity activity = controller.get();
+
+            // Pretend a user is signed in (so the click handler will run)
+            activity.viewModel.setUser(new User("tester", "pw", false));
+
+            // Click the button
+            activity.findViewById(R.id.viewCompletedMoviesButton).performClick();
+
+            // Verify the launched activity matches the intent factory
+            Intent expected = CompletedListActivity.CompletedListActivityIntentFactory(activity, "tester");
+            Intent actual = shadowOf(RuntimeEnvironment.getApplication()).getNextStartedActivity();
+
+            assertNotNull("No intent was started", actual);
+            assertEquals(expected.getComponent(), actual.getComponent());
+            // Optional: verify the username extra made it through
+            assertEquals(
+                    "tester",
+                    actual.getStringExtra(CompletedListActivity.COMPLETED_ACTIVITY_USERNAME_KEY)
+            );
+        }
+    }
+
+    @Test
+    public void clickingOnCompletedListButton_NoUser_DoesNotStartActivity() {
+        try (ActivityController<MainActivity> controller =
+                     Robolectric.buildActivity(MainActivity.class)) {
+            controller.setup();
+            MainActivity activity = controller.get();
+
+            // No user set → click should early return
+            activity.findViewById(R.id.viewCompletedMoviesButton).performClick();
+
+            // Should be no started intents
+            assertNull(shadowOf(RuntimeEnvironment.getApplication()).getNextStartedActivity());
+        }
+    }
 }

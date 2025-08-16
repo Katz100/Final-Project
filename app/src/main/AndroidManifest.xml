@@ -16,6 +16,9 @@
             android:name=".WatchListActivity"
             android:exported="false" />
         <activity
+            android:name=".CompletedListActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
