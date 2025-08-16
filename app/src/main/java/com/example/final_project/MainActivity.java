@@ -28,10 +28,14 @@ import com.example.final_project.viewHolder.WatchListAdapter;
 import com.example.final_project.viewHolder.WatchListViewModel;
 import java.util.ArrayList;
 
-/** This is the main activity of the app, where users can view/rate movies from their watchlist
+/**
+ * This is the main activity of the app, where users can view/rate movies from their watchlist
  * @author Cody Hopkins
+ * <br>
  * created: 7/30/2025
+ * @since 0.1.0
  */
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
