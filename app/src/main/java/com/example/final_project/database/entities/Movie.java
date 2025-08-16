@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "movie")
 public class Movie {
     @PrimaryKey(autoGenerate = true)
@@ -21,6 +23,18 @@ public class Movie {
         this.id = id;
         this.title = title;
         this.genre = genre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id == movie.id && Objects.equals(title, movie.title) && Objects.equals(genre, movie.genre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, genre);
     }
 
     public int getId() {
