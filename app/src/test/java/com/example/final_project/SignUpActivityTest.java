@@ -26,7 +26,7 @@ public class SignUpActivityTest {
             Button loginButton = activity.findViewById(R.id.loginButtonSignUp);
             loginButton.performClick();
 
-            Intent expectedIntent = new Intent(activity, LoginActivity.class);
+            Intent expectedIntent = LoginActivity.loginIntentFactory(activity);
             Intent actualIntent = shadowOf(RuntimeEnvironment.getApplication()).getNextStartedActivity();
 
             assertNotNull("Login Intent should not be null", actualIntent);
