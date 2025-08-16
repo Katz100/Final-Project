@@ -8,39 +8,15 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mainActivityToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainActivityToolbar"
         app:navigationIcon="?attr/homeAsUpIndicator"
         android:background="#FF0000"
         app:title="MOVIE WATCHLIST"
         app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-
-    <!-- TODO: Change height of recycler views -->
-
-    <TextView
-        android:id="@+id/completedMoviesTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/watched_movies"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginStart="40dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        />
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/completedWatchListRecyclerView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="200dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/completedMoviesTextView"-->
-<!--        />-->
 
     <TextView
         android:id="@+id/addMoviesTextView"
@@ -53,8 +29,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainActivityToolbar"
-        />
+        app:layout_constraintTop_toBottomOf="@id/mainActivityToolbar" />
 
     <EditText
         android:id="@+id/movieTitleInputEditText"
@@ -130,6 +105,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goToWatchListButton" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
