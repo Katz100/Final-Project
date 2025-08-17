@@ -2,27 +2,25 @@ package com.example.final_project;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.final_project.database.UserCompletedMovies;
 import com.example.final_project.database.UsersMovies;
 import com.example.final_project.database.entities.UserWatchList;
-import com.example.final_project.databinding.ActivityMainBinding;
 import com.example.final_project.databinding.ActivityWatchListBinding;
 import com.example.final_project.viewHolder.WatchListAdapter;
 import com.example.final_project.viewHolder.WatchListViewModel;
@@ -73,13 +71,12 @@ public class WatchListActivity extends AppCompatActivity {
             }
         });
 
-        // Stores the signed in user
+        // Store signed-in user
         String username = getIntent().getStringExtra(WATCHLIST_ACTIVITY_USERNAME_KEY);
         if (username != null) {
-            Log.i(TAG, "User is not null");
             viewModel.getUserByUsername(username);
         } else {
-            Log.e("MainActivity", "Username extra was null!");
+            Log.e(TAG, "Username extra was null!");
         }
 
         // Observe changes to the UserWatchList table and update the recyclerview
@@ -169,5 +166,64 @@ public class WatchListActivity extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    /**
+     * Displays a confirmation dialog asking the user if they want to log out.
+     * If confirmed, navigates back to LoginActivity.
+     */
+    private void showLogoutDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(WatchListActivity.this);
+        alertBuilder.setMessage("Logout?");
+        alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) { logout(); }
+        });
+        alertBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        alertBuilder.create().show();
+    }
+
+    /**
+     * Logs out the user and navigates back to LoginActivity.
+     */
+    private void logout() {
+        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+    }
+
+    /**
+     * Inflates the options menu and sets the title of the logout menu item to the username.
+     * If the username is null, it defaults to "User".
+     *
+     * @param menu The options menu in which you place your items.
+     * @return true if the menu was created successfully.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.watchlist_menu, menu);
+        MenuItem item = menu.findItem(R.id.logoutMenuItem);
+        if (item == null) {
+            Log.e(TAG, "Menu item R.id.logoutMenuItem not found. Check watchlist_menu.xml id.");
+            return true;
+        }
+        String username = getIntent().getStringExtra(WATCHLIST_ACTIVITY_USERNAME_KEY);
+        item.setTitle(username != null ? username : "User");
+        item.setEnabled(true);
+        return true;
+    }
+
+    /**
+     * Handles selection events from the options menu.
+     *
+     * @param item item that was selected
+     * @return true if the selection was handled here
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) return onSupportNavigateUp();
+        if (item.getItemId() == R.id.logoutMenuItem) { // MUST match the XML id
+            showLogoutDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
