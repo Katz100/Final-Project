@@ -17,6 +17,13 @@ import com.example.final_project.SignUp.SignUpViewModel;
 import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
 
+/**
+ * SignUpActivity handles user registration within the app.
+ * It validates input, checks for existing usernames, and inserts new users into the database.
+ * Provides navigation to LoginActivity and MainActivity upon successful sign-up or logout.
+ */
+
+
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignUpPage";
     private EditText usernameEditText;
@@ -24,6 +31,13 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText confirmPasswordEditText;
     private ActivitySignupBinding binding;
     private SignUpViewModel viewModel;
+
+    /**
+     * Initializes the activity, sets up UI bindings, observers, and click listeners.
+     * Handles user input validation and user creation logic.
+     *
+     * @param savedInstanceState Bundle containing saved state, if any.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +99,11 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Validates user input fields for username, password, and password confirmation.
+     *
+     * @return true if all fields are valid and passwords match; false otherwise.
+     */
     private boolean isValidInput(){
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
@@ -108,13 +127,21 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return true;
     }
-
+    /**
+     * Triggers a check in the database to verify if the entered username already exists.
+     * If not, proceeds to create a new user.
+     */
     private void verifyNewUser() {
         String username = usernameEditText.getText().toString();
         viewModel.getUserByUserName(username);
     }
 
-    // opens LoginActivity when back button is pressed
+    /**
+     * Overrides the default back button behavior in the toolbar.
+     * Navigates the user back to the LoginActivity.
+     *
+     * @return true to indicate the navigation was handled.
+     */
     @Override
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -123,19 +150,38 @@ public class SignUpActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Factory method to create an Intent for launching SignUpActivity.
+     *
+     * @param context Context from which the activity is launched.
+     * @return Intent configured to start SignUpActivity.
+     */
     static Intent signupIntentFactory(Context context) {
         Intent intent = new Intent(context, SignUpActivity.class);
         return intent;
     }
 
-    //LOGOUT MENU
+    /**
+     * Inflates the logout menu in the toolbar.
+     *
+     * @param menu The options menu in which items are placed.
+     * @return true to display the menu.
+     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
 
-    // Handle logout action
+    /**
+     * Handles selection of menu items.
+     * Specifically responds to logout action by showing a confirmation dialog.
+     *
+     * @param item The selected menu item.
+     * @return true if the item was handled; false otherwise.
+     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
@@ -145,7 +191,10 @@ public class SignUpActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //After a user confirms they want to logout, it takes them back to the sign in screen
+    /**
+     * Displays a confirmation dialog asking the user if they want to log out.
+     * If confirmed, navigates back to LoginActivity.
+     */
     private void showLogoutDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(SignUpActivity.this);
 
@@ -166,6 +215,9 @@ public class SignUpActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
+    /**
+     * Logs the user out and navigates to LoginActivity.
+     */
     private void logout(){
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
