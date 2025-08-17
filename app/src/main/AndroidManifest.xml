@@ -36,9 +36,6 @@
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />
-        <activity android:name=".AdminUsersActivity"
-            android:exported="false"
-            />
         <activity android:name=".AdminsActivity"
             android:exported="false"
             />
