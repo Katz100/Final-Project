@@ -206,7 +206,7 @@ public class AdminsActivity extends AppCompatActivity {
         return true;
     }
 
-    static Intent adminsActivityIntentFactory(Context context, String username) {
+    public static Intent adminsActivityIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, AdminsActivity.class);
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
         return intent;
