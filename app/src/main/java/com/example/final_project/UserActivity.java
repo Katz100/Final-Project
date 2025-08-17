@@ -84,12 +84,25 @@ public class UserActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Create the logout menu
+     * @param menu The options menu in which you place your items.
+     *
+     * @return true upon successful creation
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
 
+    /**
+     * Handles the logout actions
+     * @param item The menu item that was selected.
+     *
+     * @return the choice selected
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -102,6 +115,9 @@ public class UserActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Prompts logout dialog
+     */
     private void showLogoutDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(UserActivity.this);
 
@@ -121,6 +137,9 @@ public class UserActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
+    /**
+     * Prompts promotion dialog
+     */
     private void showPromoteDialog() {
         if (selectedUsers.isEmpty()) {
             Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
@@ -139,6 +158,9 @@ public class UserActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null).show();
     }
 
+    /**
+     * Prompts delete user dialog
+     */
     private void showDeleteUserDialog() {
         if (selectedUsers.isEmpty()) {
             Toast.makeText(this, "No users selected", Toast.LENGTH_SHORT).show();
@@ -158,11 +180,17 @@ public class UserActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * logs users out, launches LoginActivity
+     */
     private void logout() {
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
 
-    // opens LoginActivity when back button is pressed
+    /**
+     * Opens LoginActivity upon pressing back button
+     * @return true upon success
+     */
     @Override
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(this, AdminActivity.class);
@@ -171,6 +199,12 @@ public class UserActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Factory for creation of Intent
+     * @param context context of the activity being launched
+     * @param username user credentials
+     * @return the Intent
+     */
     static Intent adminUsersIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
