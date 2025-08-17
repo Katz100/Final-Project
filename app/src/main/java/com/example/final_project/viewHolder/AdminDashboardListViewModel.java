@@ -14,6 +14,8 @@ public class AdminDashboardListViewModel extends AndroidViewModel {
     public final LiveData<User> user = _user;
     public LiveData<List<User>> allNonAdmins;
     public LiveData<List<User>> allAdmins;
+    public final LiveData<Integer> nonAdminCount;
+    public final LiveData<Integer> adminCount;
     UserListRepository userListRepository;
 
     public AdminDashboardListViewModel(@NonNull Application application) {
@@ -21,6 +23,9 @@ public class AdminDashboardListViewModel extends AndroidViewModel {
         userListRepository = UserListRepository.getRepository(application);
         allAdmins = userListRepository.getAllAdmins();
         allNonAdmins = userListRepository.getAllNonAdmins();
+
+        nonAdminCount = userListRepository.getNonAdminCount();
+        adminCount = userListRepository.getAdminCount();
     }
 
     public final LiveData<List<User>> getNonAdmins =

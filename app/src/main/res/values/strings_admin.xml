@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="manage_users">MANAGE USERS</string>
+    <string name="manage_users_dash">Manage Users</string>
     <string name="manage_genres">MANAGE GENRES</string>
     <string name="admin_things">ADMIN THINGS</string>
     <string name="manage_users_test">Manage Users Test</string>
@@ -11,4 +12,8 @@
     <string name="delete">DELETE</string>
     <string name="users">Users</string>
     <string name="demote">DEMOTE</string>
+    <string name="adminshieldicon">adminShieldIcon</string>
+    <string name="personicon">personIcon</string>
+    <string name="total">Total: —</string>
+    <string name="manage_admins">Manage Admins</string>
 </resources>
