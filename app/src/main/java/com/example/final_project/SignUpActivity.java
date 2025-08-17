@@ -18,11 +18,18 @@ import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
 
 /**
+ * Allows Admins to promote users to Admin or delete them from the database
+ * @author Claudia Fierro
+ * created: 8/16/2025
+ * @since 0.1.0
+ */
+
+
+/**
  * SignUpActivity handles user registration within the app.
  * It validates input, checks for existing usernames, and inserts new users into the database.
  * Provides navigation to LoginActivity and MainActivity upon successful sign-up or logout.
  */
-
 
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignUpPage";
