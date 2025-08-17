@@ -72,17 +72,32 @@ public class AdminActivity extends AppCompatActivity {
         adminsActivityButton.setOnClickListener(v -> adminsActivity(username));
 
     }
-
+    /**
+     * Launches admin activity
+     * @param username for user
+     */
     private void adminsActivity(String username) {
         startActivity(AdminsActivity.adminsActivityIntentFactory(getApplicationContext(), username));
     }
 
+    /**
+     * Log out menu creation
+     * @param menu The options menu in which you place your items.
+     *
+     * @return true if menu is created
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
 
+    /**
+     * Handling logout functionality
+     * @param item The menu item that was selected.
+     *
+     * @return true if the action is functional
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -96,6 +111,10 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     //Afer a user confirms they want to logout, it takes them back to the sign in screen
+
+    /**
+     * Display Logout prompt to user
+     */
     private void showLogoutDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AdminActivity.this);
         //final AlertDialog alertDialog = alertBuilder.create();
@@ -117,11 +136,17 @@ public class AdminActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
+    /**
+     * Logs out user, sends user to LoginActivity
+     */
     private void logout() {
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
 
-    // opens LoginActivity when back button is pressed
+    /**
+     * Opens login activity
+     * @return true if successful
+     */
     @Override
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -130,6 +155,12 @@ public class AdminActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Factory method to create an intent for AdminActivity
+     * @param context context of starting Intent
+     * @param username user credential
+     * @return an Intent of AdminActivity
+     */
     static Intent adminIntentFactory(Context context, String username) {
         Intent intent = new Intent(context, AdminActivity.class);
         intent.putExtra(ADMIN_ACTIVITY_USERNAME_KEY, username);
