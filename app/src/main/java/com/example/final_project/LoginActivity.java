@@ -20,7 +20,6 @@ import java.util.Objects;
  * created: 7/30/2025
  * @since 0.1.0
  */
-
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivityTAG";
     private ActivityLoginBinding binding;
@@ -75,14 +74,22 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //LOGOUT MENU
+    /**
+     * Logout menu creation
+     * @param menu the menu to be created
+     * @return true if the menu is created successfully
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
 
-    // Handle logout action
+    /**
+     * Handles the logout action when the menu item is selected
+     * @param item the selected menu item
+     * @return true if the action is handled, false otherwise
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
@@ -92,11 +99,22 @@ public class LoginActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+/**
+     * Factory method to create an intent for starting the LoginActivity.
+     * @param context the context from which the activity is started
+     * @return an Intent to start LoginActivity
+     */
     static Intent loginIntentFactory(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         return intent;
     }
 
+    /**
+     * Verifies the user credentials entered in the login form.
+     * It checks if the username and password fields are not empty,
+     * and then queries the ViewModel for the user by username.
+     */
     private void verifyUser() {
         String username = binding.usernameLoginEditText.getText().toString();
         String password = binding.passwordLoginEditText.getText().toString();
@@ -110,19 +128,37 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.getUserByUserName(username);
     }
 
+    /**
+     * Verifies if the entered password matches the stored password.
+     * @param password the stored password
+     * @param enteredPassword the password entered by the user
+     * @return true if the passwords match, false otherwise
+     */
     private boolean verifyPassword(String password, String enteredPassword){
         return Objects.equals(password, enteredPassword);
     }
 
+    /**
+     * Displays a toast message to the user.
+     * @param message the message to be displayed
+     */
     private void toastMaker(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Starts the MainActivity with the given username.
+     * @param username the username to be passed to the MainActivity
+     */
     public void startMainActivity(String username) {
         Intent intent = MainActivity.mainIntentFactory(this, username);
         startActivity(intent);
     }
 
+    /**
+     * Starts the AdminActivity with the given username.
+     * @param username the username to be passed to the AdminActivity
+     */
     public void startAdminActivity(String username){
         startActivity(AdminActivity.adminIntentFactory(getApplicationContext(), username));
     }

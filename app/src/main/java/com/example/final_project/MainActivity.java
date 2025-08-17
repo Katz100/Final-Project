@@ -1,52 +1,43 @@
 package com.example.final_project;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.final_project.database.UserCompletedMovies;
-import com.example.final_project.database.UsersMovies;
+
 import com.example.final_project.database.entities.Movie;
-import com.example.final_project.database.entities.UserWatchList;
 import com.example.final_project.databinding.ActivityMainBinding;
-import com.example.final_project.viewHolder.CompletedListAdapter;
-import com.example.final_project.viewHolder.WatchListAdapter;
 import com.example.final_project.viewHolder.WatchListViewModel;
-import java.util.ArrayList;
 
 /**
- * This is the main activity of the app, where users can view/rate movies from their watchlist
+ * This is the main activity of the app, where users can add movies
  * @author Cody Hopkins
- * <br>
  * created: 7/30/2025
  * @since 0.1.0
  */
-
 public class MainActivity extends AppCompatActivity {
 
     public static final String MAIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.MainActivity.username";
-    ActivityMainBinding binding;
-//    CompletedListAdapter completedListAdapter;
     public static final String TAG = "MovieWatchlistApp";
+
+    private ActivityMainBinding binding;
     WatchListViewModel viewModel;
+
     private EditText editTitle;
     private EditText editGenre;
-    String movieTitle = "";
-    String movieGenre = "";
+    private String movieTitle = "";
+    private String movieGenre = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,74 +45,52 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Setup view/viewmodel
+        // ViewModel + views
         editTitle = findViewById(R.id.movieTitleInputEditText);
         editGenre = findViewById(R.id.movieGenreInputEditText);
         viewModel = new ViewModelProvider(this).get(WatchListViewModel.class);
 
-        //adds back button to action bar
+        // Toolbar
         setSupportActionBar(binding.mainActivityToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // if you want a back button on Main
         }
 
-        ArrayList<UserCompletedMovies> initialCompletedList = new ArrayList<>();
-
-//        RecyclerView recyclerViewCompleted = findViewById(R.id.completedWatchListRecyclerView);
-//        recyclerViewCompleted.setLayoutManager(new LinearLayoutManager(this));
-//        completedListAdapter = new CompletedListAdapter(this, initialCompletedList);
-//        recyclerViewCompleted.setAdapter(completedListAdapter);
-
-        // Adds a new movie to the user's watchlist
-        binding.addMovieButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getInformationFromDisplay();
-                insertMovieRecord();
-                editGenre.setText("");
-                editTitle.setText("");
-            }
+        // Add movie
+        binding.addMovieButton.setOnClickListener(v -> {
+            getInformationFromDisplay();
+            insertMovieRecord();
+            editGenre.setText("");
+            editTitle.setText("");
         });
 
-        binding.goToWatchListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (viewModel.user.getValue() == null) return;
-                startActivity(WatchListActivity.WatchListActivityIntentFactory(
-                        getApplicationContext(),
-                        viewModel.user.getValue().getUsername()
-                ));
-            }
+        // Go to Watch List
+        binding.goToWatchListButton.setOnClickListener(view -> {
+            if (viewModel.user.getValue() == null) return;
+            startActivity(WatchListActivity.WatchListActivityIntentFactory(
+                    MainActivity.this,
+                    viewModel.user.getValue().getUsername()
+            ));
         });
 
-        binding.viewCompletedMoviesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (viewModel.user.getValue() == null) return;
-//                startActivity(CompletedListActivity.CompletedListActivityIntentFactory(
-//                        getApplicationContext(),
-//                        viewModel.user.getValue().getUsername()
-//                ));
-            }
+        // Go to Completed List
+        binding.viewCompletedMoviesButton.setOnClickListener(view -> {
+            if (viewModel.user.getValue() == null) return;
+            startActivity(CompletedListActivity.CompletedListActivityIntentFactory(
+                    MainActivity.this,
+                    viewModel.user.getValue().getUsername()
+            ));
         });
 
-        // Stores the signed in user
+        // Store signed-in user
         String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
         if (username != null) {
             viewModel.getUserByUsername(username);
         } else {
-            Log.e("MainActivity", "Username extra was null!");
+            Log.e(TAG, "Username extra was null!");
         }
 
-        // Observe changes to the UserWatchList table and update the recyclerview
-
-//        viewModel.completedMovies.observe(this, movies -> {
-//            if (movies != null) {
-//                completedListAdapter.updateUsersCompletedMovies(movies);
-//            }
-//        });
-
-        //Changes the title in the Menu Bar to MovieWatchlist
+        // Title
         try {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
@@ -135,42 +104,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Shows a menu with the inputted user's name up top.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.watchlist_menu, menu);
 
-        // Get the logout menu item
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
-
-        // Check if the menu item exists
         if (item != null) {
-            // Get the username from the intent
             String username = getIntent().getStringExtra(MAIN_ACTIVITY_USERNAME_KEY);
-
-            // Check if the EditText exists
-            if (username != null) {
-                //Set the menu item title to username
-                item.setTitle(username);
-
-            } else {
-                //Set a default title
-                item.setTitle("User");
-            }
-            //Make the menu item visible
+            item.setTitle(username != null ? username : "User");
             item.setVisible(true);
         }
         return true;
     }
 
-    //When a user clicks on their username, it prompts them to logout
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
         item.setVisible(true);
-
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
@@ -181,34 +132,23 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    //Afer a user confirms they want to logout, it takes them back to the sign in screen
-    private void showLogoutDialog(){
+    private void showLogoutDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-        //final AlertDialog alertDialog = alertBuilder.create();
-
         alertBuilder.setMessage("Logout?");
         alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                logout();
-
-            }
+            public void onClick(DialogInterface dialog, int which) { logout(); }
         });
-        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        alertBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
         alertBuilder.create().show();
     }
 
-    private void logout(){
+    private void logout() {
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
 
-    // opens LoginActivity when back button is pressed
+    // If Main is your app's entry screen, you could remove the "up" affordance entirely.
+    // Keeping this for now to match your current behavior.
     @Override
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -223,17 +163,17 @@ public class MainActivity extends AppCompatActivity {
         return intent;
     }
 
-    private void insertMovieRecord(){
-        if(movieTitle.isEmpty()){
-            return;
-        }
+    private void insertMovieRecord() {
+        if (movieTitle.isEmpty()) return;
         Movie movie = new Movie(movieTitle, movieGenre);
-
         viewModel.insertMovie(movie);
     }
 
     private void getInformationFromDisplay() {
         movieTitle = binding.movieTitleInputEditText.getText().toString();
         movieGenre = binding.movieGenreInputEditText.getText().toString();
+        // Optional: trim inputs
+        movieTitle = movieTitle.trim();
+        movieGenre = movieGenre.trim();
     }
 }
