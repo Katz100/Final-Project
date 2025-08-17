@@ -1,5 +1,7 @@
 package com.example.final_project;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -84,16 +86,22 @@ public class AdminActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        getMenuInflater().inflate(R.menu.watchlist_menu, menu);
+        MenuItem item = menu.findItem(R.id.logoutMenuItem);
+        if (item == null) {
+            Log.e(TAG, "Menu item R.id.logoutMenuItem not found. Check watchlist_menu.xml id.");
+            return true;
+        }
+        String username = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
+        item.setTitle(username != null ? username : "User");
+        item.setEnabled(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onSupportNavigateUp();
-            return true;
-        } else if (item.getItemId() == R.id.action_logout) {
+        if (item.getItemId() == android.R.id.home) return onSupportNavigateUp();
+        if (item.getItemId() == R.id.logoutMenuItem) {
             showLogoutDialog();
             return true;
         }
