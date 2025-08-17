@@ -28,6 +28,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Allows Admins to promote users to Admin or delete them from the database
+ * @author Claudia Fierro
+ * created: 8/16/2025
+ * @since 0.1.0
+ */
+
 public class UserActivity extends AppCompatActivity {
 
     private ActivityAdminUsersBinding binding;
