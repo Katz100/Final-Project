@@ -18,8 +18,8 @@ import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
 
 /**
- * Allows new users to Create an Account by entering a unique username
- * matching passwords
+ * Allows new users to Create an Account by entering a username that is not already
+ * in the database and matching passwords in the password text fields
  *
  * @author Claudia Fierro
  * created: 8/16/2025
