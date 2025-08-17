@@ -40,4 +40,11 @@ public interface UserDAO {
 
     @Query("UPDATE user_table SET isAdmin = 0 WHERE username == :username")
     void demoteUser(String username);
+
+    // Totals for the dashboard
+    @Query("SELECT COUNT(*) FROM user_table WHERE isAdmin = 0")
+    LiveData<Integer> countNonAdmins();
+
+    @Query("SELECT COUNT(*) FROM user_table WHERE isAdmin = 1")
+    LiveData<Integer> countAdmins();
 }
