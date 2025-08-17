@@ -48,4 +48,11 @@ public class UserListRepository {
             userDAO.delete(user);
         });
     }
+
+    public LiveData<Integer> getNonAdminCount() {
+        return userDAO.countNonAdmins();
+    }
+    public LiveData<Integer> getAdminCount() {
+        return userDAO.countAdmins();
+    }
 }
