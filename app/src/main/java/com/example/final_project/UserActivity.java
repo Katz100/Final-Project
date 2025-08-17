@@ -43,6 +43,19 @@ public class UserActivity extends AppCompatActivity {
     private final Set<User> selectedUsers = new HashSet<>();
     public static final String ADMIN_ACTIVITY_USERNAME_KEY = "com.example.final_project.AdminUsersActivity.username";
 
+    /**
+     * Initializes the Admin Users activity, setting up the UI components, ViewModel, and user list.
+     * <p>
+     * This method inflates the layout using view binding, RecyclerView displays
+     * non-admin users, and sets up listeners for user selection and promote/delete buttons.
+     * Initializes the toolbar with back navigation and observes the ViewModel for updates
+     * to the non-admin user list.
+     * </p>
+     *
+     * <param name="savedInstanceState">If the activity is being re-initialized after being shut down,
+     * this Bundle contains the data it most recently supplied.</param>
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
