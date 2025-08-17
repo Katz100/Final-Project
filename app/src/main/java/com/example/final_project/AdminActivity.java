@@ -56,12 +56,14 @@ public class AdminActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
         String username = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
-        if (username != null) {
-            viewModel.getAllAdmins();
-            viewModel.getAllNonAdmins();
-        } else {
+        viewModel.nonAdminCount.observe(this, count ->
+                binding.usersCountText.setText("Total: " + (count == null ? 0 : count)));
+
+        viewModel.adminCount.observe(this, count ->
+                binding.adminsCountText.setText("Total: " + (count == null ? 0 : count)));
+
+        if (username == null) {
             Log.e("MainActivity", "Username extra was null!");
         }
 
@@ -74,8 +76,6 @@ public class AdminActivity extends AppCompatActivity {
             String adminUsername = getIntent().getStringExtra(ADMIN_ACTIVITY_USERNAME_KEY);
             startActivity(UserActivity.adminUsersIntentFactory(this, username));
         });
-
-
     }
 
     private void adminsActivity(String username) {
