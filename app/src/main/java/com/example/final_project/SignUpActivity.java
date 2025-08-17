@@ -18,7 +18,9 @@ import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivitySignupBinding;
 
 /**
- * Allows Admins to promote users to Admin or delete them from the database
+ * Allows new users to Create an Account by entering a unique username
+ * matching passwords
+ *
  * @author Claudia Fierro
  * created: 8/16/2025
  * @since 0.1.0
