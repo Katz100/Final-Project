@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.final_project.database.entities.User;
-import com.example.final_project.databinding.ActivityUserBinding;
+import com.example.final_project.databinding.ActivityAdminUsersBinding;
 import com.example.final_project.viewHolder.AdminDashboardListViewModel;
 import com.example.final_project.viewHolder.UserListAdapter;
 
@@ -28,7 +28,7 @@ import java.util.Set;
 
 public class UserActivity extends AppCompatActivity {
 
-    private ActivityUserBinding binding;
+    private ActivityAdminUsersBinding binding;
     UserListAdapter nonAdminListAdapter;
     private AdminDashboardListViewModel viewModel;
     private final Set<User> selectedUsers = new HashSet<>();
@@ -38,7 +38,7 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityUserBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(AdminDashboardListViewModel.class);
 
@@ -57,7 +57,6 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-        //adds back button to action bar
         setSupportActionBar(binding.adminToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,9 +83,7 @@ public class UserActivity extends AppCompatActivity {
                 nonAdminListAdapter.updateUsers(users);
             }
         });
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
@@ -107,7 +104,6 @@ public class UserActivity extends AppCompatActivity {
 
     private void showLogoutDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(UserActivity.this);
-        //final AlertDialog alertDialog = alertBuilder.create();
 
         alertBuilder.setMessage("Logout?");
         alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
@@ -132,12 +128,12 @@ public class UserActivity extends AppCompatActivity {
         }
         new AlertDialog.Builder(this)
                 .setTitle("Confirm Promotion")
-                .setMessage("Are you sure you want to promote this user?") //change to show selected user
+                .setMessage("Are you sure you want to promote this user?")
                 .setPositiveButton("Yes", (dialog, which) -> {
                     for (User user : selectedUsers) {
                         viewModel.promoteUser(user);
                     }
-                    Toast.makeText(this, "User has been promoted", Toast.LENGTH_SHORT).show(); //change to show selected user
+                    Toast.makeText(this, "User has been promoted", Toast.LENGTH_SHORT).show();
                     selectedUsers.clear();
                 })
                 .setNegativeButton("Cancel", null).show();
