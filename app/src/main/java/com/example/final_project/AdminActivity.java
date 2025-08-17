@@ -9,26 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.final_project.database.entities.User;
 import com.example.final_project.databinding.ActivityAdminBinding;
 import com.example.final_project.viewHolder.AdminDashboardListViewModel;
-import com.example.final_project.viewHolder.AdminListAdapter;
-import com.example.final_project.viewHolder.UserListAdapter;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Allows Admins to traverse to AdminUsersActivity or UsersActivity
